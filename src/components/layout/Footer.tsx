@@ -48,23 +48,12 @@ export function Footer() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
             {/* Brand Column */}
             <div className="col-span-2 md:col-span-1">
-              <Link 
-                href="/" 
-                className="flex items-center gap-2 text-foreground font-bold text-xl mb-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-lg"
+              <Link
+                href="/"
+                className="text-foreground font-bold text-xl mb-4 inline-block focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-lg"
                 aria-label="Livvay - Página inicial"
               >
-                <svg 
-                  width="32" 
-                  height="32" 
-                  viewBox="0 0 32 32" 
-                  fill="none" 
-                  xmlns="http://www.w3.org/2000/svg"
-                  aria-hidden="true"
-                >
-                  <rect width="32" height="32" rx="8" className="fill-brand"/>
-                  <path d="M8 16L12 22L24 10" className="stroke-background" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-                </svg>
-                <span>Livvay</span>
+                Livvay
               </Link>
               <p className="text-foreground-muted text-sm mb-4 max-w-xs">
                 Um assistente de longevidade que transforma tudo que você come, dorme e faz em um plano para você viver pra sempre.

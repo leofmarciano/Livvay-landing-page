@@ -82,24 +82,13 @@ export function Header() {
       <Container>
         <nav className="flex items-center justify-between h-16 md:h-20" role="navigation" aria-label="Navegação principal">
           {/* Logo */}
-          <Link 
-            href="/" 
-            className="flex items-center gap-2 text-foreground font-bold text-xl hover:opacity-80 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-lg"
+          <Link
+            href="/"
+            className="text-foreground font-bold text-xl hover:opacity-80 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-lg"
             aria-label="Livvay - Página inicial"
             tabIndex={0}
           >
-            <svg 
-              width="32" 
-              height="32" 
-              viewBox="0 0 32 32" 
-              fill="none" 
-              xmlns="http://www.w3.org/2000/svg" 
-              aria-hidden="true"
-            >
-              <rect width="32" height="32" rx="8" className="fill-brand"/>
-              <path d="M8 16L12 22L24 10" className="stroke-background" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-            </svg>
-            <span>Livvay</span>
+            Livvay
           </Link>
 
           {/* Desktop Navigation */}

@@ -1,0 +1,21 @@
+<svg width="100" height="80" viewBox="0 0 100 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Livvay LV Logo -->
+  <!-- Left L stroke -->
+  <path
+    d="M8 8 L8 28 L50 72"
+    stroke="currentColor"
+    stroke-width="16"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+  />
+  <!-- Right V stroke -->
+  <path
+    d="M92 8 L50 72"
+    stroke="currentColor"
+    stroke-width="16"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    fill="none"
+  />
+</svg>
