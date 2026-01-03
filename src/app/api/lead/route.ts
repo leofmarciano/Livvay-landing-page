@@ -4,7 +4,6 @@ import { supabaseAdmin } from '@/lib/supabase-server';
 
 const leadSchema = z.object({
   email: z
-    .string({ message: 'Email é obrigatório' })
     .email({ message: 'Email inválido' })
     .transform((val) => val.toLowerCase().trim()),
   source: z
