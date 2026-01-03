@@ -67,7 +67,7 @@ export function Footer() {
                 <span>Livvay</span>
               </Link>
               <p className="text-foreground-muted text-sm mb-4 max-w-xs">
-                Um assistente de longevidade que transforma tudo que você come, dorme e faz em um plano simples.
+                Um assistente de longevidade que transforma tudo que você come, dorme e faz em um plano para você viver pra sempre.
               </p>
               {/* Social Links */}
               <div className="flex gap-3" role="list" aria-label="Redes sociais">

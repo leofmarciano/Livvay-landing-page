@@ -180,20 +180,20 @@ export default function Home() {
         <div className="grid md:grid-cols-2 gap-6">
           {[
             {
+              icon: Clock,
               text: 'Segunda você começa. Quarta já parou.',
-              bg: 'bg-gradient-to-br from-destructive/10 to-transparent',
             },
             {
+              icon: Brain,
               text: 'Você sabe o que fazer. Mas não faz.',
-              bg: 'bg-gradient-to-br from-warning/10 to-transparent',
             },
             {
+              icon: Users,
               text: 'Sozinho, todo mundo desiste.',
-              bg: 'bg-gradient-to-br from-warning/10 to-transparent',
             },
             {
+              icon: Heart,
               text: 'Você quer viver muito. Mas age como se tivesse tempo de sobra.',
-              bg: 'bg-gradient-to-br from-brand/10 to-transparent',
             },
           ].map((item, index) => (
             <motion.div
@@ -202,11 +202,16 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className={`p-8 rounded-2xl border border-border ${item.bg}`}
+              className="rounded-md border border-border bg-surface-100 p-6"
             >
-              <p className="text-xl md:text-2xl font-semibold text-foreground">
-                {item.text}
-              </p>
+              <div className="flex flex-col items-center text-center gap-4">
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-md border border-border bg-surface-200">
+                  <item.icon size={18} className="text-brand" aria-hidden="true" />
+                </div>
+                <p className="text-lg md:text-xl font-semibold text-foreground leading-snug">
+                  {item.text}
+                </p>
+              </div>
             </motion.div>
           ))}
         </div>
@@ -555,33 +560,47 @@ export default function Home() {
       {/* Section 7: L3 Research */}
       <Section background="darker" id="foundation">
         <div className="max-w-3xl mx-auto text-center">
-          <Badge variant="info" className="mb-4">Pesquisa</Badge>
+          <Badge variant="info" className="mb-4">Livvay Longevity Labs</Badge>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-            Ciência que você usa todo dia
+            A ciência por trás da{' '}
+            <span className="gradient-text">sua imortalidade.</span>
           </h2>
           <p className="text-lg text-foreground-light mb-8">
-            O L3 é nosso laboratório de pesquisa. O que a gente descobre, vai direto pro seu app. Você não precisa entender a ciência. Só usar.
+            O L3 é o laboratório de pesquisa do Livvay. A gente estuda o que realmente funciona pra viver mais — e coloca direto no seu app.
           </p>
           <div className="grid md:grid-cols-3 gap-6 mb-8">
             {[
-              'Seus dados (sem seu nome) ajudam a descobrir o que funciona pra todo mundo.',
-              'Cada descoberta melhora as sugestões que você recebe.',
-              'Tudo é público. Você pode ver onde o dinheiro vai.',
-            ].map((text, index) => (
+              {
+                icon: TrendingUp,
+                title: 'Dados reais',
+                text: 'Milhares de pessoas usando. A gente vê o que funciona de verdade.',
+              },
+              {
+                icon: Sparkles,
+                title: 'Melhora contínua',
+                text: 'Cada descoberta vira uma sugestão melhor pra você.',
+              },
+              {
+                icon: Shield,
+                title: 'Transparência total',
+                text: 'Tudo público. Você vê onde o dinheiro vai e o que a gente descobre.',
+              },
+            ].map((item, index) => (
               <div
                 key={index}
                 className="p-6 bg-surface-100 rounded-xl border border-border"
               >
-                <p className="text-foreground-light">{text}</p>
+                <div className="w-10 h-10 mx-auto mb-4 rounded-lg bg-brand/10 flex items-center justify-center">
+                  <item.icon className="w-5 h-5 text-brand" aria-hidden="true" />
+                </div>
+                <h3 className="font-semibold text-foreground mb-2">{item.title}</h3>
+                <p className="text-sm text-foreground-light">{item.text}</p>
               </div>
             ))}
           </div>
           <Button href="/foundation" type="outline">
-            Ver o L3
+            Conhecer o L3
           </Button>
-          <p className="text-sm text-foreground-muted mt-4">
-            Relatório público em breve
-          </p>
         </div>
       </Section>
 
