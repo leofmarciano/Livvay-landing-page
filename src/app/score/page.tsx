@@ -732,7 +732,7 @@ export default function ScorePage() {
 
   // Result Screen
   if (showResult && scoreResult) {
-    const userName = answers.name || 'você';
+    const userName = answers.name ? answers.name.split(' ')[0] : 'você';
 
     return (
       <div className="min-h-screen bg-background py-12">
@@ -748,6 +748,9 @@ export default function ScorePage() {
               <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
                 {userName}, seu Livvay Score
               </h1>
+              <p className="text-foreground-light mb-2">
+                Estimamos que seu score inicial é {scoreResult.total}
+              </p>
               <p className={`text-lg font-semibold ${scoreResult.zoneColor}`}>
                 {scoreResult.zone}
               </p>
@@ -1043,7 +1046,7 @@ export default function ScorePage() {
                     <Mail className="w-8 h-8 text-brand" />
                   </div>
                   <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
-                    Quase lá, {answers.name || 'você'}!
+                    Quase lá, {answers.name ? answers.name.split(' ')[0] : 'você'}!
                   </h1>
                   <p className="text-foreground-light">
                     Receba seu Livvay Score completo + plano de ação personalizado
