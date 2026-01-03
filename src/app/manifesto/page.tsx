@@ -124,8 +124,8 @@ export default function ManifestoPage() {
               </p>
 
               <p>
-                E parte do que ganhamos vai para pesquisa de verdade — 
-                a LLL financia ciência de longevidade, com transparência total.
+                E parte do que ganhamos financia pesquisa científica —
+                o L3 conduz estudos em longevidade que melhoram nossos algoritmos e planos.
               </p>
 
               <div className="bg-surface-100 border border-border rounded-2xl p-8 my-12">

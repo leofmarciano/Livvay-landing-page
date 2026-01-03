@@ -92,8 +92,9 @@ export default function ImprensaPage() {
                 com acompanhamento humano (no plano Plus).
               </p>
               <p>
-                A empresa também mantém a LLL (Livvay Life Foundation), uma fundação 
-                que destina parte do lucro para pesquisa científica de longevidade.
+                A empresa mantém o L3 (Livvay Longevity Labs), que destina parte do
+                lucro para pesquisa científica em longevidade. As descobertas do L3
+                são integradas aos algoritmos e planos personalizados do Livvay.
               </p>
             </div>
           </div>

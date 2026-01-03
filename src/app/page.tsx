@@ -486,21 +486,21 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* Section 7: LLL Foundation */}
+      {/* Section 7: L3 Research */}
       <Section background="darker" id="foundation">
         <div className="max-w-3xl mx-auto text-center">
-          <Badge variant="info" className="mb-4">LLL</Badge>
+          <Badge variant="info" className="mb-4">L3 Research</Badge>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-            Parte do lucro vira pesquisa de verdade
+            Pesquisa científica que melhora seu plano
           </h2>
           <p className="text-lg text-foreground-light mb-8">
-            A LLL (Livvay Life Foundation) financia um laboratório focado em longevidade, biohacking e pesquisa científica de longo prazo.
+            O L3 (Livvay Longevity Labs) financia pesquisa em longevidade e healthspan. As descobertas são integradas diretamente aos planos personalizados e à inteligência artificial do Livvay.
           </p>
           <div className="grid md:grid-cols-3 gap-6 mb-8">
             {[
-              'A missão é acelerar ciência aplicada para ampliar healthspan.',
-              'Inclui linhas de pesquisa avançadas, como biotecnologia e genética, sempre no campo científico e regulatório.',
-              'Transparência anual: relatório público do que foi financiado.',
+              'Dados agregados e anonimizados geram insights para validação científica e melhoria contínua dos algoritmos.',
+              'Descobertas do L3 alimentam a IA do Livvay com evidências atualizadas e metodologia rigorosa.',
+              'Relatório anual público com demonstrações financeiras e resultados das pesquisas financiadas.',
             ].map((text, index) => (
               <div
                 key={index}
@@ -511,10 +511,10 @@ export default function Home() {
             ))}
           </div>
           <Button href="/foundation" type="outline">
-            Conhecer a LLL
+            Conhecer o L3
           </Button>
           <p className="text-sm text-foreground-muted mt-4">
-            Relatório anual (em breve)
+            Relatório de atividades (Q1 2026)
           </p>
         </div>
       </Section>

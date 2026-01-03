@@ -1,47 +1,38 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { z } from 'zod';
 import { supabaseAdmin } from '@/lib/supabase-server';
 
-// Validate email format
-function isValidEmail(email: string): boolean {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  return emailRegex.test(email);
-}
+const leadSchema = z.object({
+  email: z
+    .string({ message: 'Email é obrigatório' })
+    .email({ message: 'Email inválido' })
+    .transform((val) => val.toLowerCase().trim()),
+  source: z
+    .string({ message: 'Source é obrigatório' })
+    .min(1, { message: 'Source é obrigatório' }),
+  answers: z.record(z.string(), z.string()).optional(),
+});
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { email, source, answers } = body;
+    const result = leadSchema.safeParse(body);
 
-    // Validate email
-    if (!email || typeof email !== 'string') {
+    if (!result.success) {
+      const firstError = result.error.issues[0];
       return NextResponse.json(
-        { error: 'Email é obrigatório' },
+        { error: firstError.message },
         { status: 400 }
       );
     }
 
-    if (!isValidEmail(email)) {
-      return NextResponse.json(
-        { error: 'Email inválido' },
-        { status: 400 }
-      );
-    }
-
-    // Validate source
-    if (!source || typeof source !== 'string') {
-      return NextResponse.json(
-        { error: 'Source é obrigatório' },
-        { status: 400 }
-      );
-    }
-
-    const normalizedEmail = email.toLowerCase().trim();
+    const { email, source, answers } = result.data;
 
     // Check if email already exists
     const { data: existingLead } = await supabaseAdmin
       .from('leads')
       .select('id')
-      .eq('email', normalizedEmail)
+      .eq('email', email)
       .single();
 
     if (existingLead) {
@@ -63,7 +54,7 @@ export async function POST(request: NextRequest) {
     const { data: newLead, error } = await supabaseAdmin
       .from('leads')
       .insert({
-        email: normalizedEmail,
+        email,
         source,
         answers: answers || null,
       })
@@ -86,7 +77,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log(`[Lead] New lead captured: ${normalizedEmail} from ${source}`);
+    console.log(`[Lead] New lead captured: ${email} from ${source}`);
 
     return NextResponse.json(
       { message: 'Lead cadastrado com sucesso', id: newLead.id },

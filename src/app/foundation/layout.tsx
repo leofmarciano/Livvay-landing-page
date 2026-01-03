@@ -1,13 +1,13 @@
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'LLL - Livvay Life Foundation',
+  title: 'L3 - Livvay Longevity Labs',
   description:
-    'A Livvay Life Foundation financia pesquisa científica de longevidade. Transparência total, ciência séria, resultados publicados.',
+    'Financiamento de pesquisa científica em longevidade e healthspan. Governança independente, metodologia rigorosa, resultados publicados em periódicos revisados por pares.',
   openGraph: {
-    title: 'LLL - Livvay Life Foundation',
+    title: 'L3 - Livvay Longevity Labs',
     description:
-      'Fundação dedicada a financiar pesquisa científica de longevidade.',
+      'Instituto de pesquisa dedicado ao avanço da ciência de longevidade.',
   },
 };
 
@@ -18,4 +18,3 @@ export default function FoundationLayout({
 }) {
   return children;
 }
-

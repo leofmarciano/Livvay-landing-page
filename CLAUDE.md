@@ -699,7 +699,8 @@ bun remove <package> # Remove a dependency
 ## Lead Capture
 
 - Use `/api/lead` for email capture with `{ email, source, answers? }`
-- Persist leads to `data/leads.json` (already implemented)
+- Leads are stored in Supabase `leads` table (unique email constraint)
+- Server-side only with service role key (RLS enabled)
 
 ---
 

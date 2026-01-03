@@ -18,7 +18,7 @@ const footerLinks = {
     title: 'Empresa',
     links: [
       { href: '/manifesto', label: 'Manifesto' },
-      { href: '/foundation', label: 'LLL Foundation' },
+      { href: '/foundation', label: 'L3 Research' },
       { href: '/imprensa', label: 'Imprensa' },
       { href: '/contato', label: 'Contato' },
     ],

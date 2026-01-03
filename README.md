@@ -29,7 +29,7 @@ src/
 │   │   └── lead/          # Captura de leads
 │   ├── blog/              # Blog com posts
 │   ├── contato/           # Formulário de contato
-│   ├── foundation/        # LLL Foundation
+│   ├── foundation/        # L3 Research
 │   ├── imprensa/          # Press kit
 │   ├── liga/              # Liga Livvay
 │   ├── manifesto/         # Manifesto
@@ -64,7 +64,7 @@ src/
 | `/score` | Quiz interativo para calcular o Livvay Score |
 | `/plus` | Detalhes do plano Plus com equipe médica |
 | `/liga` | Liga Livvay - gamificação e ranking |
-| `/foundation` | LLL - Livvay Life Foundation |
+| `/foundation` | L3 - Livvay Longevity Labs |
 | `/manifesto` | Manifesto "Não quero morrer" |
 | `/imprensa` | Press kit para jornalistas |
 | `/blog` | Blog com artigos sobre saúde |

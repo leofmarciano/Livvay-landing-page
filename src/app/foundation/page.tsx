@@ -8,9 +8,15 @@ import {
   BookOpen,
   Shield,
   FileText,
-  Heart,
+  Building2,
   ArrowRight,
   Mail,
+  Users,
+  GraduationCap,
+  Scale,
+  Database,
+  Brain,
+  LineChart,
 } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
@@ -21,54 +27,58 @@ import { Section, SectionHeader } from '@/components/ui/Section';
 const researchAreas = [
   {
     icon: FlaskConical,
-    title: 'Nutrição e Metabolismo',
+    title: 'Nutrigenomics',
     description:
-      'Pesquisa sobre como diferentes padrões alimentares afetam longevidade e marcadores de saúde em populações diversas.',
+      'Investigamos a interação entre nutrientes e expressão gênica em diferentes fenótipos populacionais brasileiros.',
   },
   {
     icon: Dna,
-    title: 'Genética e Epigenética',
+    title: 'Epigenetic aging',
     description:
-      'Estudos sobre como fatores ambientais e comportamentais influenciam a expressão genética relacionada ao envelhecimento.',
+      'Desenvolvimento de protocolos para mensuração de idade biológica via metilação de DNA em amostras de sangue periférico.',
   },
   {
     icon: Microscope,
-    title: 'Biomarcadores de Longevidade',
+    title: 'Biomarkers',
     description:
-      'Desenvolvimento de painéis de biomarcadores acessíveis para monitoramento de healthspan.',
+      'Validação de painéis de biomarcadores acessíveis para predição de healthspan em populações de baixa e média renda.',
   },
   {
     icon: BookOpen,
-    title: 'Ciência Comportamental',
+    title: 'Behavioral science',
     description:
-      'Pesquisa sobre aderência a hábitos saudáveis e estratégias de mudança de comportamento sustentáveis.',
+      'Estudos longitudinais sobre aderência a protocolos de intervenção e determinantes sociais de mudança comportamental.',
   },
 ];
 
 const governance = [
   {
-    title: 'Conselho Científico',
-    description: 'Pesquisadores independentes revisam e aprovam linhas de pesquisa.',
+    icon: Users,
+    title: 'Scientific advisory board',
+    description: 'Pesquisadores independentes com publicações em periódicos Q1 revisam e aprovam as linhas de pesquisa.',
   },
   {
-    title: 'Comitê de Ética',
-    description: 'Toda pesquisa segue protocolos éticos rigorosos.',
+    icon: Scale,
+    title: 'Ethics committee',
+    description: 'Protocolos de pesquisa seguem diretrizes CONEP e declaração de Helsinki.',
   },
   {
-    title: 'Auditoria Externa',
-    description: 'Prestação de contas anual por auditores independentes.',
+    icon: Building2,
+    title: 'External audit',
+    description: 'Demonstrações financeiras auditadas anualmente por firma de auditoria independente.',
   },
   {
-    title: 'Publicação Aberta',
-    description: 'Resultados publicados em periódicos de acesso aberto.',
+    icon: GraduationCap,
+    title: 'Open access',
+    description: 'Resultados publicados em periódicos com revisão por pares sob licença Creative Commons.',
   },
 ];
 
 const timeline = [
-  { year: '2024', event: 'Fundação da LLL' },
-  { year: '2025', event: 'Primeiras linhas de pesquisa definidas' },
-  { year: '2026', event: 'Primeiro relatório anual público' },
-  { year: '2027+', event: 'Expansão para parcerias universitárias' },
+  { year: '2024', event: 'Constituição do L3 como entidade sem fins lucrativos' },
+  { year: '2025', event: 'Definição do portfólio inicial de pesquisa pelo advisory board' },
+  { year: '2026', event: 'Publicação do primeiro relatório de atividades e demonstrações financeiras' },
+  { year: '2027+', event: 'Estabelecimento de parcerias com instituições de pesquisa' },
 ];
 
 export default function FoundationPage() {
@@ -82,17 +92,17 @@ export default function FoundationPage() {
         <Container className="relative z-10">
           <div className="max-w-3xl">
             <Badge variant="info" className="mb-4">
-              <Heart className="w-4 h-4 mr-1" aria-hidden="true" />
-              <span>Livvay Life Foundation</span>
+              <Building2 className="w-4 h-4 mr-1" aria-hidden="true" />
+              <span>L3 - Livvay Longevity Labs</span>
             </Badge>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-foreground">
-              Parte do lucro vira{' '}
-              <span className="gradient-text">pesquisa de verdade</span>
+              Financiamento de{' '}
+              <span className="gradient-text">pesquisa em longevidade</span>
             </h1>
             <p className="text-xl text-foreground-light mb-8">
-              A LLL (Livvay Life Foundation) é uma fundação sem fins lucrativos dedicada a 
-              financiar pesquisa científica de longevidade, com foco em ciência aplicada 
-              e resultados que beneficiem a população.
+              O L3 destina parte do lucro líquido da Livvay para financiar pesquisa
+              científica em healthspan e longevidade. Atuamos com governança independente,
+              metodologia rigorosa e compromisso com a publicação de resultados.
             </p>
           </div>
         </Container>
@@ -102,26 +112,28 @@ export default function FoundationPage() {
       <Section>
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
-            <Badge variant="premium" className="mb-4">Missão</Badge>
+            <Badge variant="premium" className="mb-4">Missão institucional</Badge>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-              Acelerar ciência aplicada para ampliar healthspan
+              Expandir o conhecimento científico sobre healthspan
             </h2>
             <p className="text-foreground-light mb-6">
-              Healthspan é o período de vida saudável — não apenas viver mais, mas viver melhor 
-              por mais tempo. A LLL financia pesquisas que buscam entender e ampliar esse período.
+              Healthspan representa o período de vida livre de doenças crônicas e
+              limitações funcionais. O L3 financia pesquisas que investigam os
+              determinantes biológicos, comportamentais e ambientais desse período.
             </p>
             <p className="text-foreground-light">
-              Diferente de promessas de &quot;reversão de idade&quot; ou &quot;imortalidade&quot;, trabalhamos no 
-              campo científico e regulatório, com pesquisas sérias e resultados publicados.
+              Operamos exclusivamente no campo científico. Não promovemos intervenções
+              não validadas nem fazemos afirmações sobre resultados não comprovados
+              por metodologia científica adequada.
             </p>
           </div>
           <Card variant="glass" className="p-8">
             <div className="grid grid-cols-2 gap-6">
               {[
-                { value: '10%', label: 'do lucro líquido destinado' },
+                { value: '10%', label: 'do lucro líquido alocado' },
                 { value: '4', label: 'linhas de pesquisa ativas' },
-                { value: '100%', label: 'transparência nos relatórios' },
-                { value: '∞', label: 'compromisso com a ciência' },
+                { value: '100%', label: 'resultados publicados' },
+                { value: 'Q1', label: 'periódicos indexados' },
               ].map((stat, index) => (
                 <div key={index} className="text-center">
                   <p className="text-3xl font-bold text-brand mb-1">{stat.value}</p>
@@ -133,12 +145,62 @@ export default function FoundationPage() {
         </div>
       </Section>
 
-      {/* Research Areas */}
+      {/* Data & AI Integration */}
       <Section background="darker">
         <SectionHeader
-          title="Linhas de pesquisa"
-          subtitle="Áreas prioritárias de investigação científica."
-          badge="Pesquisa"
+          title="Ciência aplicada ao produto"
+          subtitle="As descobertas do L3 melhoram diretamente os planos e algoritmos do Livvay."
+          badge="Integration"
+        />
+        <div className="grid md:grid-cols-3 gap-6">
+          {[
+            {
+              icon: Database,
+              title: 'Dados agregados',
+              description:
+                'Dados anonimizados e agregados dos usuários geram insights para validação de hipóteses e identificação de padrões populacionais.',
+            },
+            {
+              icon: Brain,
+              title: 'IA baseada em evidências',
+              description:
+                'Resultados das pesquisas do L3 são integrados aos modelos de machine learning, garantindo recomendações atualizadas e cientificamente fundamentadas.',
+            },
+            {
+              icon: LineChart,
+              title: 'Melhoria contínua',
+              description:
+                'Simulações e testes A/B validam a eficácia das intervenções antes de serem incorporadas aos planos personalizados.',
+            },
+          ].map((item, index) => (
+            <motion.div
+              key={item.title}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: index * 0.1 }}
+            >
+              <Card className="h-full text-center">
+                <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-brand/10 flex items-center justify-center">
+                  <item.icon className="w-6 h-6 text-brand" aria-hidden="true" />
+                </div>
+                <h3 className="font-bold text-foreground mb-2">{item.title}</h3>
+                <p className="text-sm text-foreground-muted">{item.description}</p>
+              </Card>
+            </motion.div>
+          ))}
+        </div>
+        <p className="text-center text-sm text-foreground-muted mt-8">
+          O uso de dados segue as diretrizes da LGPD e nossa política de privacidade.
+        </p>
+      </Section>
+
+      {/* Research Areas */}
+      <Section>
+        <SectionHeader
+          title="Portfólio de pesquisa"
+          subtitle="Áreas de investigação definidas pelo advisory board científico."
+          badge="Research"
         />
         <div className="grid md:grid-cols-2 gap-6">
           {researchAreas.map((area, index) => (
@@ -164,16 +226,16 @@ export default function FoundationPage() {
           ))}
         </div>
         <p className="text-center text-sm text-foreground-muted mt-8">
-          * As linhas de pesquisa são definidas pelo Conselho Científico e revisadas anualmente.
+          O portfólio de pesquisa é revisado anualmente pelo scientific advisory board.
         </p>
       </Section>
 
       {/* Governance */}
-      <Section>
+      <Section background="darker">
         <SectionHeader
-          title="Governança e transparência"
-          subtitle="Como garantimos seriedade e responsabilidade."
-          badge="Governança"
+          title="Estrutura de governança"
+          subtitle="Mecanismos que garantem independência e accountability."
+          badge="Governance"
         />
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
           {governance.map((item, index) => (
@@ -186,7 +248,7 @@ export default function FoundationPage() {
             >
               <Card className="text-center h-full">
                 <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-brand/10 flex items-center justify-center">
-                  <Shield className="w-6 h-6 text-brand" aria-hidden="true" />
+                  <item.icon className="w-6 h-6 text-brand" aria-hidden="true" />
                 </div>
                 <h3 className="font-bold text-foreground mb-2">{item.title}</h3>
                 <p className="text-sm text-foreground-muted">{item.description}</p>
@@ -197,16 +259,16 @@ export default function FoundationPage() {
       </Section>
 
       {/* Timeline */}
-      <Section background="darker">
+      <Section>
         <SectionHeader
-          title="Linha do tempo"
-          badge="Roadmap"
+          title="Roadmap institucional"
+          badge="Timeline"
         />
         <div className="max-w-2xl mx-auto">
           <div className="relative">
             {/* Line */}
             <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-brand to-border" />
-            
+
             {timeline.map((item, index) => (
               <motion.div
                 key={item.year}
@@ -230,48 +292,49 @@ export default function FoundationPage() {
       </Section>
 
       {/* Annual Report */}
-      <Section>
+      <Section background="darker">
         <div className="max-w-2xl mx-auto text-center">
           <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-blue-500/10 flex items-center justify-center">
             <FileText className="w-10 h-10 text-blue-500" aria-hidden="true" />
           </div>
           <h2 className="text-3xl font-bold text-foreground mb-4">
-            Relatório anual
+            Relatório de atividades
           </h2>
           <p className="text-foreground-light mb-8">
-            Todo ano publicamos um relatório completo detalhando: quanto foi arrecadado, 
-            quais pesquisas foram financiadas, resultados alcançados e planos futuros.
+            Publicamos anualmente um relatório detalhando: recursos alocados, projetos
+            financiados, resultados obtidos, publicações geradas e planejamento para
+            o exercício seguinte.
           </p>
           <Card variant="glass" className="inline-block">
             <div className="flex items-center gap-4 px-6 py-4">
               <FileText className="w-8 h-8 text-foreground-muted" aria-hidden="true" />
               <div className="text-left">
-                <p className="text-foreground font-medium">Relatório Anual 2025</p>
-                <p className="text-sm text-foreground-muted">Em breve</p>
+                <p className="text-foreground font-medium">Relatório de atividades 2025</p>
+                <p className="text-sm text-foreground-muted">Previsão: Q1 2026</p>
               </div>
-              <Badge variant="info">Aguardando</Badge>
+              <Badge variant="info">Em elaboração</Badge>
             </div>
           </Card>
         </div>
       </Section>
 
       {/* Contact */}
-      <Section background="darker">
+      <Section>
         <div className="max-w-2xl mx-auto text-center">
           <Badge variant="info" className="mb-4">Contato institucional</Badge>
           <h2 className="text-3xl font-bold text-foreground mb-4">
-            Quer colaborar com a LLL?
+            Parcerias e colaborações
           </h2>
           <p className="text-foreground-light mb-8">
-            Pesquisadores, instituições e parceiros interessados em colaborar 
-            com a Livvay Life Foundation podem entrar em contato.
+            Pesquisadores, instituições de pesquisa e organizações interessadas
+            em colaborar com o L3 podem entrar em contato através dos canais abaixo.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button href="mailto:foundation@livvay.com" type="outline" icon={<Mail />}>
-              foundation@livvay.com
+            <Button href="mailto:research@livvay.com" type="outline" icon={<Mail />}>
+              research@livvay.com
             </Button>
             <Button href="/contato" type="default" iconRight={<ArrowRight />}>
-              Formulário de contato
+              Formulário institucional
             </Button>
           </div>
         </div>
@@ -283,21 +346,23 @@ export default function FoundationPage() {
           <Card variant="glass" className="p-8">
             <h3 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
               <Shield className="w-5 h-5 text-blue-500" aria-hidden="true" />
-              <span>Compromisso com a ciência</span>
+              <span>Declaração de princípios</span>
             </h3>
             <div className="space-y-4 text-foreground-light">
               <p>
-                A LLL trabalha exclusivamente no campo científico e regulatório. 
-                Não fazemos promessas de &quot;reversão de idade&quot;, &quot;cura do envelhecimento&quot; 
-                ou qualquer tipo de intervenção não comprovada.
+                O L3 opera exclusivamente no campo da pesquisa científica. Não financiamos,
+                promovemos ou endossamos intervenções sem validação por estudos clínicos
+                adequados e aprovação regulatória.
               </p>
               <p>
-                Todas as pesquisas financiadas seguem protocolos éticos rigorosos, 
-                são revisadas por pares e têm resultados publicados em periódicos científicos.
+                Todas as pesquisas financiadas pelo L3 seguem protocolos aprovados por
+                comitês de ética, utilizam metodologia científica rigorosa e têm seus
+                resultados submetidos a periódicos com revisão por pares.
               </p>
               <p>
-                Nosso objetivo é expandir o conhecimento científico sobre longevidade 
-                e traduzir esse conhecimento em benefícios práticos e acessíveis para a população.
+                Nossa missão é contribuir para o avanço do conhecimento científico sobre
+                longevidade e healthspan, com foco em pesquisa translacional que possa
+                beneficiar populações diversas.
               </p>
             </div>
           </Card>
