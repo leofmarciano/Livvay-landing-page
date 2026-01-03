@@ -212,10 +212,73 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* Section 2: O que é o Livvay */}
+      {/* Section 2: A Missão - Imortalidade */}
       <Section>
+        <div className="max-w-4xl mx-auto text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <Badge variant="premium" className="mb-6">Nossa missão</Badge>
+            <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6">
+              A gente quer te tornar{' '}
+              <span className="gradient-text">imortal.</span>
+            </h2>
+            <p className="text-xl md:text-2xl text-foreground-light mb-4 max-w-3xl mx-auto">
+              Sério. O objetivo é fazer você viver até o dia em que a ciência consiga parar o envelhecimento.
+            </p>
+            <p className="text-lg text-foreground-muted mb-8 max-w-2xl mx-auto">
+              Quando esse dia chegar, você vai estar lá. Saudável. Jovem. Vivo.
+            </p>
+            <div className="grid md:grid-cols-3 gap-6 mt-12">
+              {[
+                {
+                  icon: TrendingUp,
+                  title: 'Rejuvenescer',
+                  description: 'Não é só parar de envelhecer. É voltar atrás.',
+                },
+                {
+                  icon: Target,
+                  title: 'Viver mais',
+                  description: 'Cada ano saudável é um ano mais perto da cura.',
+                },
+                {
+                  icon: Sparkles,
+                  title: 'Ser imortal',
+                  description: 'Quando for possível, você vai estar vivo pra ver.',
+                },
+              ].map((item, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="p-6 bg-surface-100 rounded-2xl border border-border"
+                >
+                  <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-brand/10 flex items-center justify-center">
+                    <item.icon className="w-6 h-6 text-brand" aria-hidden="true" />
+                  </div>
+                  <h3 className="text-lg font-bold text-foreground mb-2">{item.title}</h3>
+                  <p className="text-foreground-muted">{item.description}</p>
+                </motion.div>
+              ))}
+            </div>
+            <div className="mt-10 max-w-2xl mx-auto p-5 bg-brand/5 rounded-xl border border-brand/20 flex gap-4 items-start">
+              <Target className="w-5 h-5 text-brand flex-shrink-0 mt-0.5" aria-hidden="true" />
+              <p className="text-foreground-light text-sm">
+                A ciência aponta que, nos próximos 50 anos, chegaremos ao ponto em que o envelhecimento para. Mas quando isso acontecer, você precisa estar lá — vivo, saudável, na sua melhor forma. O Livvay existe pra isso.
+              </p>
+            </div>
+          </motion.div>
+        </div>
+      </Section>
+
+      {/* Section 3: O que é o Livvay */}
+      <Section background="darker">
         <SectionHeader
-          title="Seu parceiro pra viver pra sempre"
+          title="Seu parceiro nessa jornada"
           subtitle="Você registra. A gente cuida do resto."
           badge="Como funciona"
         />
