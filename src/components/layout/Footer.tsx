@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { Container } from '@/components/ui/Container';
-import { Instagram, Twitter, Linkedin, Youtube } from 'lucide-react';
+// import { Instagram, Twitter, Linkedin, Youtube } from 'lucide-react';
 
 const footerLinks = {
   product: {
@@ -32,12 +32,12 @@ const footerLinks = {
   },
 };
 
-const socialLinks = [
-  { href: 'https://instagram.com/livvay', icon: Instagram, label: 'Instagram' },
-  { href: 'https://twitter.com/livvay', icon: Twitter, label: 'Twitter' },
-  { href: 'https://linkedin.com/company/livvay', icon: Linkedin, label: 'LinkedIn' },
-  { href: 'https://youtube.com/@livvay', icon: Youtube, label: 'YouTube' },
-];
+// const socialLinks = [
+//   { href: 'https://instagram.com/livvay', icon: Instagram, label: 'Instagram' },
+//   { href: 'https://twitter.com/livvay', icon: Twitter, label: 'Twitter' },
+//   { href: 'https://linkedin.com/company/livvay', icon: Linkedin, label: 'LinkedIn' },
+//   { href: 'https://youtube.com/@livvay', icon: Youtube, label: 'YouTube' },
+// ];
 
 export function Footer() {
   return (
@@ -59,7 +59,7 @@ export function Footer() {
                 Um assistente de longevidade que transforma tudo que você come, dorme e faz em um plano para você viver pra sempre.
               </p>
               {/* Social Links */}
-              <div className="flex gap-3" role="list" aria-label="Redes sociais">
+              {/* <div className="flex gap-3" role="list" aria-label="Redes sociais">
                 {socialLinks.map((social) => (
                   <a
                     key={social.label}
@@ -73,7 +73,7 @@ export function Footer() {
                     <social.icon className="w-5 h-5" aria-hidden="true" />
                   </a>
                 ))}
-              </div>
+              </div> */}
             </div>
 
             {/* Links Columns */}
