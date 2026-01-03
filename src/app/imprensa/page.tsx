@@ -244,22 +244,11 @@ export default function ImprensaPage() {
             entre em contato com nossa assessoria.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button href="mailto:imprensa@livvay.com">
-              <Mail className="w-5 h-5" aria-hidden="true" />
-              <span>imprensa@livvay.com</span>
+            <Button href="mailto:imprensa@livvay.com" icon={<Mail />}>
+              imprensa@livvay.com
             </Button>
-            <Button onClick={copyEmail} onKeyDown={handleCopyKeyDown} variant="secondary">
-              {copiedEmail ? (
-                <>
-                  <Check className="w-5 h-5" aria-hidden="true" />
-                  <span>Copiado!</span>
-                </>
-              ) : (
-                <>
-                  <Copy className="w-5 h-5" aria-hidden="true" />
-                  <span>Copiar email</span>
-                </>
-              )}
+            <Button onClick={copyEmail} onKeyDown={handleCopyKeyDown} type="default" icon={copiedEmail ? <Check /> : <Copy />}>
+              {copiedEmail ? 'Copiado!' : 'Copiar email'}
             </Button>
           </div>
           <p className="text-sm text-foreground-muted mt-6">
