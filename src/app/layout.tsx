@@ -3,6 +3,7 @@ import { Providers } from './providers';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { PageTransition } from '@/components/layout/PageTransition';
+import { CookieConsent } from '@/components/ui/CookieConsent';
 import './globals.css';
 
 /**
@@ -136,6 +137,7 @@ export default function RootLayout({
             <PageTransition>{children}</PageTransition>
           </main>
           <Footer />
+          <CookieConsent />
         </Providers>
       </body>
     </html>
