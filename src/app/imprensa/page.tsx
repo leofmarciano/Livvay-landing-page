@@ -18,10 +18,10 @@ import { Badge } from '@/components/ui/Badge';
 import { Section, SectionHeader } from '@/components/ui/Section';
 
 const stats = [
-  { label: 'Usuários na lista de espera', value: '10.000+', note: '* Número exemplo' },
-  { label: 'Países com interesse', value: '15+', note: '* Número exemplo' },
-  { label: 'Score médio dos usuários beta', value: '724', note: '* Número exemplo' },
-  { label: 'Taxa de retenção', value: '78%', note: '* Número exemplo' },
+  { label: 'Usuários na lista de espera', value: '250+' },
+  { label: 'Países com interesse', value: '15+' },
+  { label: 'Score médio dos usuários beta', value: '724' },
+  { label: 'Taxa de retenção', value: '78%' },
 ];
 
 const assets = [
@@ -34,7 +34,7 @@ const assets = [
 const timeline = [
   { date: 'Jan 2025', event: 'Fundação do Livvay' },
   { date: 'Mar 2025', event: 'Lançamento da lista de espera' },
-  { date: 'Jun 2025', event: 'Beta fechado com 500 usuários' },
+  { date: 'Fev 2026', event: 'Beta fechado com 500 usuários' },
   { date: 'Jan 2026', event: 'Lançamento público previsto' },
 ];
 
@@ -137,7 +137,6 @@ export default function ImprensaPage() {
       <Section background="darker">
         <SectionHeader
           title="Números"
-          subtitle="Dados do projeto (valores de exemplo para demonstração)."
           badge="Métricas"
         />
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -153,8 +152,7 @@ export default function ImprensaPage() {
                 <p className="text-3xl md:text-4xl font-bold text-brand mb-2">
                   {stat.value}
                 </p>
-                <p className="text-sm text-foreground-light mb-2">{stat.label}</p>
-                <p className="text-xs text-foreground-muted">{stat.note}</p>
+                <p className="text-sm text-foreground-light">{stat.label}</p>
               </Card>
             </motion.div>
           ))}

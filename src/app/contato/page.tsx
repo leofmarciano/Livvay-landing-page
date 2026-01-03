@@ -35,28 +35,27 @@ export default function ContatoPage() {
   const onSubmit = async (data: FormData) => {
     setServerError(null);
     try {
-      // Using the lead API with source=contato
-      const response = await fetch('/api/lead', {
+      const response = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          name: data.name,
           email: data.email,
-          source: 'contato',
-          answers: {
-            name: data.name,
-            message: data.message,
-          },
+          message: data.message,
         }),
       });
 
+      const result = await response.json();
+
       if (!response.ok) {
-        throw new Error('Erro ao enviar');
+        throw new Error(result.error || 'Erro ao enviar');
       }
 
       setIsSuccess(true);
       reset();
-    } catch {
-      setServerError('Erro ao enviar mensagem. Tente novamente.');
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Erro ao enviar mensagem. Tente novamente.';
+      setServerError(message);
     }
   };
 
