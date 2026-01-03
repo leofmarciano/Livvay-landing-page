@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { supabaseAdmin } from '@/lib/supabase-server';
+import { rateLimit, getClientIp } from '@/lib/rate-limit';
+
+// Rate limit: 5 requests per minute per IP
+const RATE_LIMIT = { limit: 2, windowInSeconds: 60 };
 
 const leadSchema = z.object({
   email: z
@@ -14,6 +18,26 @@ const leadSchema = z.object({
 
 export async function POST(request: NextRequest) {
   try {
+    // Rate limiting
+    const ip = getClientIp(request);
+    const rateLimitResult = rateLimit(ip, RATE_LIMIT);
+
+    if (!rateLimitResult.success) {
+      const retryAfter = Math.ceil((rateLimitResult.resetAt - Date.now()) / 1000);
+      return NextResponse.json(
+        { error: 'Muitas tentativas. Aguarde um momento.' },
+        {
+          status: 429,
+          headers: {
+            'Retry-After': String(retryAfter),
+            'X-RateLimit-Limit': String(RATE_LIMIT.limit),
+            'X-RateLimit-Remaining': '0',
+            'X-RateLimit-Reset': String(rateLimitResult.resetAt),
+          },
+        }
+      );
+    }
+
     const body = await request.json();
     const result = leadSchema.safeParse(body);
 
