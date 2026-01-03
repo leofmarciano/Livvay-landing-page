@@ -158,7 +158,7 @@ export default function Home() {
                 {/* Glow effect */}
                 <div className="absolute -inset-4 bg-brand/10 rounded-[50px] blur-2xl" />
                 <Image
-                  src="/mock-phone.svg"
+                  src="/print.png"
                   alt="Livvay App mostrando o painel do dia com Score, registro de comida e progresso"
                   width={280}
                   height={560}
