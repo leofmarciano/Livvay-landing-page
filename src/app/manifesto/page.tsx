@@ -51,12 +51,12 @@ export default function ManifestoPage() {
               <p>
                 Comemos o que aparece. Dormimos quando sobra. 
                 Deixamos o corpo pra depois. 
-                E depois vira "tarde demais".
+                E depois vira &quot;tarde demais&quot;.
               </p>
 
               <div className="border-l-4 border-brand pl-6 my-8">
                 <p className="text-xl text-foreground italic">
-                  "Vida eterna não é promessa. É direção."
+                  &quot;Vida eterna não é promessa. É direção.&quot;
                 </p>
               </div>
 

@@ -231,7 +231,7 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       if (trimmedLine.startsWith('## ')) {
         if (inList) { inList = false; }
         elements.push(
-          <h2 key={i} className="text-2xl font-bold text-white mt-10 mb-4">
+          <h2 key={i} className="text-2xl font-bold text-foreground mt-10 mb-4">
             {trimmedLine.slice(3)}
           </h2>
         );
@@ -244,10 +244,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         const match = trimmedLine.match(/- \*\*(.+?)\*\*:?\s*(.*)$/);
         if (match) {
           elements.push(
-            <li key={i} className="flex items-start gap-2 text-[#A1A1AA] mb-2">
-              <span className="text-[#00E676] mt-1">•</span>
+            <li key={i} className="flex items-start gap-2 text-foreground-light mb-2">
+              <span className="text-brand mt-1">•</span>
               <span>
-                <strong className="text-white">{match[1]}</strong>
+                <strong className="text-foreground">{match[1]}</strong>
                 {match[2] && `: ${match[2]}`}
               </span>
             </li>
@@ -260,8 +260,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           inList = true;
         }
         elements.push(
-          <li key={i} className="flex items-start gap-2 text-[#A1A1AA] mb-2">
-            <span className="text-[#00E676] mt-1">•</span>
+          <li key={i} className="flex items-start gap-2 text-foreground-light mb-2">
+            <span className="text-brand mt-1">•</span>
             <span>{trimmedLine.slice(2)}</span>
           </li>
         );
@@ -272,11 +272,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         if (match) {
           elements.push(
             <div key={i} className="flex items-start gap-3 mb-3">
-              <span className="w-6 h-6 rounded-full bg-[#00E676]/20 flex items-center justify-center text-[#00E676] text-sm font-bold flex-shrink-0">
+              <span className="w-6 h-6 rounded-full bg-brand/20 flex items-center justify-center text-brand text-sm font-bold flex-shrink-0">
                 {match[1]}
               </span>
-              <span className="text-[#A1A1AA]">
-                <strong className="text-white">{match[2]}</strong>
+              <span className="text-foreground-light">
+                <strong className="text-foreground">{match[2]}</strong>
                 {match[3] && ` — ${match[3]}`}
               </span>
             </div>
@@ -286,10 +286,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           if (simpleMatch) {
             elements.push(
               <div key={i} className="flex items-start gap-3 mb-3">
-                <span className="w-6 h-6 rounded-full bg-[#00E676]/20 flex items-center justify-center text-[#00E676] text-sm font-bold flex-shrink-0">
+                <span className="w-6 h-6 rounded-full bg-brand/20 flex items-center justify-center text-brand text-sm font-bold flex-shrink-0">
                   {simpleMatch[1]}
                 </span>
-                <span className="text-[#A1A1AA]">{simpleMatch[2]}</span>
+                <span className="text-foreground-light">{simpleMatch[2]}</span>
               </div>
             );
           }
@@ -312,17 +312,17 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           elements.push(
             <table key={i} className="w-full my-6 border-collapse">
               <thead>
-                <tr className="border-b border-[#27272A]">
+                <tr className="border-b border-border">
                   {tableRows[0]?.map((cell, j) => (
-                    <th key={j} className="text-left py-2 px-4 text-white font-medium">{cell}</th>
+                    <th key={j} className="text-left py-2 px-4 text-foreground font-medium">{cell}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {tableRows.slice(1).map((row, ri) => (
-                  <tr key={ri} className="border-b border-[#27272A]/50">
+                  <tr key={ri} className="border-b border-border/50">
                     {row.map((cell, j) => (
-                      <td key={j} className="py-2 px-4 text-[#A1A1AA]">{cell}</td>
+                      <td key={j} className="py-2 px-4 text-foreground-light">{cell}</td>
                     ))}
                   </tr>
                 ))}
@@ -332,13 +332,13 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
           inTable = false;
           tableRows = [];
         } else {
-          elements.push(<hr key={i} className="border-[#27272A] my-8" />);
+          elements.push(<hr key={i} className="border-border my-8" />);
         }
       }
       // Italic note
       else if (trimmedLine.startsWith('*') && trimmedLine.endsWith('*')) {
         elements.push(
-          <p key={i} className="text-sm text-[#71717A] italic mt-6">
+          <p key={i} className="text-sm text-foreground-muted italic mt-6">
             {trimmedLine.slice(1, -1)}
           </p>
         );
@@ -349,10 +349,10 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
         // Handle inline bold
         const parts = trimmedLine.split(/(\*\*[^*]+\*\*)/);
         elements.push(
-          <p key={i} className="text-[#A1A1AA] mb-4 leading-relaxed">
+          <p key={i} className="text-foreground-light mb-4 leading-relaxed">
             {parts.map((part, pi) => {
               if (part.startsWith('**') && part.endsWith('**')) {
-                return <strong key={pi} className="text-white">{part.slice(2, -2)}</strong>;
+                return <strong key={pi} className="text-foreground">{part.slice(2, -2)}</strong>;
               }
               return part;
             })}
@@ -367,34 +367,34 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   return (
     <>
       {/* Header */}
-      <section className="py-12 md:py-20 bg-gradient-to-b from-[#0A0A0B] to-[#111113]">
+      <section className="py-12 md:py-20 bg-gradient-to-b from-background to-surface-100">
         <Container>
           <Link 
             href="/blog" 
-            className="inline-flex items-center gap-2 text-[#A1A1AA] hover:text-white transition-colors mb-8"
+            className="inline-flex items-center gap-2 text-foreground-light hover:text-foreground transition-colors mb-8 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded"
           >
-            <ArrowLeft className="w-4 h-4" />
-            Voltar ao blog
+            <ArrowLeft className="w-4 h-4" aria-hidden="true" />
+            <span>Voltar ao blog</span>
           </Link>
           <div className="max-w-2xl">
             <div className="flex items-center gap-3 mb-4">
               <Badge variant="premium">{post.category}</Badge>
-              <span className="text-[#71717A] text-sm flex items-center gap-1">
-                <Clock className="w-4 h-4" />
-                {post.readTime}
+              <span className="text-foreground-muted text-sm flex items-center gap-1">
+                <Clock className="w-4 h-4" aria-hidden="true" />
+                <span>{post.readTime}</span>
               </span>
-              <span className="text-[#71717A] text-sm">{post.date}</span>
+              <span className="text-foreground-muted text-sm">{post.date}</span>
             </div>
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-6">
               {post.title}
             </h1>
-            <p className="text-xl text-[#A1A1AA]">{post.excerpt}</p>
+            <p className="text-xl text-foreground-light">{post.excerpt}</p>
           </div>
         </Container>
       </section>
 
       {/* Content */}
-      <section className="py-12 md:py-16 bg-[#0A0A0B]">
+      <section className="py-12 md:py-16 bg-background">
         <Container>
           <article className="max-w-2xl mx-auto">
             {renderContent(post.content)}
@@ -403,18 +403,18 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       </section>
 
       {/* CTA */}
-      <section className="py-16 bg-[#050506]">
+      <section className="py-16 bg-alternative">
         <Container>
           <div className="max-w-xl mx-auto text-center">
-            <h2 className="text-2xl font-bold text-white mb-4">
+            <h2 className="text-2xl font-bold text-foreground mb-4">
               Quer aplicar isso na prática?
             </h2>
-            <p className="text-[#A1A1AA] mb-6">
+            <p className="text-foreground-light mb-6">
               O Livvay te ajuda a transformar conhecimento em ação diária.
             </p>
             <Button href="/score" size="lg">
-              Calcular meu Score
-              <ArrowRight className="w-5 h-5" />
+              <span>Calcular meu Score</span>
+              <ArrowRight className="w-5 h-5" aria-hidden="true" />
             </Button>
           </div>
         </Container>
@@ -422,4 +422,3 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
     </>
   );
 }
-

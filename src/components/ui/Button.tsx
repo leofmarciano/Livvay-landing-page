@@ -14,6 +14,7 @@ interface ButtonProps {
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
   onClick?: () => void;
+  onKeyDown?: (e: React.KeyboardEvent) => void;
   tabIndex?: number;
 }
 
@@ -40,6 +41,7 @@ export function Button({
   disabled = false,
   type = 'button',
   onClick,
+  onKeyDown,
   tabIndex = 0,
 }: ButtonProps) {
   const baseStyles = `
@@ -98,6 +100,7 @@ export function Button({
       disabled={disabled || isLoading}
       type={type}
       onClick={onClick}
+      onKeyDown={onKeyDown}
       tabIndex={disabled ? -1 : tabIndex}
     >
       {content}

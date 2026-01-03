@@ -656,6 +656,8 @@ interface ChartData {
 | `next` | 16.1.1 | Framework (App Router) |
 | `react` / `react-dom` | 19.2.3 | UI library |
 | `tailwindcss` | 4.x | Styling |
+| `shadcn/ui` | - | UI component library (built on Radix UI) |
+| `@radix-ui/*` | - | Headless UI primitives - USE THIS for accessible components |
 | `lucide-react` | 0.562.0 | Icons - USE THIS for all icons |
 | `framer-motion` | 12.x | Animations - use sparingly, only when it adds value |
 | `react-hook-form` | 7.x | Form handling |
@@ -665,11 +667,21 @@ interface ChartData {
 
 ### Usage Rules
 
+- **UI Components:** Use `shadcn/ui` components when available. Add new ones with `bunx shadcn@latest add <component>`.
+- **Headless Primitives:** Use `@radix-ui/*` for accessible, unstyled primitives (Dialog, Popover, Accordion, etc.).
 - **Icons:** Always use `lucide-react`. Do NOT install other icon libraries.
 - **Animations:** Use `framer-motion` only when animation adds meaningful UX value. Avoid gratuitous animations.
 - **Forms:** Always use `react-hook-form` + `zod` combination. Do NOT use other form libraries.
 - **Charts:** Always use `recharts`. Do NOT install Chart.js, Victory, or other chart libraries.
 - **Styling:** Use TailwindCSS classes. Do NOT install styled-components, emotion, or CSS-in-JS libraries.
+
+### shadcn/ui Commands
+
+```bash
+bunx shadcn@latest add button      # Add a component
+bunx shadcn@latest add dialog      # Add dialog component
+bunx shadcn@latest diff            # Check for updates
+```
 
 ### Bun Commands
 

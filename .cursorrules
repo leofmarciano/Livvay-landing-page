@@ -18,6 +18,8 @@ You are working in the Livvay marketing site repo.
 ## Available Dependencies (DO NOT install alternatives)
 | Package | Use For |
 |---------|---------|
+| `shadcn/ui` | UI components (add with `bunx shadcn@latest add <component>`) |
+| `@radix-ui/*` | Headless accessible primitives |
 | `lucide-react` | ALL icons |
 | `framer-motion` | Animations (sparingly) |
 | `react-hook-form` + `zod` | ALL forms |
@@ -25,6 +27,7 @@ You are working in the Livvay marketing site repo.
 | `tailwindcss` | ALL styling |
 
 ## Forbidden Packages
+- NO other UI libs (MUI, Chakra, Ant Design, etc.) - use shadcn/ui
 - NO other icon libs (react-icons, heroicons, etc.)
 - NO other chart libs (Chart.js, Victory, Nivo, etc.)
 - NO other form libs (Formik, etc.)

@@ -97,7 +97,7 @@ function LeaderboardRow({ entry, showCity }: { entry: LeaderboardEntry; showCity
         )}
       </div>
       <div className="text-right">
-        <p className="text-brand font-bold">{entry.score.toLocaleString()}</p>
+        <p className="text-brand font-bold">{entry.score.toLocaleString('pt-BR')}</p>
         <p className="text-foreground-muted text-xs">pontos</p>
       </div>
     </div>

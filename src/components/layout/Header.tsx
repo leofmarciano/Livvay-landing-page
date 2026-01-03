@@ -30,10 +30,9 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu on route change
-  useEffect(() => {
+  const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
-  }, [pathname]);
+  };
 
   const handleMobileMenuToggle = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -137,6 +136,7 @@ export function Header() {
                   <Link
                     key={link.href}
                     href={link.href}
+                    onClick={closeMobileMenu}
                     className={`
                       block py-3 px-4 rounded-lg font-medium transition-colors
                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand
@@ -152,7 +152,7 @@ export function Header() {
                   </Link>
                 ))}
                 <div className="pt-2">
-                  <Button href="/score" className="w-full">
+                  <Button href="/score" className="w-full" onClick={closeMobileMenu}>
                     Calcular meu Score
                   </Button>
                 </div>

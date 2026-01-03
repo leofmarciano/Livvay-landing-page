@@ -111,7 +111,7 @@ export default function FoundationPage() {
               por mais tempo. A LLL financia pesquisas que buscam entender e ampliar esse período.
             </p>
             <p className="text-foreground-light">
-              Diferente de promessas de "reversão de idade" ou "imortalidade", trabalhamos no 
+              Diferente de promessas de &quot;reversão de idade&quot; ou &quot;imortalidade&quot;, trabalhamos no 
               campo científico e regulatório, com pesquisas sérias e resultados publicados.
             </p>
           </div>
@@ -290,7 +290,7 @@ export default function FoundationPage() {
             <div className="space-y-4 text-foreground-light">
               <p>
                 A LLL trabalha exclusivamente no campo científico e regulatório. 
-                Não fazemos promessas de "reversão de idade", "cura do envelhecimento" 
+                Não fazemos promessas de &quot;reversão de idade&quot;, &quot;cura do envelhecimento&quot; 
                 ou qualquer tipo de intervenção não comprovada.
               </p>
               <p>
