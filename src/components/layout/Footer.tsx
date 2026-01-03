@@ -108,12 +108,17 @@ export function Footer() {
           </div>
 
           {/* Bottom Bar */}
-          <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-foreground-muted text-sm">
-              © {new Date().getFullYear()} Livvay. Todos os direitos reservados.
-            </p>
-            <p className="text-foreground-muted text-xs">
-              Livvay não substitui avaliação médica. Resultados variam de pessoa para pessoa.
+          <div className="pt-8 border-t border-border">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-4">
+              <p className="text-foreground-muted text-sm">
+                © {new Date().getFullYear()} Livvay. Todos os direitos reservados.
+              </p>
+              <p className="text-foreground-muted text-xs">
+                Livvay não substitui avaliação médica. Resultados variam de pessoa para pessoa.
+              </p>
+            </div>
+            <p className="text-foreground-muted text-xs text-center md:text-left">
+              Made in Brazil and US. Registrado como LGH (Livvay Global Health).
             </p>
           </div>
         </div>
