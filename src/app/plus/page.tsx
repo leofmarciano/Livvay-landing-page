@@ -3,10 +3,8 @@
 import { motion } from 'framer-motion';
 import {
   Users,
-  Heart,
   Brain,
   Shield,
-  Clock,
   TrendingUp,
   Zap,
   CheckCircle,
@@ -113,24 +111,24 @@ export default function PlusPage() {
     <>
       {/* Hero */}
       <section className="relative py-20 md:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0B] via-[#0A0A0B] to-[#111113]" />
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#00E676]/5 rounded-full blur-[120px]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-surface-100" />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand/5 rounded-full blur-[120px]" />
 
         <Container className="relative z-10">
           <div className="max-w-3xl">
             <Badge variant="premium" className="mb-4">Livvay Plus</Badge>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-foreground">
               Você + AI +{' '}
               <span className="gradient-text">equipe médica</span>
             </h1>
-            <p className="text-xl text-[#A1A1AA] mb-8">
+            <p className="text-xl text-foreground-light mb-8">
               Você não precisa virar especialista. Você precisa ser acompanhado por quem entende. 
               O Plus une a inteligência artificial do Livvay com profissionais de saúde dedicados a você.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
               <Button href="#waitlist-plus" size="lg">
-                Entrar na lista do Plus
-                <ArrowRight className="w-5 h-5" />
+                <span>Entrar na lista do Plus</span>
+                <ArrowRight className="w-5 h-5" aria-hidden="true" />
               </Button>
               <Button href="/score" variant="secondary" size="lg">
                 Calcular meu Score primeiro
@@ -157,13 +155,13 @@ export default function PlusPage() {
               transition={{ delay: index * 0.1 }}
             >
               <Card variant="highlight" className="h-full">
-                <div className="w-14 h-14 rounded-2xl bg-[#00E676]/10 flex items-center justify-center mb-6">
-                  <member.icon className="w-7 h-7 text-[#00E676]" />
+                <div className="w-14 h-14 rounded-2xl bg-brand/10 flex items-center justify-center mb-6">
+                  <member.icon className="w-7 h-7 text-brand" aria-hidden="true" />
                 </div>
-                <h3 className="text-xl font-bold text-white mb-3">{member.role}</h3>
-                <p className="text-[#A1A1AA] mb-4">{member.description}</p>
-                <div className="p-4 bg-[#0A0A0B] rounded-xl border border-[#27272A]">
-                  <p className="text-sm text-[#00E676]">{member.example}</p>
+                <h3 className="text-xl font-bold text-foreground mb-3">{member.role}</h3>
+                <p className="text-foreground-light mb-4">{member.description}</p>
+                <div className="p-4 bg-background rounded-xl border border-border">
+                  <p className="text-sm text-brand">{member.example}</p>
                 </div>
               </Card>
             </motion.div>
@@ -189,18 +187,18 @@ export default function PlusPage() {
             >
               <Card className="h-full">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-lg bg-[#00E676]/10 flex items-center justify-center">
-                    <Calendar className="w-5 h-5 text-[#00E676]" />
+                  <div className="w-10 h-10 rounded-lg bg-brand/10 flex items-center justify-center">
+                    <Calendar className="w-5 h-5 text-brand" aria-hidden="true" />
                   </div>
                   <div>
-                    <p className="text-[#00E676] text-sm font-medium">{phase.month}</p>
-                    <h3 className="text-white font-semibold">{phase.title}</h3>
+                    <p className="text-brand text-sm font-medium">{phase.month}</p>
+                    <h3 className="text-foreground font-semibold">{phase.title}</h3>
                   </div>
                 </div>
-                <ul className="space-y-2">
+                <ul className="space-y-2" role="list">
                   {phase.items.map((item, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                      <CheckCircle className="w-4 h-4 text-[#00E676] flex-shrink-0 mt-0.5" />
+                    <li key={i} className="flex items-start gap-2 text-sm text-foreground-light" role="listitem">
+                      <CheckCircle className="w-4 h-4 text-brand flex-shrink-0 mt-0.5" aria-hidden="true" />
                       <span>{item}</span>
                     </li>
                   ))}
@@ -215,11 +213,11 @@ export default function PlusPage() {
       <Section>
         <div className="grid md:grid-cols-2 gap-12">
           <div>
-            <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-              <CheckCircle className="w-6 h-6 text-[#22C55E]" />
-              O que o Plus é
+            <h2 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
+              <CheckCircle className="w-6 h-6 text-success" aria-hidden="true" />
+              <span>O que o Plus é</span>
             </h2>
-            <ul className="space-y-4">
+            <ul className="space-y-4" role="list">
               {[
                 'Acompanhamento contínuo por profissionais de saúde',
                 'Revisão dos seus dados reais (não genérico)',
@@ -228,19 +226,19 @@ export default function PlusPage() {
                 'Pedido de exames quando faz sentido clínico',
                 'Prescrição quando indicado pelo médico',
               ].map((item, index) => (
-                <li key={index} className="flex items-start gap-3 text-[#A1A1AA]">
-                  <CheckCircle className="w-5 h-5 text-[#22C55E] flex-shrink-0 mt-0.5" />
+                <li key={index} className="flex items-start gap-3 text-foreground-light" role="listitem">
+                  <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" aria-hidden="true" />
                   <span>{item}</span>
                 </li>
               ))}
             </ul>
           </div>
           <div>
-            <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-3">
-              <Shield className="w-6 h-6 text-[#EF4444]" />
-              O que o Plus NÃO é
+            <h2 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
+              <Shield className="w-6 h-6 text-destructive" aria-hidden="true" />
+              <span>O que o Plus NÃO é</span>
             </h2>
-            <ul className="space-y-4">
+            <ul className="space-y-4" role="list">
               {[
                 'Pronto-socorro ou emergência',
                 'Substituto do seu médico de referência',
@@ -248,9 +246,9 @@ export default function PlusPage() {
                 'Atendimento 24h instantâneo',
                 'Tratamento de doenças graves sem encaminhamento',
               ].map((item, index) => (
-                <li key={index} className="flex items-start gap-3 text-[#A1A1AA]">
-                  <div className="w-5 h-5 rounded-full border-2 border-[#EF4444] flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-[#EF4444] text-xs">✕</span>
+                <li key={index} className="flex items-start gap-3 text-foreground-light" role="listitem">
+                  <div className="w-5 h-5 rounded-full border-2 border-destructive flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <span className="text-destructive text-xs" aria-hidden="true">✕</span>
                   </div>
                   <span>{item}</span>
                 </li>
@@ -260,9 +258,9 @@ export default function PlusPage() {
         </div>
         
         {/* Disclaimer */}
-        <div className="mt-12 p-6 bg-[#1A1A1D] rounded-xl border border-[#27272A]">
-          <p className="text-sm text-[#71717A]">
-            <strong className="text-[#A1A1AA]">⚠️ Nota de responsabilidade:</strong> O Livvay Plus oferece acompanhamento 
+        <div className="mt-12 p-6 bg-surface-100 rounded-xl border border-border">
+          <p className="text-sm text-foreground-muted">
+            <strong className="text-foreground-light">⚠️ Nota de responsabilidade:</strong> O Livvay Plus oferece acompanhamento 
             de saúde preventivo e orientação médica, mas não substitui atendimento de emergência. 
             Condutas médicas dependem de avaliação clínica individualizada. Resultados variam de pessoa para pessoa. 
             Em caso de urgência, procure um pronto-socorro.
@@ -307,12 +305,12 @@ export default function PlusPage() {
               transition={{ delay: index * 0.05 }}
             >
               <Card className="flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-[#00E676]/10 flex items-center justify-center flex-shrink-0">
-                  <feature.icon className="w-6 h-6 text-[#00E676]" />
+                <div className="w-12 h-12 rounded-xl bg-brand/10 flex items-center justify-center flex-shrink-0">
+                  <feature.icon className="w-6 h-6 text-brand" aria-hidden="true" />
                 </div>
                 <div>
-                  <h3 className="font-semibold text-white mb-1">{feature.title}</h3>
-                  <p className="text-sm text-[#71717A]">{feature.desc}</p>
+                  <h3 className="font-semibold text-foreground mb-1">{feature.title}</h3>
+                  <p className="text-sm text-foreground-muted">{feature.desc}</p>
                 </div>
               </Card>
             </motion.div>
@@ -322,14 +320,14 @@ export default function PlusPage() {
 
       {/* CTA */}
       <section id="waitlist-plus" className="relative py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#00E676]/10 via-[#0A0A0B] to-[#0A0A0B]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-brand/10 via-background to-background" />
         <Container className="relative z-10">
           <div className="max-w-xl mx-auto text-center">
             <Badge variant="premium" className="mb-4">Lista de espera</Badge>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               Entre na lista do Plus
             </h2>
-            <p className="text-[#A1A1AA] mb-8">
+            <p className="text-foreground-light mb-8">
               Seja um dos primeiros a ter acesso ao acompanhamento completo.
             </p>
             <EmailCaptureForm
@@ -343,4 +341,3 @@ export default function PlusPage() {
     </>
   );
 }
-

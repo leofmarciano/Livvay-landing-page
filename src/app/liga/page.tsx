@@ -3,10 +3,8 @@
 import { motion } from 'framer-motion';
 import {
   Trophy,
-  Award,
   Medal,
   Star,
-  Zap,
   TrendingUp,
   Gift,
   Target,
@@ -35,13 +33,14 @@ const leaderboardData = [
   { rank: 10, name: 'Bruno Almeida', score: 8465, city: 'Florianópolis, SC' },
 ];
 
+// Using CSS variables for tier colors
 const tiers = [
   {
     name: 'Bronze',
     icon: Medal,
-    color: 'text-[#CD7F32]',
-    bgColor: 'bg-[#CD7F32]/10',
-    borderColor: 'border-[#CD7F32]/30',
+    colorClass: 'text-amber-600',
+    bgClass: 'bg-amber-600/10',
+    borderClass: 'border-amber-600/30',
     scoreRange: '0 - 2.999',
     benefits: [
       'Acesso ao app completo',
@@ -53,9 +52,9 @@ const tiers = [
   {
     name: 'Prata',
     icon: Medal,
-    color: 'text-[#C0C0C0]',
-    bgColor: 'bg-[#C0C0C0]/10',
-    borderColor: 'border-[#C0C0C0]/30',
+    colorClass: 'text-gray-400',
+    bgClass: 'bg-gray-400/10',
+    borderClass: 'border-gray-400/30',
     scoreRange: '3.000 - 5.999',
     benefits: [
       'Todos os benefícios Bronze',
@@ -67,9 +66,9 @@ const tiers = [
   {
     name: 'Ouro',
     icon: Trophy,
-    color: 'text-[#EAB308]',
-    bgColor: 'bg-[#EAB308]/10',
-    borderColor: 'border-[#EAB308]/30',
+    colorClass: 'text-warning',
+    bgClass: 'bg-warning/10',
+    borderClass: 'border-warning/30',
     scoreRange: '6.000 - 8.499',
     benefits: [
       'Todos os benefícios Prata',
@@ -82,9 +81,9 @@ const tiers = [
   {
     name: 'Platina',
     icon: Crown,
-    color: 'text-[#00E676]',
-    bgColor: 'bg-[#00E676]/10',
-    borderColor: 'border-[#00E676]/30',
+    colorClass: 'text-brand',
+    bgClass: 'bg-brand/10',
+    borderClass: 'border-brand/30',
     scoreRange: '8.500+',
     benefits: [
       'Todos os benefícios Ouro',
@@ -133,27 +132,27 @@ export default function LigaPage() {
     <>
       {/* Hero */}
       <section className="relative py-20 md:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0B] via-[#0A0A0B] to-[#111113]" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[#EAB308]/5 rounded-full blur-[120px]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-surface-100" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-warning/5 rounded-full blur-[120px]" />
 
         <Container className="relative z-10">
           <div className="text-center max-w-3xl mx-auto">
             <Badge variant="warning" className="mb-4">
-              <Trophy className="w-4 h-4 mr-1" />
-              Liga Livvay
+              <Trophy className="w-4 h-4 mr-1" aria-hidden="true" />
+              <span>Liga Livvay</span>
             </Badge>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-foreground">
               A competição mais{' '}
               <span className="gradient-text">saudável</span> do país
             </h1>
-            <p className="text-xl text-[#A1A1AA] mb-8">
+            <p className="text-xl text-foreground-light mb-8">
               Sua saúde vira jogo. Com ranking municipal, estadual e nacional. 
               Quanto mais consistente você for, mais benefícios desbloqueia.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button href="#join-liga" size="lg">
-                Entrar na Liga
-                <Trophy className="w-5 h-5" />
+                <span>Entrar na Liga</span>
+                <Trophy className="w-5 h-5" aria-hidden="true" />
               </Button>
               <Button href="/score" variant="secondary" size="lg">
                 Calcular meu Score
@@ -180,11 +179,11 @@ export default function LigaPage() {
               transition={{ delay: index * 0.1 }}
             >
               <Card className="text-center h-full">
-                <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-[#00E676]/10 flex items-center justify-center">
-                  <step.icon className="w-7 h-7 text-[#00E676]" />
+                <div className="w-14 h-14 mx-auto mb-4 rounded-2xl bg-brand/10 flex items-center justify-center">
+                  <step.icon className="w-7 h-7 text-brand" aria-hidden="true" />
                 </div>
-                <h3 className="text-lg font-bold text-white mb-2">{step.title}</h3>
-                <p className="text-sm text-[#71717A]">{step.description}</p>
+                <h3 className="text-lg font-bold text-foreground mb-2">{step.title}</h3>
+                <p className="text-sm text-foreground-muted">{step.description}</p>
               </Card>
             </motion.div>
           ))}
@@ -200,7 +199,7 @@ export default function LigaPage() {
         />
         <div className="max-w-2xl mx-auto">
           <Leaderboard entries={leaderboardData} />
-          <p className="text-center text-sm text-[#71717A] mt-4">
+          <p className="text-center text-sm text-foreground-muted mt-4">
             * Ranking exemplo. Dados reais após o lançamento.
           </p>
         </div>
@@ -222,20 +221,20 @@ export default function LigaPage() {
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
             >
-              <Card className={`h-full border-2 ${tier.borderColor}`}>
+              <Card className={`h-full border-2 ${tier.borderClass}`}>
                 <div className="flex items-center gap-3 mb-4">
-                  <div className={`w-12 h-12 rounded-xl ${tier.bgColor} flex items-center justify-center`}>
-                    <tier.icon className={`w-6 h-6 ${tier.color}`} />
+                  <div className={`w-12 h-12 rounded-xl ${tier.bgClass} flex items-center justify-center`}>
+                    <tier.icon className={`w-6 h-6 ${tier.colorClass}`} aria-hidden="true" />
                   </div>
                   <div>
-                    <h3 className={`text-xl font-bold ${tier.color}`}>{tier.name}</h3>
-                    <p className="text-xs text-[#71717A]">{tier.scoreRange} pts</p>
+                    <h3 className={`text-xl font-bold ${tier.colorClass}`}>{tier.name}</h3>
+                    <p className="text-xs text-foreground-muted">{tier.scoreRange} pts</p>
                   </div>
                 </div>
-                <ul className="space-y-2">
+                <ul className="space-y-2" role="list">
                   {tier.benefits.map((benefit, i) => (
-                    <li key={i} className="flex items-start gap-2 text-sm text-[#A1A1AA]">
-                      <Star className={`w-4 h-4 ${tier.color} flex-shrink-0 mt-0.5`} />
+                    <li key={i} className="flex items-start gap-2 text-sm text-foreground-light" role="listitem">
+                      <Star className={`w-4 h-4 ${tier.colorClass} flex-shrink-0 mt-0.5`} aria-hidden="true" />
                       <span>{benefit}</span>
                     </li>
                   ))}
@@ -263,14 +262,14 @@ export default function LigaPage() {
               transition={{ delay: index * 0.05 }}
             >
               <Card className="text-center p-4">
-                <span className="text-3xl mb-2 block">{reward.icon}</span>
-                <h4 className="font-semibold text-white mb-1 text-sm">{reward.title}</h4>
-                <p className="text-xs text-[#71717A]">{reward.desc}</p>
+                <span className="text-3xl mb-2 block" aria-hidden="true">{reward.icon}</span>
+                <h4 className="font-semibold text-foreground mb-1 text-sm">{reward.title}</h4>
+                <p className="text-xs text-foreground-muted">{reward.desc}</p>
               </Card>
             </motion.div>
           ))}
         </div>
-        <p className="text-center text-sm text-[#71717A] mt-6">
+        <p className="text-center text-sm text-foreground-muted mt-6">
           * Lista de parceiros em expansão. Novos benefícios a cada mês.
         </p>
       </Section>
@@ -284,7 +283,7 @@ export default function LigaPage() {
         />
         <div className="max-w-2xl mx-auto">
           <Card variant="glass">
-            <div className="space-y-4">
+            <div className="space-y-4" role="list">
               {[
                 { label: 'Registro diário de alimentação', points: '+50 pts/dia' },
                 { label: 'Registro de sono', points: '+30 pts/dia' },
@@ -297,10 +296,11 @@ export default function LigaPage() {
               ].map((item, index) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between py-3 border-b border-[#27272A] last:border-0"
+                  className="flex items-center justify-between py-3 border-b border-border last:border-0"
+                  role="listitem"
                 >
-                  <span className="text-[#A1A1AA]">{item.label}</span>
-                  <span className="text-[#00E676] font-mono font-semibold">{item.points}</span>
+                  <span className="text-foreground-light">{item.label}</span>
+                  <span className="text-brand font-mono font-semibold">{item.points}</span>
                 </div>
               ))}
             </div>
@@ -310,16 +310,16 @@ export default function LigaPage() {
 
       {/* CTA */}
       <section id="join-liga" className="relative py-24 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-[#EAB308]/10 via-[#0A0A0B] to-[#0A0A0B]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-warning/10 via-background to-background" />
         <Container className="relative z-10">
           <div className="max-w-xl mx-auto text-center">
-            <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-[#EAB308]/10 flex items-center justify-center">
-              <Trophy className="w-10 h-10 text-[#EAB308]" />
+            <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-warning/10 flex items-center justify-center">
+              <Trophy className="w-10 h-10 text-warning" aria-hidden="true" />
             </div>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               Entre na Liga
             </h2>
-            <p className="text-[#A1A1AA] mb-8">
+            <p className="text-foreground-light mb-8">
               Seja avisado quando a competição começar e garanta seu lugar.
             </p>
             <EmailCaptureForm
@@ -333,4 +333,3 @@ export default function LigaPage() {
     </>
   );
 }
-

@@ -6,10 +6,8 @@ import {
   FlaskConical,
   Dna,
   BookOpen,
-  Users,
   Shield,
   FileText,
-  Globe,
   Heart,
   ArrowRight,
   Mail,
@@ -78,20 +76,20 @@ export default function FoundationPage() {
     <>
       {/* Hero */}
       <section className="relative py-20 md:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0B] via-[#0A0A0B] to-[#111113]" />
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-[#3B82F6]/5 rounded-full blur-[120px]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-surface-100" />
+        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px]" />
 
         <Container className="relative z-10">
           <div className="max-w-3xl">
             <Badge variant="info" className="mb-4">
-              <Heart className="w-4 h-4 mr-1" />
-              Livvay Life Foundation
+              <Heart className="w-4 h-4 mr-1" aria-hidden="true" />
+              <span>Livvay Life Foundation</span>
             </Badge>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-foreground">
               Parte do lucro vira{' '}
               <span className="gradient-text">pesquisa de verdade</span>
             </h1>
-            <p className="text-xl text-[#A1A1AA] mb-8">
+            <p className="text-xl text-foreground-light mb-8">
               A LLL (Livvay Life Foundation) é uma fundação sem fins lucrativos dedicada a 
               financiar pesquisa científica de longevidade, com foco em ciência aplicada 
               e resultados que beneficiem a população.
@@ -105,14 +103,14 @@ export default function FoundationPage() {
         <div className="grid md:grid-cols-2 gap-12 items-center">
           <div>
             <Badge variant="premium" className="mb-4">Missão</Badge>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
               Acelerar ciência aplicada para ampliar healthspan
             </h2>
-            <p className="text-[#A1A1AA] mb-6">
+            <p className="text-foreground-light mb-6">
               Healthspan é o período de vida saudável — não apenas viver mais, mas viver melhor 
               por mais tempo. A LLL financia pesquisas que buscam entender e ampliar esse período.
             </p>
-            <p className="text-[#A1A1AA]">
+            <p className="text-foreground-light">
               Diferente de promessas de "reversão de idade" ou "imortalidade", trabalhamos no 
               campo científico e regulatório, com pesquisas sérias e resultados publicados.
             </p>
@@ -126,8 +124,8 @@ export default function FoundationPage() {
                 { value: '∞', label: 'compromisso com a ciência' },
               ].map((stat, index) => (
                 <div key={index} className="text-center">
-                  <p className="text-3xl font-bold text-[#00E676] mb-1">{stat.value}</p>
-                  <p className="text-sm text-[#71717A]">{stat.label}</p>
+                  <p className="text-3xl font-bold text-brand mb-1">{stat.value}</p>
+                  <p className="text-sm text-foreground-muted">{stat.label}</p>
                 </div>
               ))}
             </div>
@@ -153,19 +151,19 @@ export default function FoundationPage() {
             >
               <Card variant="highlight" className="h-full">
                 <div className="flex items-start gap-4">
-                  <div className="w-12 h-12 rounded-xl bg-[#3B82F6]/10 flex items-center justify-center flex-shrink-0">
-                    <area.icon className="w-6 h-6 text-[#3B82F6]" />
+                  <div className="w-12 h-12 rounded-xl bg-blue-500/10 flex items-center justify-center flex-shrink-0">
+                    <area.icon className="w-6 h-6 text-blue-500" aria-hidden="true" />
                   </div>
                   <div>
-                    <h3 className="text-lg font-bold text-white mb-2">{area.title}</h3>
-                    <p className="text-[#A1A1AA]">{area.description}</p>
+                    <h3 className="text-lg font-bold text-foreground mb-2">{area.title}</h3>
+                    <p className="text-foreground-light">{area.description}</p>
                   </div>
                 </div>
               </Card>
             </motion.div>
           ))}
         </div>
-        <p className="text-center text-sm text-[#71717A] mt-8">
+        <p className="text-center text-sm text-foreground-muted mt-8">
           * As linhas de pesquisa são definidas pelo Conselho Científico e revisadas anualmente.
         </p>
       </Section>
@@ -187,11 +185,11 @@ export default function FoundationPage() {
               transition={{ delay: index * 0.1 }}
             >
               <Card className="text-center h-full">
-                <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-[#00E676]/10 flex items-center justify-center">
-                  <Shield className="w-6 h-6 text-[#00E676]" />
+                <div className="w-12 h-12 mx-auto mb-4 rounded-xl bg-brand/10 flex items-center justify-center">
+                  <Shield className="w-6 h-6 text-brand" aria-hidden="true" />
                 </div>
-                <h3 className="font-bold text-white mb-2">{item.title}</h3>
-                <p className="text-sm text-[#71717A]">{item.description}</p>
+                <h3 className="font-bold text-foreground mb-2">{item.title}</h3>
+                <p className="text-sm text-foreground-muted">{item.description}</p>
               </Card>
             </motion.div>
           ))}
@@ -207,7 +205,7 @@ export default function FoundationPage() {
         <div className="max-w-2xl mx-auto">
           <div className="relative">
             {/* Line */}
-            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-[#00E676] to-[#27272A]" />
+            <div className="absolute left-8 top-0 bottom-0 w-0.5 bg-gradient-to-b from-brand to-border" />
             
             {timeline.map((item, index) => (
               <motion.div
@@ -218,12 +216,12 @@ export default function FoundationPage() {
                 transition={{ delay: index * 0.1 }}
                 className="relative pl-20 pb-8 last:pb-0"
               >
-                <div className="absolute left-4 w-8 h-8 rounded-full bg-[#00E676] flex items-center justify-center">
-                  <div className="w-3 h-3 rounded-full bg-[#0A0A0B]" />
+                <div className="absolute left-4 w-8 h-8 rounded-full bg-brand flex items-center justify-center">
+                  <div className="w-3 h-3 rounded-full bg-background" />
                 </div>
-                <div className="bg-[#111113] border border-[#27272A] rounded-xl p-4">
-                  <p className="text-[#00E676] font-bold mb-1">{item.year}</p>
-                  <p className="text-white">{item.event}</p>
+                <div className="bg-surface-100 border border-border rounded-xl p-4">
+                  <p className="text-brand font-bold mb-1">{item.year}</p>
+                  <p className="text-foreground">{item.event}</p>
                 </div>
               </motion.div>
             ))}
@@ -234,22 +232,22 @@ export default function FoundationPage() {
       {/* Annual Report */}
       <Section>
         <div className="max-w-2xl mx-auto text-center">
-          <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-[#3B82F6]/10 flex items-center justify-center">
-            <FileText className="w-10 h-10 text-[#3B82F6]" />
+          <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-blue-500/10 flex items-center justify-center">
+            <FileText className="w-10 h-10 text-blue-500" aria-hidden="true" />
           </div>
-          <h2 className="text-3xl font-bold text-white mb-4">
+          <h2 className="text-3xl font-bold text-foreground mb-4">
             Relatório anual
           </h2>
-          <p className="text-[#A1A1AA] mb-8">
+          <p className="text-foreground-light mb-8">
             Todo ano publicamos um relatório completo detalhando: quanto foi arrecadado, 
             quais pesquisas foram financiadas, resultados alcançados e planos futuros.
           </p>
           <Card variant="glass" className="inline-block">
             <div className="flex items-center gap-4 px-6 py-4">
-              <FileText className="w-8 h-8 text-[#71717A]" />
+              <FileText className="w-8 h-8 text-foreground-muted" aria-hidden="true" />
               <div className="text-left">
-                <p className="text-white font-medium">Relatório Anual 2025</p>
-                <p className="text-sm text-[#71717A]">Em breve</p>
+                <p className="text-foreground font-medium">Relatório Anual 2025</p>
+                <p className="text-sm text-foreground-muted">Em breve</p>
               </div>
               <Badge variant="info">Aguardando</Badge>
             </div>
@@ -261,21 +259,21 @@ export default function FoundationPage() {
       <Section background="darker">
         <div className="max-w-2xl mx-auto text-center">
           <Badge variant="info" className="mb-4">Contato institucional</Badge>
-          <h2 className="text-3xl font-bold text-white mb-4">
+          <h2 className="text-3xl font-bold text-foreground mb-4">
             Quer colaborar com a LLL?
           </h2>
-          <p className="text-[#A1A1AA] mb-8">
+          <p className="text-foreground-light mb-8">
             Pesquisadores, instituições e parceiros interessados em colaborar 
             com a Livvay Life Foundation podem entrar em contato.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button href="mailto:foundation@livvay.com" variant="outline">
-              <Mail className="w-5 h-5" />
-              foundation@livvay.com
+              <Mail className="w-5 h-5" aria-hidden="true" />
+              <span>foundation@livvay.com</span>
             </Button>
             <Button href="/contato" variant="secondary">
-              Formulário de contato
-              <ArrowRight className="w-4 h-4" />
+              <span>Formulário de contato</span>
+              <ArrowRight className="w-4 h-4" aria-hidden="true" />
             </Button>
           </div>
         </div>
@@ -285,11 +283,11 @@ export default function FoundationPage() {
       <Section>
         <div className="max-w-3xl mx-auto">
           <Card variant="glass" className="p-8">
-            <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
-              <Shield className="w-5 h-5 text-[#3B82F6]" />
-              Compromisso com a ciência
+            <h3 className="text-lg font-bold text-foreground mb-4 flex items-center gap-2">
+              <Shield className="w-5 h-5 text-blue-500" aria-hidden="true" />
+              <span>Compromisso com a ciência</span>
             </h3>
-            <div className="space-y-4 text-[#A1A1AA]">
+            <div className="space-y-4 text-foreground-light">
               <p>
                 A LLL trabalha exclusivamente no campo científico e regulatório. 
                 Não fazemos promessas de "reversão de idade", "cura do envelhecimento" 
@@ -310,4 +308,3 @@ export default function FoundationPage() {
     </>
   );
 }
-

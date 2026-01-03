@@ -12,8 +12,8 @@ export default function ManifestoPage() {
     <>
       {/* Hero */}
       <section className="relative py-20 md:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0B] via-[#0A0A0B] to-[#111113]" />
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#00E676]/5 rounded-full blur-[150px]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-surface-100" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand/5 rounded-full blur-[150px]" />
 
         <Container className="relative z-10">
           <div className="max-w-3xl mx-auto text-center">
@@ -21,7 +21,7 @@ export default function ManifestoPage() {
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-8"
+              className="text-4xl md:text-6xl lg:text-7xl font-bold leading-tight mb-8 text-foreground"
             >
               Não quero morrer.
             </motion.h1>
@@ -30,16 +30,16 @@ export default function ManifestoPage() {
       </section>
 
       {/* Content */}
-      <section className="py-16 md:py-24">
+      <section className="py-16 md:py-24 bg-background">
         <Container>
-          <article className="max-w-2xl mx-auto prose prose-invert prose-lg">
+          <article className="max-w-2xl mx-auto">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
-              className="space-y-8 text-[#A1A1AA]"
+              className="space-y-8 text-foreground-light"
             >
-              <p className="text-2xl text-white font-medium leading-relaxed">
+              <p className="text-2xl text-foreground font-medium leading-relaxed">
                 Essa frase não é drama. É honestidade.
               </p>
 
@@ -54,8 +54,8 @@ export default function ManifestoPage() {
                 E depois vira "tarde demais".
               </p>
 
-              <div className="border-l-4 border-[#00E676] pl-6 my-8">
-                <p className="text-xl text-white italic">
+              <div className="border-l-4 border-brand pl-6 my-8">
+                <p className="text-xl text-foreground italic">
                   "Vida eterna não é promessa. É direção."
                 </p>
               </div>
@@ -71,11 +71,11 @@ export default function ManifestoPage() {
                 Não com terrorismo nutricional.
               </p>
 
-              <p className="text-white text-xl">
+              <p className="text-foreground text-xl">
                 Com método. Com consistência. Com ciência aplicada.
               </p>
 
-              <h2 className="text-3xl font-bold text-white mt-12 mb-6">
+              <h2 className="text-3xl font-bold text-foreground mt-12 mb-6">
                 O problema não é informação
               </h2>
 
@@ -91,7 +91,7 @@ export default function ManifestoPage() {
                 E força de vontade acaba.
               </p>
 
-              <h2 className="text-3xl font-bold text-white mt-12 mb-6">
+              <h2 className="text-3xl font-bold text-foreground mt-12 mb-6">
                 O que o Livvay faz diferente
               </h2>
 
@@ -109,7 +109,7 @@ export default function ManifestoPage() {
                 e celebra quando você avança.
               </p>
 
-              <h2 className="text-3xl font-bold text-white mt-12 mb-6">
+              <h2 className="text-3xl font-bold text-foreground mt-12 mb-6">
                 Vida eterna é a direção
               </h2>
 
@@ -128,17 +128,17 @@ export default function ManifestoPage() {
                 a LLL financia ciência de longevidade, com transparência total.
               </p>
 
-              <div className="bg-[#111113] border border-[#27272A] rounded-2xl p-8 my-12">
-                <p className="text-xl text-white mb-4">
+              <div className="bg-surface-100 border border-border rounded-2xl p-8 my-12">
+                <p className="text-xl text-foreground mb-4">
                   Se você não quer morrer, você é um de nós.
                 </p>
-                <p className="text-[#71717A]">
+                <p className="text-foreground-muted">
                   Não é sobre ter medo da morte. 
                   É sobre ter respeito pela vida.
                 </p>
               </div>
 
-              <h2 className="text-3xl font-bold text-white mt-12 mb-6">
+              <h2 className="text-3xl font-bold text-foreground mt-12 mb-6">
                 Isso é um convite
               </h2>
 
@@ -148,17 +148,17 @@ export default function ManifestoPage() {
                 Para quem acredita que dá pra fazer melhor.
               </p>
 
-              <p className="text-white text-xl">
+              <p className="text-foreground text-xl">
                 Rumo à vida eterna. Com método.
               </p>
 
-              <div className="flex items-center gap-4 mt-12 pt-8 border-t border-[#27272A]">
-                <div className="w-12 h-12 rounded-full bg-[#00E676] flex items-center justify-center">
-                  <Heart className="w-6 h-6 text-[#0A0A0B]" />
+              <div className="flex items-center gap-4 mt-12 pt-8 border-t border-border">
+                <div className="w-12 h-12 rounded-full bg-brand flex items-center justify-center">
+                  <Heart className="w-6 h-6 text-background" aria-hidden="true" />
                 </div>
                 <div>
-                  <p className="text-white font-medium">Equipe Livvay</p>
-                  <p className="text-sm text-[#71717A]">Janeiro de 2026</p>
+                  <p className="text-foreground font-medium">Equipe Livvay</p>
+                  <p className="text-sm text-foreground-muted">Janeiro de 2026</p>
                 </div>
               </div>
             </motion.div>
@@ -167,23 +167,23 @@ export default function ManifestoPage() {
       </section>
 
       {/* CTA */}
-      <section className="py-24 bg-[#050506]">
+      <section className="py-24 bg-alternative">
         <Container>
           <div className="max-w-xl mx-auto text-center">
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
               Se você não quer morrer, entra agora
             </h2>
-            <p className="text-[#A1A1AA] mb-8">
+            <p className="text-foreground-light mb-8">
               Faça o diagnóstico e receba seu plano base.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <Button href="/score" size="lg">
-                Calcular meu Score
-                <ArrowRight className="w-5 h-5" />
+                <span>Calcular meu Score</span>
+                <ArrowRight className="w-5 h-5" aria-hidden="true" />
               </Button>
             </div>
-            <div className="pt-8 border-t border-[#27272A]">
-              <p className="text-sm text-[#71717A] mb-4">
+            <div className="pt-8 border-t border-border">
+              <p className="text-sm text-foreground-muted mb-4">
                 Ou entre na lista de espera:
               </p>
               <EmailCaptureForm
@@ -197,4 +197,3 @@ export default function ManifestoPage() {
     </>
   );
 }
-

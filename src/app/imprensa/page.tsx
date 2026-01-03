@@ -6,9 +6,7 @@ import {
   Mail,
   FileText,
   Image as ImageIcon,
-  Users,
   Calendar,
-  ExternalLink,
   Copy,
   Check,
 } from 'lucide-react';
@@ -49,19 +47,26 @@ export default function ImprensaPage() {
     setTimeout(() => setCopiedEmail(false), 2000);
   };
 
+  const handleCopyKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      copyEmail();
+    }
+  };
+
   return (
     <>
       {/* Hero */}
       <section className="relative py-20 md:py-32 overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0B] via-[#0A0A0B] to-[#111113]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-surface-100" />
 
         <Container className="relative z-10">
           <div className="max-w-3xl">
             <Badge variant="info" className="mb-4">Press Kit</Badge>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-foreground">
               Imprensa
             </h1>
-            <p className="text-xl text-[#A1A1AA] mb-8">
+            <p className="text-xl text-foreground-light mb-8">
               Recursos, informações e contatos para jornalistas e veículos de comunicação.
             </p>
           </div>
@@ -73,10 +78,10 @@ export default function ImprensaPage() {
         <div className="grid md:grid-cols-2 gap-12 items-start">
           <div>
             <Badge variant="premium" className="mb-4">Sobre o Livvay</Badge>
-            <h2 className="text-3xl font-bold text-white mb-6">
+            <h2 className="text-3xl font-bold text-foreground mb-6">
               Quem somos
             </h2>
-            <div className="space-y-4 text-[#A1A1AA]">
+            <div className="space-y-4 text-foreground-light">
               <p>
                 O Livvay é um assistente de longevidade que transforma hábitos diários 
                 em um plano simples e ajustado em tempo real por inteligência artificial.
@@ -93,32 +98,32 @@ export default function ImprensaPage() {
             </div>
           </div>
           <Card variant="glass">
-            <h3 className="text-lg font-bold text-white mb-6">Em 3 bullets</h3>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-[#00E676] flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <span className="text-[#0A0A0B] text-xs font-bold">1</span>
+            <h3 className="text-lg font-bold text-foreground mb-6">Em 3 bullets</h3>
+            <ul className="space-y-4" role="list">
+              <li className="flex items-start gap-3" role="listitem">
+                <div className="w-6 h-6 rounded-full bg-brand flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span className="text-background text-xs font-bold">1</span>
                 </div>
-                <p className="text-[#A1A1AA]">
-                  <strong className="text-white">AI em tempo real:</strong> Registrou algo, 
+                <p className="text-foreground-light">
+                  <strong className="text-foreground">AI em tempo real:</strong> Registrou algo, 
                   o plano do dia se ajusta automaticamente.
                 </p>
               </li>
-              <li className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-[#00E676] flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <span className="text-[#0A0A0B] text-xs font-bold">2</span>
+              <li className="flex items-start gap-3" role="listitem">
+                <div className="w-6 h-6 rounded-full bg-brand flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span className="text-background text-xs font-bold">2</span>
                 </div>
-                <p className="text-[#A1A1AA]">
-                  <strong className="text-white">Equipe médica no Plus:</strong> Nutricionista, 
+                <p className="text-foreground-light">
+                  <strong className="text-foreground">Equipe médica no Plus:</strong> Nutricionista, 
                   médico e psicólogo dedicados ao usuário.
                 </p>
               </li>
-              <li className="flex items-start gap-3">
-                <div className="w-6 h-6 rounded-full bg-[#00E676] flex items-center justify-center flex-shrink-0 mt-0.5">
-                  <span className="text-[#0A0A0B] text-xs font-bold">3</span>
+              <li className="flex items-start gap-3" role="listitem">
+                <div className="w-6 h-6 rounded-full bg-brand flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <span className="text-background text-xs font-bold">3</span>
                 </div>
-                <p className="text-[#A1A1AA]">
-                  <strong className="text-white">Liga Livvay:</strong> Gamificação com ranking 
+                <p className="text-foreground-light">
+                  <strong className="text-foreground">Liga Livvay:</strong> Gamificação com ranking 
                   e benefícios reais (academias, descontos, etc).
                 </p>
               </li>
@@ -144,11 +149,11 @@ export default function ImprensaPage() {
               transition={{ delay: index * 0.1 }}
             >
               <Card className="text-center">
-                <p className="text-3xl md:text-4xl font-bold text-[#00E676] mb-2">
+                <p className="text-3xl md:text-4xl font-bold text-brand mb-2">
                   {stat.value}
                 </p>
-                <p className="text-sm text-[#A1A1AA] mb-2">{stat.label}</p>
-                <p className="text-xs text-[#71717A]">{stat.note}</p>
+                <p className="text-sm text-foreground-light mb-2">{stat.label}</p>
+                <p className="text-xs text-foreground-muted">{stat.note}</p>
               </Card>
             </motion.div>
           ))}
@@ -170,14 +175,14 @@ export default function ImprensaPage() {
                 whileInView={{ opacity: 1, x: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="flex items-center gap-4 p-4 bg-[#111113] rounded-xl border border-[#27272A]"
+                className="flex items-center gap-4 p-4 bg-surface-100 rounded-xl border border-border"
               >
-                <div className="w-12 h-12 rounded-xl bg-[#00E676]/10 flex items-center justify-center flex-shrink-0">
-                  <Calendar className="w-6 h-6 text-[#00E676]" />
+                <div className="w-12 h-12 rounded-xl bg-brand/10 flex items-center justify-center flex-shrink-0">
+                  <Calendar className="w-6 h-6 text-brand" aria-hidden="true" />
                 </div>
                 <div>
-                  <p className="text-[#00E676] text-sm font-medium">{item.date}</p>
-                  <p className="text-white">{item.event}</p>
+                  <p className="text-brand text-sm font-medium">{item.date}</p>
+                  <p className="text-foreground">{item.event}</p>
                 </div>
               </motion.div>
             ))}
@@ -196,16 +201,16 @@ export default function ImprensaPage() {
           {assets.map((asset, index) => (
             <Card key={index} className="flex items-center justify-between">
               <div className="flex items-center gap-4">
-                <div className="w-12 h-12 rounded-xl bg-[#1A1A1D] flex items-center justify-center">
+                <div className="w-12 h-12 rounded-xl bg-surface-200 flex items-center justify-center">
                   {asset.type === 'SVG' || asset.type === 'PNG' ? (
-                    <ImageIcon className="w-6 h-6 text-[#A1A1AA]" />
+                    <ImageIcon className="w-6 h-6 text-foreground-light" aria-hidden="true" />
                   ) : (
-                    <FileText className="w-6 h-6 text-[#A1A1AA]" />
+                    <FileText className="w-6 h-6 text-foreground-light" aria-hidden="true" />
                   )}
                 </div>
                 <div>
-                  <p className="text-white font-medium">{asset.name}</p>
-                  <p className="text-sm text-[#71717A]">{asset.type}</p>
+                  <p className="text-foreground font-medium">{asset.name}</p>
+                  <p className="text-sm text-foreground-muted">{asset.type}</p>
                 </div>
               </div>
               {asset.soon ? (
@@ -214,10 +219,10 @@ export default function ImprensaPage() {
                 <a
                   href={asset.file}
                   download
-                  className="p-2 hover:bg-[#1A1A1D] rounded-lg transition-colors"
+                  className="p-2 hover:bg-surface-200 rounded-lg transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
                   aria-label={`Download ${asset.name}`}
                 >
-                  <Download className="w-5 h-5 text-[#00E676]" />
+                  <Download className="w-5 h-5 text-brand" aria-hidden="true" />
                 </a>
               )}
             </Card>
@@ -228,36 +233,36 @@ export default function ImprensaPage() {
       {/* Contact */}
       <Section>
         <div className="max-w-xl mx-auto text-center">
-          <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-[#00E676]/10 flex items-center justify-center">
-            <Mail className="w-10 h-10 text-[#00E676]" />
+          <div className="w-20 h-20 mx-auto mb-6 rounded-2xl bg-brand/10 flex items-center justify-center">
+            <Mail className="w-10 h-10 text-brand" aria-hidden="true" />
           </div>
-          <h2 className="text-3xl font-bold text-white mb-4">
+          <h2 className="text-3xl font-bold text-foreground mb-4">
             Contato para imprensa
           </h2>
-          <p className="text-[#A1A1AA] mb-8">
+          <p className="text-foreground-light mb-8">
             Para entrevistas, informações adicionais ou solicitações de material, 
             entre em contato com nossa assessoria.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Button href="mailto:imprensa@livvay.com">
-              <Mail className="w-5 h-5" />
-              imprensa@livvay.com
+              <Mail className="w-5 h-5" aria-hidden="true" />
+              <span>imprensa@livvay.com</span>
             </Button>
-            <Button onClick={copyEmail} variant="secondary">
+            <Button onClick={copyEmail} onKeyDown={handleCopyKeyDown} variant="secondary">
               {copiedEmail ? (
                 <>
-                  <Check className="w-5 h-5" />
-                  Copiado!
+                  <Check className="w-5 h-5" aria-hidden="true" />
+                  <span>Copiado!</span>
                 </>
               ) : (
                 <>
-                  <Copy className="w-5 h-5" />
-                  Copiar email
+                  <Copy className="w-5 h-5" aria-hidden="true" />
+                  <span>Copiar email</span>
                 </>
               )}
             </Button>
           </div>
-          <p className="text-sm text-[#71717A] mt-6">
+          <p className="text-sm text-foreground-muted mt-6">
             Respondemos em até 24 horas úteis.
           </p>
         </div>
@@ -265,4 +270,3 @@ export default function ImprensaPage() {
     </>
   );
 }
-
