@@ -7,7 +7,18 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
+import { cn } from '@/lib/utils';
+import {
+  NavigationMenu,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  navigationMenuTriggerStyle,
+} from '@/components/ui';
 
+/**
+ * Primary navigation links for the header.
+ */
 const navLinks = [
   { href: '/plus', label: 'Plus' },
   { href: '/liga', label: 'Liga' },
@@ -16,12 +27,18 @@ const navLinks = [
   { href: '/manifesto', label: 'Manifesto' },
 ];
 
+/**
+ * Renders the sticky header with primary navigation and CTA actions.
+ */
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const pathname = usePathname();
 
   useEffect(() => {
+    /**
+     * Tracks scroll position to toggle header elevation styles.
+     */
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 10);
     };
@@ -30,14 +47,23 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  /**
+   * Closes the mobile navigation drawer.
+   */
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
   };
 
+  /**
+   * Toggles the mobile navigation drawer.
+   */
   const handleMobileMenuToggle = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  /**
+   * Handles keyboard toggling for the mobile menu button.
+   */
   const handleMobileMenuKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
@@ -60,6 +86,7 @@ export function Header() {
             href="/" 
             className="flex items-center gap-2 text-foreground font-bold text-xl hover:opacity-80 transition-opacity focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-lg"
             aria-label="Livvay - Página inicial"
+            tabIndex={0}
           >
             <svg 
               width="32" 
@@ -77,20 +104,25 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-8">
-            {navLinks.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className={`
-                  text-sm font-medium transition-colors rounded px-2 py-1
-                  focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand
-                  ${pathname === link.href ? 'text-brand' : 'text-foreground-light hover:text-foreground'}
-                `}
-                aria-current={pathname === link.href ? 'page' : undefined}
-              >
-                {link.label}
-              </Link>
-            ))}
+            <NavigationMenu className="w-fit">
+              <NavigationMenuList>
+                {navLinks.map((link) => (
+                  <NavigationMenuItem key={link.href}>
+                    <NavigationMenuLink
+                      asChild
+                      className={cn(
+                        navigationMenuTriggerStyle(),
+                        pathname === link.href ? 'text-brand' : 'text-foreground-light hover:text-foreground'
+                      )}
+                    >
+                      <Link href={link.href} aria-current={pathname === link.href ? 'page' : undefined} tabIndex={0}>
+                        {link.label}
+                      </Link>
+                    </NavigationMenuLink>
+                  </NavigationMenuItem>
+                ))}
+              </NavigationMenuList>
+            </NavigationMenu>
           </div>
 
           {/* CTA Button */}
@@ -147,6 +179,7 @@ export function Header() {
                     `}
                     role="menuitem"
                     aria-current={pathname === link.href ? 'page' : undefined}
+                    tabIndex={0}
                   >
                     {link.label}
                   </Link>
