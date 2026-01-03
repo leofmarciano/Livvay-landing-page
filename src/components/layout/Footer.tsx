@@ -102,9 +102,14 @@ export function Footer() {
               <p className="text-foreground-muted text-sm">
                 © {new Date().getFullYear()} Livvay. Todos os direitos reservados.
               </p>
-              <p className="text-foreground-muted text-xs">
-                Livvay não substitui avaliação médica. Resultados variam de pessoa para pessoa.
-              </p>
+              <div className="flex flex-col items-center md:items-end gap-1">
+                <p className="text-foreground-muted text-xs">
+                  Livvay não substitui avaliação médica. Resultados variam de pessoa para pessoa.
+                </p>
+                <p className="text-foreground-muted text-xs">
+                  Solo-founder: Dr. Leonardo Marciano
+                </p>
+              </div>
             </div>
             <p className="text-foreground-muted text-xs text-center md:text-left">
               Made in Brazil and US. Registrado como LGH (Livvay Global Health).
