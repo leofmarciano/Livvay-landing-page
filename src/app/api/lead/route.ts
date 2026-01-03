@@ -1,59 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { promises as fs } from 'fs';
-import path from 'path';
-
-const DATA_DIR = path.join(process.cwd(), 'data');
-const LEADS_FILE = path.join(DATA_DIR, 'leads.json');
-
-interface Lead {
-  id: string;
-  email: string;
-  source: string;
-  answers?: Record<string, string>;
-  createdAt: string;
-}
-
-interface LeadsData {
-  leads: Lead[];
-}
-
-// Ensure data directory and file exist
-async function ensureDataFile(): Promise<void> {
-  try {
-    await fs.access(DATA_DIR);
-  } catch {
-    await fs.mkdir(DATA_DIR, { recursive: true });
-  }
-
-  try {
-    await fs.access(LEADS_FILE);
-  } catch {
-    await fs.writeFile(LEADS_FILE, JSON.stringify({ leads: [] }, null, 2));
-  }
-}
-
-// Read leads from file
-async function readLeads(): Promise<LeadsData> {
-  await ensureDataFile();
-  const data = await fs.readFile(LEADS_FILE, 'utf-8');
-  return JSON.parse(data);
-}
-
-// Write leads to file
-async function writeLeads(data: LeadsData): Promise<void> {
-  await ensureDataFile();
-  await fs.writeFile(LEADS_FILE, JSON.stringify(data, null, 2));
-}
+import { supabaseAdmin } from '@/lib/supabase-server';
 
 // Validate email format
 function isValidEmail(email: string): boolean {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
-}
-
-// Generate unique ID
-function generateId(): string {
-  return `${Date.now()}-${Math.random().toString(36).substring(2, 9)}`;
 }
 
 export async function POST(request: NextRequest) {
@@ -84,40 +35,58 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // Create new lead
-    const newLead: Lead = {
-      id: generateId(),
-      email: email.toLowerCase().trim(),
-      source,
-      answers: answers || undefined,
-      createdAt: new Date().toISOString(),
-    };
+    const normalizedEmail = email.toLowerCase().trim();
 
-    // Read existing leads
-    const data = await readLeads();
-
-    // Check for duplicate email with same source
-    const existingLead = data.leads.find(
-      (lead) => lead.email === newLead.email && lead.source === newLead.source
-    );
+    // Check if email already exists
+    const { data: existingLead } = await supabaseAdmin
+      .from('leads')
+      .select('id')
+      .eq('email', normalizedEmail)
+      .single();
 
     if (existingLead) {
-      // Update existing lead with new answers if provided
+      // Update answers if provided, otherwise just return existing
       if (answers) {
-        existingLead.answers = answers;
-        await writeLeads(data);
+        await supabaseAdmin
+          .from('leads')
+          .update({ answers, source })
+          .eq('id', existingLead.id);
       }
+
       return NextResponse.json(
         { message: 'Lead já cadastrado', id: existingLead.id },
         { status: 200 }
       );
     }
 
-    // Add new lead
-    data.leads.push(newLead);
-    await writeLeads(data);
+    // Insert new lead
+    const { data: newLead, error } = await supabaseAdmin
+      .from('leads')
+      .insert({
+        email: normalizedEmail,
+        source,
+        answers: answers || null,
+      })
+      .select('id')
+      .single();
 
-    console.log(`[Lead] New lead captured: ${newLead.email} from ${source}`);
+    if (error) {
+      // Handle unique constraint violation (race condition)
+      if (error.code === '23505') {
+        return NextResponse.json(
+          { message: 'Lead já cadastrado' },
+          { status: 200 }
+        );
+      }
+
+      console.error('[Lead] Supabase error:', error);
+      return NextResponse.json(
+        { error: 'Erro ao salvar lead' },
+        { status: 500 }
+      );
+    }
+
+    console.log(`[Lead] New lead captured: ${normalizedEmail} from ${source}`);
 
     return NextResponse.json(
       { message: 'Lead cadastrado com sucesso', id: newLead.id },
@@ -131,20 +100,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-
-export async function GET() {
-  try {
-    const data = await readLeads();
-    return NextResponse.json({
-      total: data.leads.length,
-      leads: data.leads,
-    });
-  } catch (error) {
-    console.error('[Lead] Error reading leads:', error);
-    return NextResponse.json(
-      { error: 'Erro interno do servidor' },
-      { status: 500 }
-    );
-  }
-}
-

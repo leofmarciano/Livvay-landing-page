@@ -117,7 +117,7 @@ export function Button({
 
   const baseStyles = cn(
     'inline-flex items-center justify-center',
-    !isLinkType && 'rounded-full',
+    !isLinkType && 'rounded-md',
     'transition-all duration-200',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background',
     'disabled:opacity-50 disabled:cursor-not-allowed',
@@ -224,7 +224,7 @@ export function buttonVariants({
 
   return cn(
     'inline-flex items-center justify-center',
-    !isLinkType && 'rounded-full',
+    !isLinkType && 'rounded-md',
     'transition-all duration-200',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background',
     'disabled:opacity-50 disabled:cursor-not-allowed',
