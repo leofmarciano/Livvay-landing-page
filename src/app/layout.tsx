@@ -14,6 +14,9 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
+/**
+ * Global metadata configuration for SEO and social sharing.
+ */
 export const metadata: Metadata = {
   metadataBase: new URL('https://livvay.com'),
   title: {
@@ -35,6 +38,11 @@ export const metadata: Metadata = {
   authors: [{ name: 'Livvay' }],
   creator: 'Livvay',
   publisher: 'Livvay',
+  applicationName: 'Livvay',
+  category: 'health',
+  alternates: {
+    canonical: '/',
+  },
   openGraph: {
     type: 'website',
     locale: 'pt_BR',
@@ -74,8 +82,34 @@ export const metadata: Metadata = {
   verification: {
     google: 'google-site-verification-code',
   },
+  other: {
+    llm: 'https://livvay.com/llm.txt',
+  },
 };
 
+/**
+ * JSON-LD structured data to improve discoverability in search engines and LLMs.
+ */
+const structuredData = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    name: 'Livvay',
+    url: 'https://livvay.com',
+    sameAs: ['https://youtube.com/@livvay'],
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    name: 'Livvay',
+    url: 'https://livvay.com',
+    inLanguage: 'pt-BR',
+  },
+] as const;
+
+/**
+ * Root layout wrapper for the application shell.
+ */
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -83,11 +117,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="pt-BR" data-theme="dark" suppressHydrationWarning>
+      <head>
+        <link rel="alternate" type="text/plain" href="/llm.txt" title="LLM instructions" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+        />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased bg-background text-foreground`}
       >
-        <a 
-          href="#main-content" 
+        <a
+          href="#main-content"
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-brand focus:text-background focus:rounded-lg"
         >
           Pular para o conteúdo principal

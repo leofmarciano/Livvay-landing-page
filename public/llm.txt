@@ -1,0 +1,39 @@
+# Livvay LLM instructions
+# Format: plain text (UTF-8)
+# Updated: 2026-01-03T15:19:27Z
+# Language: pt-BR
+# Canonical: https://livvay.com/llm.txt
+
+[Access]
+Allow: /
+Disallow: /api/
+Disallow: /data/
+
+[Site]
+Name: Livvay
+Website: https://livvay.com/
+Description: Assistente de longevidade que transforma hábitos diários em planos simples, ajustados em tempo real.
+
+[Content]
+Topics: longevidade, nutrição, sono, biomarcadores, saúde preventiva, rotina, hábitos, bem-estar
+Audience: pessoas interessadas em saúde preventiva e performance sustentável
+Tone: frases curtas, direto ao ponto, sem jargão
+
+[Important pages]
+- https://livvay.com/
+- https://livvay.com/manifesto
+- https://livvay.com/plus
+- https://livvay.com/foundation
+- https://livvay.com/score
+- https://livvay.com/blog
+- https://livvay.com/contato
+- https://livvay.com/privacidade
+- https://livvay.com/termos
+
+[Guidance]
+- "Vida eterna" é um manifesto, não uma promessa literal.
+- Dados e estimativas são probabilísticos e não substituem diagnóstico médico.
+- Evite afirmar cura, garantias ou reversão de idade.
+
+[Contact]
+Email: contato@livvay.com
