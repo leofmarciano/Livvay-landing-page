@@ -107,7 +107,7 @@ export default function Home() {
             >
               {/* Status Badges */}
               <div className="flex flex-wrap gap-3 mb-6">
-                <Badge variant="premium">Construindo em público</Badge>
+                <Badge variant="premium">Build in public</Badge>
                 <Badge variant="info">Entre antes de todo mundo</Badge>
               </div>
 
@@ -345,7 +345,6 @@ export default function Home() {
               description:
                 'Nutri, clínico, psicólogo. Pedem exame quando precisa. Prescrevem quando faz sentido.',
               icon: Users,
-              note: true,
             },
             {
               step: 4,
@@ -361,32 +360,32 @@ export default function Home() {
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className="relative pl-20 pb-12 last:pb-0"
+              className="relative pl-24 pb-8 last:pb-0"
             >
-              {/* Timeline line */}
+              {/* Timeline line - connects step circles */}
               {index < 3 && (
-                <div className="absolute left-[39px] top-16 w-0.5 h-full bg-gradient-to-b from-brand to-border" />
+                <div 
+                  className="absolute left-[39px] top-20 w-0.5 bg-gradient-to-b from-brand/50 to-border -z-10" 
+                  style={{ height: 'calc(100% - 32px)' }}
+                />
               )}
               {/* Step number */}
-              <div className="absolute left-0 top-0 w-20 h-20 rounded-2xl bg-brand/10 border border-brand/30 flex items-center justify-center">
+              <div className="absolute left-0 top-0 w-20 h-20 rounded-2xl bg-brand/10 border border-brand/30 flex items-center justify-center z-10">
                 <span className="text-3xl font-bold text-brand">{item.step}</span>
               </div>
               {/* Content */}
-              <div className="pt-2">
+              <div className="pt-4">
                 <div className="flex items-center gap-3 mb-2">
-                  <item.icon className="w-5 h-5 text-brand" aria-hidden="true" />
+                  <item.icon size={20} className="text-brand shrink-0" aria-hidden="true" />
                   <h3 className="text-xl font-bold text-foreground">{item.title}</h3>
                 </div>
-                <p className="text-foreground-light mb-4">{item.description}</p>
+                <p className="text-foreground-light">{item.description}</p>
                 {item.cta && (
-                  <Button href="/score" size="small" iconRight={<ArrowRight />}>
-                    Ver meu Score
-                  </Button>
-                )}
-                {item.note && (
-                  <p className="text-xs text-foreground-muted mt-4 p-3 bg-surface-100 rounded-lg border border-border">
-                    Emergência? Vai pro hospital. Aqui é acompanhamento, não pronto-socorro.
-                  </p>
+                  <div className="mt-4">
+                    <Button href="/score" size="small" iconRight={<ArrowRight />}>
+                      Ver meu Score
+                    </Button>
+                  </div>
                 )}
               </div>
             </motion.div>
@@ -405,10 +404,10 @@ export default function Home() {
             </h2>
             <ul className="space-y-4">
               {[
-                'Comeu pizza? Ela recalcula o dia inteiro.',
-                'Mostra o que falta: proteína, fibra, água.',
+                'Errou? Ela ajusta tudo na hora: próxima refeição, resto do dia, até a semana.',
+                'Mostra o que falta: proteína, fibra, água, vitaminas, minerais.',
                 'Sugere o que comer, quando dormir, se deve ou não treinar.',
-                'Explica tudo simples. Como se fosse pro seu avô.',
+                'Explica tudo de forma simples e direta.',
               ].map((item, index) => (
                 <motion.li
                   key={index}
@@ -436,6 +435,10 @@ export default function Home() {
                 { label: 'Fibras', value: 50, color: 'bg-warning' },
                 { label: 'Sono', value: 90, color: 'bg-brand-400' },
                 { label: 'Água', value: 65, color: 'bg-brand-300' },
+                { label: 'Exercícios', value: 85, color: 'bg-brand' },
+                { label: 'Alongamentos', value: 40, color: 'bg-warning' },
+                { label: 'Higiene', value: 95, color: 'bg-success' },
+                { label: 'Hábitos de longevidade', value: 72, color: 'bg-brand-400' },
                 { label: 'Estresse', value: 30, color: 'bg-success' },
               ].map((metric) => (
                 <div key={metric.label} className="space-y-2">
