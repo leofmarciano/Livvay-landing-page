@@ -1,21 +1,13 @@
 'use client';
 
-import { ReactNode } from 'react';
+import { ReactNode, isValidElement, cloneElement, forwardRef } from 'react';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
 import { Slot } from '@radix-ui/react-slot';
 import { cn } from '@/lib/utils';
 
 /**
  * Button types following Supabase Design System
- * - primary: Data insertion actions, confirming purchases, strong positive actions
- * - default: Opening dialogs, navigating, non-CRUD actions (most used)
- * - secondary: Signaling data/config change, less serious than primary
- * - outline: Secondary actions, less important than primary
- * - ghost: Less important actions (text-only appearance)
- * - link: Link-style button
- * - warning: Actions with potential side effects
- * - destructive: Serious destructive actions like deleting data
+ * @see https://supabase-design-system.vercel.app/design-system/docs/components/button
  */
 export type ButtonType =
   | 'primary'
@@ -30,12 +22,12 @@ export type ButtonType =
 export type ButtonSize = 'tiny' | 'small' | 'medium' | 'large' | 'xlarge';
 
 interface ButtonProps {
-  children: ReactNode;
+  children?: ReactNode;
   /** Button type/variant following Supabase Design System */
   type?: ButtonType;
   /** Button size */
   size?: ButtonSize;
-  /** If provided, renders as Next.js Link */
+  /** If provided, renders as a link */
   href?: string;
   /** Additional CSS classes */
   className?: string;
@@ -49,7 +41,7 @@ interface ButtonProps {
   onClick?: () => void;
   /** Keyboard handler */
   onKeyDown?: (e: React.KeyboardEvent) => void;
-  /** Tab index */
+  /** Tab index - automatically handled based on disabled state */
   tabIndex?: number;
   /** Icon to display on the left side */
   icon?: ReactNode;
@@ -59,76 +51,96 @@ interface ButtonProps {
   asChild?: boolean;
 }
 
+/**
+ * Type styles matching Supabase Design System exactly
+ */
 const typeStyles: Record<ButtonType, string> = {
-  primary:
-    'bg-brand text-background hover:bg-brand-600 font-semibold shadow-lg shadow-brand/20',
-  default:
-    'bg-surface-200 text-foreground hover:bg-surface-300 border border-border font-medium',
-  secondary:
-    'bg-brand/10 text-brand hover:bg-brand/20 border border-brand/30 font-medium',
-  outline:
-    'bg-transparent text-foreground border border-border hover:bg-surface-100 hover:border-border-strong font-medium',
-  ghost:
-    'bg-transparent text-foreground-light hover:text-foreground hover:bg-surface-100 font-medium',
-  link: 'bg-transparent text-brand hover:text-brand-600 underline-offset-4 hover:underline font-medium p-0',
-  warning:
-    'bg-warning text-background hover:bg-warning-600 font-semibold shadow-lg shadow-warning/20',
-  destructive:
-    'bg-destructive text-background hover:bg-destructive-600 font-semibold shadow-lg shadow-destructive/20',
+  primary: cn(
+    'bg-brand-600 text-white',
+    'hover:bg-brand-500',
+    'border border-brand-600 hover:border-brand-500'
+  ),
+  default: cn(
+    'bg-surface-300 text-foreground',
+    'hover:bg-surface-400',
+    'border border-border-strong hover:border-border-stronger'
+  ),
+  secondary: cn(
+    'bg-brand-600/10 text-brand',
+    'hover:bg-brand-600/20',
+    'border border-brand-600/30 hover:border-brand-600/50'
+  ),
+  outline: cn(
+    'bg-transparent text-foreground',
+    'hover:bg-surface-200',
+    'border border-border hover:border-border-strong'
+  ),
+  ghost: cn(
+    'bg-transparent text-foreground-light',
+    'hover:bg-surface-200 hover:text-foreground',
+    'border border-transparent'
+  ),
+  link: cn(
+    'bg-transparent text-brand',
+    'hover:text-brand-400',
+    'underline-offset-4 hover:underline',
+    'border-none'
+  ),
+  warning: cn(
+    'bg-warning text-background',
+    'hover:bg-warning/90',
+    'border border-warning'
+  ),
+  destructive: cn(
+    'bg-destructive text-white',
+    'hover:bg-destructive/90',
+    'border border-destructive'
+  ),
 };
 
+/**
+ * Size styles - padding and text size
+ */
 const sizeStyles: Record<ButtonSize, string> = {
-  tiny: 'px-2.5 py-1 text-xs gap-1',
-  small: 'px-3 py-1.5 text-sm gap-1.5',
-  medium: 'px-4 py-2 text-sm gap-2',
-  large: 'px-6 py-3 text-base gap-2',
-  xlarge: 'px-8 py-4 text-lg gap-2.5',
+  tiny: 'h-[26px] px-2.5 text-xs',
+  small: 'h-[34px] px-3 text-sm',
+  medium: 'h-[38px] px-4 text-sm',
+  large: 'h-[42px] px-5 text-base',
+  xlarge: 'h-[50px] px-6 text-base',
 };
 
-const iconSizes: Record<ButtonSize, string> = {
-  tiny: 'w-3 h-3',
-  small: 'w-3.5 h-3.5',
-  medium: 'w-4 h-4',
-  large: 'w-5 h-5',
-  xlarge: 'w-5 h-5',
+/**
+ * Gap between icon and text based on size
+ */
+const gapStyles: Record<ButtonSize, string> = {
+  tiny: 'gap-1',
+  small: 'gap-1.5',
+  medium: 'gap-2',
+  large: 'gap-2',
+  xlarge: 'gap-2.5',
 };
 
-export function Button({
-  children,
-  type = 'primary',
-  size = 'medium',
-  href,
-  className = '',
-  loading = false,
-  disabled = false,
-  htmlType = 'button',
-  onClick,
-  onKeyDown,
-  tabIndex,
-  icon,
-  iconRight,
-  asChild = false,
-}: ButtonProps) {
-  const isDisabled = disabled || loading;
-  const effectiveTabIndex = tabIndex ?? (isDisabled ? -1 : 0);
+/**
+ * Icon sizes matching button size
+ */
+const iconSizeStyles: Record<ButtonSize, number> = {
+  tiny: 14,
+  small: 16,
+  medium: 16,
+  large: 18,
+  xlarge: 20,
+};
 
-  // Link type has special sizing
-  const isLinkType = type === 'link';
-
-  const baseStyles = cn(
-    'inline-flex items-center justify-center',
-    !isLinkType && 'rounded-md',
-    'transition-all duration-200',
-    'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background',
-    'disabled:opacity-50 disabled:cursor-not-allowed',
-    typeStyles[type],
-    !isLinkType && sizeStyles[size],
-    className
-  );
-
-  const LoadingSpinner = () => (
+/**
+ * Loading spinner component
+ */
+function LoadingSpinner({ size }: { size: ButtonSize }) {
+  const iconSize = iconSizeStyles[size];
+  return (
     <svg
-      className={cn('animate-spin', iconSizes[size])}
+      className="animate-spin"
+      width={iconSize}
+      height={iconSize}
       xmlns="http://www.w3.org/2000/svg"
       fill="none"
       viewBox="0 0 24 24"
@@ -149,67 +161,169 @@ export function Button({
       />
     </svg>
   );
+}
 
-  const content = (
-    <>
-      {loading && <LoadingSpinner />}
-      {!loading && icon && (
-        <span className={iconSizes[size]} aria-hidden="true">
-          {icon}
-        </span>
-      )}
-      {children}
-      {!loading && iconRight && (
-        <span className={iconSizes[size]} aria-hidden="true">
-          {iconRight}
-        </span>
-      )}
-    </>
-  );
+/**
+ * Render icon with proper size
+ */
+function renderIcon(iconElement: ReactNode, size: ButtonSize) {
+  if (!iconElement) return null;
 
-  // asChild pattern using Radix Slot
-  if (asChild) {
-    return (
-      <Slot className={baseStyles} tabIndex={effectiveTabIndex}>
-        {children}
-      </Slot>
+  const iconSize = iconSizeStyles[size];
+
+  // Clone Lucide icons and set proper size
+  if (isValidElement(iconElement)) {
+    return cloneElement(
+      iconElement as React.ReactElement<{
+        size?: number;
+        className?: string;
+        'aria-hidden'?: boolean;
+      }>,
+      {
+        size: iconSize,
+        className: cn('shrink-0', (iconElement.props as { className?: string }).className),
+        'aria-hidden': true,
+      }
     );
   }
 
-  // Render as Link if href is provided
-  if (href) {
+  return iconElement;
+}
+
+export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+  function Button(
+    {
+      children,
+      type = 'primary',
+      size = 'medium',
+      href,
+      className = '',
+      loading = false,
+      disabled = false,
+      htmlType = 'button',
+      onClick,
+      onKeyDown,
+      tabIndex,
+      icon,
+      iconRight,
+      asChild = false,
+    },
+    ref
+  ) {
+    const isDisabled = disabled || loading;
+    // Accessibility: tabIndex automatically based on disabled state
+    const effectiveTabIndex = tabIndex ?? (isDisabled ? -1 : 0);
+    const isLinkType = type === 'link';
+    const hasOnlyIcon = icon && !children && !iconRight;
+
+    const baseStyles = cn(
+      // Layout
+      'inline-flex items-center justify-center',
+      // Shape
+      !isLinkType && 'rounded-md',
+      // Typography
+      'font-medium leading-none',
+      // Transitions
+      'transition-colors duration-150',
+      // Focus (accessibility)
+      'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background',
+      // Disabled state
+      'disabled:opacity-50 disabled:pointer-events-none',
+      // Type-specific styles
+      typeStyles[type],
+      // Size styles (except for link type)
+      !isLinkType && sizeStyles[size],
+      // Gap between elements
+      !isLinkType && gapStyles[size],
+      // Icon-only button is square
+      hasOnlyIcon && !isLinkType && 'aspect-square !px-0',
+      className
+    );
+
+    const content = (
+      <>
+        {loading && <LoadingSpinner size={size} />}
+        {!loading && renderIcon(icon, size)}
+        {children}
+        {!loading && renderIcon(iconRight, size)}
+      </>
+    );
+
+    // asChild pattern using Radix Slot
+    if (asChild) {
+      return (
+        <Slot className={baseStyles} tabIndex={effectiveTabIndex}>
+          {children}
+        </Slot>
+      );
+    }
+
+    // Render as Link if href is provided
+    if (href) {
+      // Check if it's an external link or special protocol
+      const isExternalOrProtocol =
+        href.startsWith('mailto:') ||
+        href.startsWith('tel:') ||
+        href.startsWith('http://') ||
+        href.startsWith('https://') ||
+        href.startsWith('//');
+
+      // Use native <a> for external links and special protocols
+      if (isExternalOrProtocol) {
+        const externalProps =
+          href.startsWith('http') || href.startsWith('//')
+            ? { target: '_blank' as const, rel: 'noopener noreferrer' }
+            : {};
+
+        return (
+          <a
+            href={href}
+            className={baseStyles}
+            tabIndex={effectiveTabIndex}
+            onClick={onClick}
+            {...externalProps}
+          >
+            {content}
+          </a>
+        );
+      }
+
+      // Use Next.js Link for internal navigation
+      return (
+        <Link
+          href={href}
+          className={baseStyles}
+          tabIndex={effectiveTabIndex}
+          onClick={onClick}
+        >
+          {content}
+        </Link>
+      );
+    }
+
+    // Render as button
     return (
-      <Link
-        href={href}
+      <button
+        ref={ref}
         className={baseStyles}
-        tabIndex={effectiveTabIndex}
+        disabled={isDisabled}
+        type={htmlType}
         onClick={onClick}
+        onKeyDown={onKeyDown}
+        tabIndex={effectiveTabIndex}
       >
         {content}
-      </Link>
+      </button>
     );
   }
-
-  // Render as button with motion
-  return (
-    <motion.button
-      whileHover={!isDisabled ? { scale: 1.02 } : undefined}
-      whileTap={!isDisabled ? { scale: 0.98 } : undefined}
-      className={baseStyles}
-      disabled={isDisabled}
-      type={htmlType}
-      onClick={onClick}
-      onKeyDown={onKeyDown}
-      tabIndex={effectiveTabIndex}
-    >
-      {content}
-    </motion.button>
-  );
-}
+);
 
 /**
  * Helper to get button variant classes for use with other components
  * Useful for styling links that look like buttons
+ *
+ * @example
+ * <Link className={buttonVariants({ type: 'outline' })}>Click here</Link>
  */
 export function buttonVariants({
   type = 'primary',
@@ -225,11 +339,13 @@ export function buttonVariants({
   return cn(
     'inline-flex items-center justify-center',
     !isLinkType && 'rounded-md',
-    'transition-all duration-200',
+    'font-medium leading-none',
+    'transition-colors duration-150',
     'focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background',
-    'disabled:opacity-50 disabled:cursor-not-allowed',
+    'disabled:opacity-50 disabled:pointer-events-none',
     typeStyles[type],
     !isLinkType && sizeStyles[size],
+    !isLinkType && gapStyles[size],
     className
   );
 }

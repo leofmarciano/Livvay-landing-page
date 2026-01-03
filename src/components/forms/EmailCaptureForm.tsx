@@ -90,7 +90,7 @@ export function EmailCaptureForm({
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className={`${variant === 'inline' ? 'flex flex-col sm:flex-row gap-3' : 'space-y-3'} ${className}`}
+      className={`${variant === 'inline' ? 'flex flex-col sm:flex-row sm:items-start gap-3' : 'space-y-3'} ${className}`}
       noValidate
     >
       <div className="flex-1">
@@ -98,18 +98,22 @@ export function EmailCaptureForm({
           Email
         </label>
         <div className="relative">
-          <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground-muted" aria-hidden="true" />
+          <Mail 
+            className="absolute left-4 top-1/2 -translate-y-1/2 text-foreground-muted" 
+            size={18}
+            aria-hidden="true" 
+          />
           <input
             type="email"
             id={`email-${source}`}
             placeholder={placeholder}
             {...register('email')}
             className={`
-              w-full pl-12 pr-4 py-3 
-              bg-surface-100 border rounded-xl
-              text-foreground placeholder-foreground-muted
+              w-full h-[38px] pl-11 pr-4
+              bg-surface-100 border rounded-md
+              text-sm text-foreground placeholder-foreground-muted
               focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent
-              transition-all
+              transition-colors
               ${errors.email ? 'border-destructive' : 'border-border'}
             `}
             aria-invalid={errors.email ? 'true' : 'false'}
@@ -123,7 +127,7 @@ export function EmailCaptureForm({
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="text-destructive text-sm mt-1 pl-1"
+              className="text-destructive text-sm mt-1.5"
               role="alert"
             >
               {errors.email?.message || serverError}
@@ -134,7 +138,7 @@ export function EmailCaptureForm({
       <Button
         htmlType="submit"
         loading={isSubmitting}
-        className={variant === 'stacked' ? 'w-full' : 'sm:w-auto'}
+        className={variant === 'stacked' ? 'w-full' : 'sm:w-auto shrink-0'}
       >
         {buttonText}
       </Button>

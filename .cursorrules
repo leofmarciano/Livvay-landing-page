@@ -19,6 +19,7 @@ You are working in the Livvay marketing site repo.
 | Package | Use For |
 |---------|---------|
 | `shadcn/ui` | UI components (add with `bunx shadcn@latest add <component>`) |
+| `@heroui/react` | Complex interactive components (Autocomplete, DatePicker, Table, Tabs, Modal) |
 | `@radix-ui/*` | Headless accessible primitives |
 | `lucide-react` | ALL icons |
 | `framer-motion` | Animations (sparingly) |
@@ -27,11 +28,17 @@ You are working in the Livvay marketing site repo.
 | `tailwindcss` | ALL styling |
 
 ## Forbidden Packages
-- NO other UI libs (MUI, Chakra, Ant Design, etc.) - use shadcn/ui
+- NO other UI libs (MUI, Chakra, Ant Design, etc.) - use shadcn/ui or HeroUI
 - NO other icon libs (react-icons, heroicons, etc.)
 - NO other chart libs (Chart.js, Victory, Nivo, etc.)
 - NO other form libs (Formik, etc.)
 - NO CSS-in-JS (styled-components, emotion, etc.)
+
+## HeroUI Setup
+- **Plugin:** `hero.ts` in project root exports HeroUI plugin
+- **CSS:** `globals.css` includes `@plugin '../../hero.ts'` and `@source` for HeroUI theme
+- **Provider:** `HeroUIProvider` wraps app in `src/app/providers.tsx`
+- **Priority:** shadcn/ui first, then HeroUI, then @radix-ui for unstyled primitives
 
 ## Product + Compliance
 - "Vida eterna" is ambition, never a literal promise.

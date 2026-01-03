@@ -28,54 +28,54 @@ import { ComparisonTable } from '@/components/ui/ComparisonTable';
 import { Leaderboard } from '@/components/ui/Leaderboard';
 import { EmailCaptureForm } from '@/components/forms/EmailCaptureForm';
 
-// FAQ Data
+// FAQ Data - linguagem acessível para todas as idades e níveis de educação
 const faqItems = [
   {
-    question: 'Isso é para iniciante total?',
+    question: 'Nunca fiz dieta. Consigo usar?',
     answer:
-      'Sim! O Livvay foi feito para qualquer pessoa, independente de conhecimento prévio. Explicamos tudo de forma simples, sem termos técnicos. Se você sabe usar um celular, sabe usar o Livvay.',
+      'Consegue. O Livvay explica tudo como se fosse pro seu avô. Foto da comida, ele entende. Sem conta, sem fórmula.',
   },
   {
-    question: 'Preciso de relógio/smartwatch?',
+    question: 'Preciso de relógio smart?',
     answer:
-      'Não é obrigatório. Wearables ajudam a capturar dados automaticamente (sono, passos, frequência cardíaca), mas você pode usar o Livvay só com o celular, registrando manualmente.',
+      'Não. Ajuda, mas não precisa. Só o celular resolve. Você registra, a gente calcula.',
   },
   {
-    question: 'O Plus substitui médico?',
+    question: 'O Plus substitui meu médico?',
     answer:
-      'Não. O Livvay Plus complementa seu acompanhamento de saúde. Nossa equipe médica orienta, pede exames quando faz sentido e pode prescrever quando indicado, mas não substitui emergências ou seu médico de referência.',
+      'Não substitui. Complementa. Nossa equipe orienta, pede exame quando faz sentido, prescreve quando indicado. Emergência? Vai pro hospital.',
   },
   {
-    question: 'Vocês prometem vida eterna?',
+    question: 'Vida eterna é promessa?',
     answer:
-      'Vida eterna é nossa missão e direção. O que entregamos é método, acompanhamento e consistência para aumentar qualidade e tempo de vida ao máximo possível. Sem promessas mágicas.',
+      'É direção, não promessa. O que entregamos: método, acompanhamento, consistência. Você vive mais e melhor. Sem mágica.',
   },
   {
-    question: 'Como funciona o Livvay Score?',
+    question: 'O que é o Score?',
     answer:
-      'O Score é uma métrica que combina seus hábitos diários (alimentação, sono, exercício, estresse) com dados de saúde. Ele sobe quando você é consistente e ajuda a gamificar sua jornada de longevidade.',
+      'Um número que mostra como você está. Come bem, dorme bem, se mexe? Sobe. Relaxa demais? Desce. Simples assim.',
   },
   {
-    question: 'Quando lança?',
+    question: 'Quando posso usar?',
     answer:
-      'Estamos em construção pública. Entre na lista de espera para ter acesso antecipado e ajudar a moldar o produto. Lançamento previsto para o primeiro semestre de 2026.',
+      'Estamos construindo em público. Entra na lista, ganha acesso antes de todo mundo. Previsão: primeiro semestre de 2026.',
   },
 ];
 
-// Comparison features
+// Comparison features - linguagem direta e acessível
 const comparisonFeatures = [
-  { name: 'AI de ajuste em tempo real', free: true, plus: true },
-  { name: 'Registro de refeições', free: true, plus: true },
-  { name: 'Estimativas de nutrientes', free: true, plus: true },
-  { name: 'Livvay Score', free: true, plus: true },
-  { name: 'Liga Livvay (ranking)', free: true, plus: true },
-  { name: 'Nutricionista dedicado', free: false, plus: true },
-  { name: 'Médico clínico', free: false, plus: true },
-  { name: 'Psicólogo comportamental', free: false, plus: true },
-  { name: 'Consultas mensais', free: false, plus: 'Ilimitadas' },
-  { name: 'Pedido de exames', free: false, plus: true },
-  { name: 'Prescrição quando indicada', free: false, plus: true },
-  { name: 'Plano personalizado avançado', free: false, plus: true },
+  { name: 'AI que ajusta seu dia', free: true, plus: true },
+  { name: 'Registrar o que come', free: true, plus: true },
+  { name: 'Ver nutrientes da comida', free: true, plus: true },
+  { name: 'Seu Score de saúde', free: true, plus: true },
+  { name: 'Ranking com outros usuários', free: true, plus: true },
+  { name: 'Nutricionista só pra você', free: false, plus: true },
+  { name: 'Médico só pra você', free: false, plus: true },
+  { name: 'Psicólogo só pra você', free: false, plus: true },
+  { name: 'Consultas por mês', free: false, plus: 'Sem limite' },
+  { name: 'Pedir exames', free: false, plus: true },
+  { name: 'Receita médica', free: false, plus: true },
+  { name: 'Plano feito pra você', free: false, plus: true },
 ];
 
 // Leaderboard mock data
@@ -107,43 +107,43 @@ export default function Home() {
             >
               {/* Status Badges */}
               <div className="flex flex-wrap gap-3 mb-6">
-                <Badge variant="premium">Em construção pública</Badge>
-                <Badge variant="info">Acesso antecipado</Badge>
+                <Badge variant="premium">Construindo em público</Badge>
+                <Badge variant="info">Entre antes de todo mundo</Badge>
               </div>
 
               {/* Headline */}
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-foreground">
-                Você não quer morrer.{' '}
-                <span className="gradient-text">O Livvay também não.</span>
+                Seu coach de saúde{' '}
+                <span className="gradient-text">pra vida toda.</span>
               </h1>
 
               {/* Subheadline */}
               <p className="text-lg md:text-xl text-foreground-light mb-4 max-w-xl">
-                Um assistente de longevidade que transforma tudo que você come, dorme e faz em um plano simples, ajustado em tempo real.{' '}
-                <span className="text-foreground font-medium">Rumo à vida eterna, com método.</span>
+                AI + médicos de verdade te acompanhando todo dia.{' '}
+                <span className="text-foreground font-medium">Pra você viver mais. E melhor.</span>
               </p>
 
               {/* Microcopy */}
               <p className="text-foreground-muted mb-8">
-                Sem termos difíceis. Sem terrorismo. Só direção clara.
+                Sem termo difícil. Sem dieta maluca. Só o próximo passo certo.
               </p>
 
               {/* CTAs */}
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
                 <Button href="/score" size="large" iconRight={<ArrowRight />}>
-                  Calcular meu Livvay Score
+                  Ver meu Score grátis
                 </Button>
                 <Button href="#waitlist" type="default" size="large">
-                  Entrar na lista de espera
+                  Entrar na lista
                 </Button>
               </div>
 
               {/* Email Capture */}
               <div className="pt-6 border-t border-border">
                 <p className="text-sm text-foreground-muted mb-3">
-                  Ou entre direto na lista de espera:
+                  Deixa seu email e entra na frente:
                 </p>
-                <EmailCaptureForm source="hero" buttonText="Quero acesso" />
+                <EmailCaptureForm source="hero" buttonText="Quero entrar" />
               </div>
             </motion.div>
 
@@ -174,25 +174,25 @@ export default function Home() {
       {/* Section 1: A Dor (Pain Points) */}
       <Section background="darker">
         <SectionHeader
-          title="O problema não é saber. É fazer todo dia."
-          badge="A realidade"
+          title="O problema não é querer. É conseguir."
+          badge="A verdade"
         />
         <div className="grid md:grid-cols-2 gap-6">
           {[
             {
-              text: 'Você começa segunda. Desiste quarta.',
+              text: 'Segunda você começa. Quarta já parou.',
               bg: 'bg-gradient-to-br from-destructive/10 to-transparent',
             },
             {
-              text: 'Você tem dados. Mas não tem decisão.',
+              text: 'Você sabe o que fazer. Mas não faz.',
               bg: 'bg-gradient-to-br from-warning/10 to-transparent',
             },
             {
-              text: "Você tenta 'ser saudável'. Sem um sistema, vira sorte.",
+              text: 'Sozinho, todo mundo desiste.',
               bg: 'bg-gradient-to-br from-warning/10 to-transparent',
             },
             {
-              text: 'Você não quer morrer. Mas vive como se desse tempo.',
+              text: 'Você quer viver muito. Mas age como se tivesse tempo de sobra.',
               bg: 'bg-gradient-to-br from-brand/10 to-transparent',
             },
           ].map((item, index) => (
@@ -215,29 +215,29 @@ export default function Home() {
       {/* Section 2: O que é o Livvay */}
       <Section>
         <SectionHeader
-          title="Livvay é um copiloto para a eternidade"
-          subtitle="Você registra o básico. A AI e o time te guiam no resto."
-          badge="A solução"
+          title="Seu parceiro pra viver pra sempre"
+          subtitle="Você registra. A gente cuida do resto."
+          badge="Como funciona"
         />
         <div className="grid md:grid-cols-3 gap-8">
           {[
             {
               icon: Brain,
-              title: 'AI em tempo real',
-              description: 'Registrou comida, o dia inteiro recalcula.',
-              example: 'Exemplo: almoçou pouca proteína? O jantar já sugere compensar.',
+              title: 'AI que aprende você',
+              description: 'Comeu algo? O dia inteiro se ajusta.',
+              example: 'Pouca proteína no almoço? O jantar já sugere compensar.',
             },
             {
               icon: Users,
-              title: 'Time humano no Plus',
-              description: 'Médico, nutri, psicólogo comportamental.',
-              example: 'Exemplo: compulsão por doce? O psicólogo trabalha a causa.',
+              title: 'Médicos de verdade',
+              description: 'Nutri, clínico, psicólogo. Todos pra você.',
+              example: 'Come doce demais? O psicólogo descobre o porquê.',
             },
             {
               icon: Trophy,
-              title: 'Liga Livvay',
-              description: 'Saúde vira jogo, com ranking e benefícios.',
-              example: 'Exemplo: seu Score subiu? Desconto na academia liberado.',
+              title: 'Saúde vira jogo',
+              description: 'Ranking, prêmios, descontos. Quanto melhor você fica, mais ganha.',
+              example: 'Score alto? Academia com desconto.',
             },
           ].map((pillar, index) => (
             <Card key={index} variant="highlight" className="text-center">
@@ -257,38 +257,38 @@ export default function Home() {
       {/* Section 3: Como funciona (4 passos) */}
       <Section background="darker">
         <SectionHeader
-          title="4 passos. Sem palavras difíceis."
-          badge="Como funciona"
+          title="Funciona assim"
+          badge="Passo a passo"
         />
         <div className="max-w-3xl mx-auto">
           {[
             {
               step: 1,
-              title: 'Você registra',
-              description: 'Comida, sono, treino, humor (do seu jeito).',
+              title: 'Você conta o que fez',
+              description: 'Comeu o quê? Dormiu quanto? Se mexeu? Conta pra gente.',
               icon: Target,
             },
             {
               step: 2,
-              title: 'A AI ajusta',
+              title: 'A AI monta seu dia',
               description:
-                'Estima micro e macro, projeta lacunas do dia, sugere próximos passos.',
+                'Ela vê o que falta, o que sobra, e te diz o próximo passo.',
               icon: Brain,
               cta: true,
             },
             {
               step: 3,
-              title: 'O Plus acompanha',
+              title: 'Médicos te acompanham',
               description:
-                'Equipe revisa, pede exames quando faz sentido, ajusta compulsões, orienta e prescreve quando indicado.',
+                'Nutri, clínico, psicólogo. Pedem exame quando precisa. Prescrevem quando faz sentido.',
               icon: Users,
               note: true,
             },
             {
               step: 4,
-              title: 'Você sobe de liga',
+              title: 'Você ganha recompensas',
               description:
-                'Livvay Score melhora, benefícios destravam, consistência vira vitória.',
+                'Score sobe, desconto na academia, cashback em comida saudável. Saúde que paga.',
               icon: Trophy,
             },
           ].map((item, index) => (
@@ -317,12 +317,12 @@ export default function Home() {
                 <p className="text-foreground-light mb-4">{item.description}</p>
                 {item.cta && (
                   <Button href="/score" size="small" iconRight={<ArrowRight />}>
-                    Quero meu Score
+                    Ver meu Score
                   </Button>
                 )}
                 {item.note && (
                   <p className="text-xs text-foreground-muted mt-4 p-3 bg-surface-100 rounded-lg border border-border">
-                    ⚠️ Nota: O Livvay Plus não substitui emergências médicas. Condutas dependem de avaliação clínica individualizada. Resultados variam de pessoa para pessoa.
+                    Emergência? Vai pro hospital. Aqui é acompanhamento, não pronto-socorro.
                   </p>
                 )}
               </div>
@@ -335,17 +335,17 @@ export default function Home() {
       <Section>
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
-            <Badge variant="premium" className="mb-4">Tecnologia</Badge>
+            <Badge variant="premium" className="mb-4">Inteligência</Badge>
             <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-              A AI do Livvay não é chat.{' '}
-              <span className="gradient-text">É motor de decisão.</span>
+              Uma AI que entende{' '}
+              <span className="gradient-text">o que você precisa.</span>
             </h2>
             <ul className="space-y-4">
               {[
-                'Registrou um alimento, o restante do dia se ajusta.',
-                'Estimativas de micronutrientes e "painel do sangue" probabilístico, para orientar escolhas, não para diagnosticar.',
-                'Sugestões de treino, descanso e rotina com base no seu contexto real.',
-                'Sem termos técnicos. Modo simples para qualquer pessoa.',
+                'Comeu pizza? Ela recalcula o dia inteiro.',
+                'Mostra o que falta: proteína, fibra, água.',
+                'Sugere o que comer, quando dormir, se deve ou não treinar.',
+                'Explica tudo simples. Como se fosse pro seu avô.',
               ].map((item, index) => (
                 <motion.li
                   key={index}
@@ -365,14 +365,14 @@ export default function Home() {
           <div className="bg-surface-100 rounded-2xl border border-border p-6">
             <h3 className="text-lg font-semibold text-foreground mb-6 flex items-center gap-2">
               <Sparkles className="w-5 h-5 text-brand" aria-hidden="true" />
-              <span>Painel do dia</span>
+              <span>Seu dia hoje</span>
             </h3>
             <div className="space-y-4">
               {[
                 { label: 'Proteína', value: 78, color: 'bg-brand' },
                 { label: 'Fibras', value: 50, color: 'bg-warning' },
                 { label: 'Sono', value: 90, color: 'bg-brand-400' },
-                { label: 'Hidratação', value: 65, color: 'bg-brand-300' },
+                { label: 'Água', value: 65, color: 'bg-brand-300' },
                 { label: 'Estresse', value: 30, color: 'bg-success' },
               ].map((metric) => (
                 <div key={metric.label} className="space-y-2">
@@ -396,23 +396,23 @@ export default function Home() {
         </div>
       </Section>
 
-      {/* Section 5: Livvay Plus */}
+      {/* Section 5: Equipe médica */}
       <Section background="darker" id="plus">
         <SectionHeader
-          title="Livvay Plus: você + AI + equipe médica"
-          subtitle="Você não precisa virar especialista. Você precisa ser acompanhado."
-          badge="Plus"
+          title="Médicos de verdade. Só pra você."
+          subtitle="Nutri, clínico, psicólogo. Todos olhando seus dados e te guiando."
+          badge="Equipe completa"
         />
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Features List */}
           <div className="space-y-4">
             {[
-              { icon: Heart, text: 'Nutricionista dedicado' },
-              { icon: Shield, text: 'Médico clínico' },
-              { icon: Brain, text: 'Psicólogo comportamental' },
-              { icon: Clock, text: 'Consultas mensais focadas em performance' },
-              { icon: TrendingUp, text: 'Revisão de dieta, ajustes de compulsão, pedido de exames' },
-              { icon: Zap, text: 'Prescrição e ajustes terapêuticos quando indicado' },
+              { icon: Heart, text: 'Nutricionista que conhece você' },
+              { icon: Shield, text: 'Médico que acompanha sua saúde' },
+              { icon: Brain, text: 'Psicólogo que entende seus hábitos' },
+              { icon: Clock, text: 'Consultas quando você precisar' },
+              { icon: TrendingUp, text: 'Exames pedidos quando faz sentido' },
+              { icon: Zap, text: 'Receita quando indicado' },
             ].map((item, index) => (
               <motion.div
                 key={index}
@@ -430,17 +430,17 @@ export default function Home() {
             ))}
             <div className="pt-4">
               <Button href="/plus" type="outline" iconRight={<ArrowRight />} className="w-full sm:w-auto">
-                Conhecer o Plus
+                Ver como funciona
               </Button>
             </div>
           </div>
 
           {/* Comparison Table */}
           <Card variant="glass">
-            <h3 className="text-xl font-bold text-foreground mb-6">Grátis vs Plus</h3>
+            <h3 className="text-xl font-bold text-foreground mb-6">O que você ganha</h3>
             <ComparisonTable features={comparisonFeatures.slice(0, 8)} />
             <Link href="/plus" className="block mt-4 text-center text-brand hover:underline text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded">
-              Ver comparação completa →
+              Ver tudo →
             </Link>
           </Card>
         </div>
@@ -449,9 +449,9 @@ export default function Home() {
       {/* Section 6: Liga Livvay */}
       <Section id="liga">
         <SectionHeader
-          title="Liga Livvay: a competição mais saudável do país"
-          subtitle="Sua saúde vira jogo. Com ranking municipal, estadual e nacional."
-          badge="Liga"
+          title="Saúde que dá prêmio"
+          subtitle="Ranking com todo mundo. Quanto melhor você fica, mais você ganha."
+          badge="Liga Livvay"
         />
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Leaderboard */}
@@ -461,14 +461,14 @@ export default function Home() {
           <div>
             <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
               <Award className="w-5 h-5 text-warning" aria-hidden="true" />
-              <span>Benefícios destravados pelo Score</span>
+              <span>Score alto = benefícios</span>
             </h3>
             <div className="grid grid-cols-2 gap-4">
               {[
-                { icon: '🏋️', title: 'Academias', desc: 'Acesso a rede parceira' },
-                { icon: '💊', title: 'Suplementos', desc: 'Descontos exclusivos' },
-                { icon: '🥗', title: 'Mercados', desc: 'Cashback em saudáveis' },
-                { icon: '🏥', title: 'Planos de saúde', desc: 'Desconto na mensalidade' },
+                { icon: '🏋️', title: 'Academia', desc: 'Desconto na mensalidade' },
+                { icon: '💊', title: 'Suplementos', desc: 'Preço especial' },
+                { icon: '🥗', title: 'Mercado', desc: 'Cashback em comida boa' },
+                { icon: '🏥', title: 'Plano de saúde', desc: 'Mensalidade menor' },
               ].map((reward, index) => (
                 <Card key={index} className="text-center p-4">
                   <span className="text-3xl mb-2 block" aria-hidden="true">{reward.icon}</span>
@@ -479,7 +479,7 @@ export default function Home() {
             </div>
             <div className="mt-6">
               <Button href="/liga" type="default" iconRight={<Trophy />} className="w-full">
-                Entrar na Liga
+                Ver a Liga
               </Button>
             </div>
           </div>
@@ -489,18 +489,18 @@ export default function Home() {
       {/* Section 7: L3 Research */}
       <Section background="darker" id="foundation">
         <div className="max-w-3xl mx-auto text-center">
-          <Badge variant="info" className="mb-4">L3 Research</Badge>
+          <Badge variant="info" className="mb-4">Pesquisa</Badge>
           <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
-            Pesquisa científica que melhora seu plano
+            Ciência que você usa todo dia
           </h2>
           <p className="text-lg text-foreground-light mb-8">
-            O L3 (Livvay Longevity Labs) financia pesquisa em longevidade e healthspan. As descobertas são integradas diretamente aos planos personalizados e à inteligência artificial do Livvay.
+            O L3 é nosso laboratório de pesquisa. O que a gente descobre, vai direto pro seu app. Você não precisa entender a ciência. Só usar.
           </p>
           <div className="grid md:grid-cols-3 gap-6 mb-8">
             {[
-              'Dados agregados e anonimizados geram insights para validação científica e melhoria contínua dos algoritmos.',
-              'Descobertas do L3 alimentam a IA do Livvay com evidências atualizadas e metodologia rigorosa.',
-              'Relatório anual público com demonstrações financeiras e resultados das pesquisas financiadas.',
+              'Seus dados (sem seu nome) ajudam a descobrir o que funciona pra todo mundo.',
+              'Cada descoberta melhora as sugestões que você recebe.',
+              'Tudo é público. Você pode ver onde o dinheiro vai.',
             ].map((text, index) => (
               <div
                 key={index}
@@ -511,10 +511,10 @@ export default function Home() {
             ))}
           </div>
           <Button href="/foundation" type="outline">
-            Conhecer o L3
+            Ver o L3
           </Button>
           <p className="text-sm text-foreground-muted mt-4">
-            Relatório de atividades (Q1 2026)
+            Relatório público em breve
           </p>
         </div>
       </Section>
@@ -522,26 +522,26 @@ export default function Home() {
       {/* Section 8: Acessível de verdade */}
       <Section>
         <SectionHeader
-          title="O Livvay explica como se você fosse meu pai ou minha avó"
-          subtitle="Sem siglas. Sem dieta maluca. Sem humilhação."
-          badge="Acessibilidade"
+          title="Feito pra qualquer pessoa entender"
+          subtitle="Seu avô entende. Seu filho entende. Você entende."
+          badge="Simples de verdade"
         />
         <div className="grid md:grid-cols-3 gap-6">
           {[
             {
               title: 'Proteína?',
-              description: 'A gente mostra com comida de verdade.',
+              description: 'A gente mostra com comida.',
               example: '"2 ovos = 14g de proteína"',
             },
             {
               title: 'Fibras?',
-              description: 'A gente mostra no prato, não no PDF.',
-              example: '"Adiciona uma banana e você bate a meta"',
+              description: 'A gente mostra no prato.',
+              example: '"Come uma banana que bate a meta"',
             },
             {
               title: 'Sono?',
-              description: 'A gente melhora com passos pequenos.',
-              example: '"Desliga a tela 30min antes"',
+              description: 'A gente dá dicas fáceis.',
+              example: '"Desliga o celular 30min antes de dormir"',
             },
           ].map((item, index) => (
             <Card key={index}>
@@ -554,15 +554,15 @@ export default function Home() {
           ))}
         </div>
         <div className="mt-8 text-center">
-          <Badge variant="success">✓ Modo simples ativado</Badge>
+          <Badge variant="success">Sem palavra difícil</Badge>
         </div>
       </Section>
 
       {/* Section 9: FAQ */}
       <Section background="darker">
         <SectionHeader
-          title="Perguntas frequentes"
-          badge="FAQ"
+          title="Dúvidas comuns"
+          badge="Perguntas"
         />
         <div className="max-w-3xl mx-auto">
           <FAQ items={faqItems} />
@@ -586,22 +586,22 @@ export default function Home() {
               viewport={{ once: true }}
             >
               <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6">
-                Se você não quer morrer,{' '}
-                <span className="gradient-text">entra agora</span>
+                Quer viver mais?{' '}
+                <span className="gradient-text">Começa aqui.</span>
               </h2>
               <p className="text-lg text-foreground-light mb-8">
-                Faça o diagnóstico e receba seu plano base.
+                Descobre seu Score. É grátis. Leva 2 minutos.
               </p>
               <Button href="/score" size="large" iconRight={<ArrowRight />} className="animate-pulse-glow">
-                Calcular meu Score
+                Ver meu Score
               </Button>
               <div className="mt-8 pt-8 border-t border-border/50">
                 <p className="text-sm text-foreground-muted mb-4">
-                  Ou entre na lista de espera:
+                  Ou deixa seu email e entra antes de todo mundo:
                 </p>
                 <EmailCaptureForm
                   source="cta-final"
-                  buttonText="Entrar na lista"
+                  buttonText="Quero entrar"
                   className="max-w-md mx-auto"
                 />
               </div>

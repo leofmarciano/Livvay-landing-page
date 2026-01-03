@@ -657,6 +657,7 @@ interface ChartData {
 | `react` / `react-dom` | 19.2.3 | UI library |
 | `tailwindcss` | 4.x | Styling |
 | `shadcn/ui` | - | UI component library (built on Radix UI) |
+| `@heroui/react` | 3.x | HeroUI component library - USE THIS for complex interactive components |
 | `@radix-ui/*` | - | Headless UI primitives - USE THIS for accessible components |
 | `lucide-react` | 0.562.0 | Icons - USE THIS for all icons |
 | `framer-motion` | 12.x | Animations - use sparingly, only when it adds value |
@@ -668,12 +669,43 @@ interface ChartData {
 ### Usage Rules
 
 - **UI Components:** Use `shadcn/ui` components when available. Add new ones with `bunx shadcn@latest add <component>`.
+- **HeroUI Components:** Use `@heroui/react` for complex interactive components (Autocomplete, DatePicker, Table, Tabs, Modal, etc.). HeroUI is built on React Aria and provides excellent accessibility out of the box.
 - **Headless Primitives:** Use `@radix-ui/*` for accessible, unstyled primitives (Dialog, Popover, Accordion, etc.).
 - **Icons:** Always use `lucide-react`. Do NOT install other icon libraries.
 - **Animations:** Use `framer-motion` only when animation adds meaningful UX value. Avoid gratuitous animations.
 - **Forms:** Always use `react-hook-form` + `zod` combination. Do NOT use other form libraries.
 - **Charts:** Always use `recharts`. Do NOT install Chart.js, Victory, or other chart libraries.
 - **Styling:** Use TailwindCSS classes. Do NOT install styled-components, emotion, or CSS-in-JS libraries.
+
+### HeroUI Setup
+
+HeroUI is integrated with Tailwind CSS v4 using the plugin system:
+
+1. **Plugin file:** `hero.ts` in project root exports the HeroUI plugin
+2. **CSS imports:** `globals.css` includes `@plugin '../../hero.ts'` and `@source` for HeroUI theme
+3. **Provider:** `HeroUIProvider` wraps the app in `src/app/providers.tsx`
+
+**Component Priority:**
+1. First check if `shadcn/ui` has the component
+2. If not available or HeroUI version is better suited, use `@heroui/react`
+3. For unstyled primitives, use `@radix-ui/*`
+
+**HeroUI Component Examples:**
+```tsx
+import { Button, Input, Modal, Table, Tabs, DatePicker } from '@heroui/react';
+
+// Button with variants
+<Button color="primary" variant="solid">Click me</Button>
+
+// Input with label
+<Input label="Email" placeholder="Enter your email" />
+
+// Tabs
+<Tabs aria-label="Options">
+  <Tab key="photos" title="Photos">Photo content</Tab>
+  <Tab key="videos" title="Videos">Video content</Tab>
+</Tabs>
+```
 
 ### shadcn/ui Commands
 
