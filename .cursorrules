@@ -1,0 +1,359 @@
+# Codex Project Rules
+
+You are working in the Livvay marketing site repo.
+
+## Read First
+- Always read `AGENTS.md` before making changes.
+- Follow the Supabase Design System docs linked there.
+
+## Runtime & Package Manager
+- Use **Bun** (not npm/yarn)
+- Commands: `bun install`, `bun dev`, `bun run build`, `bun add <pkg>`
+
+## Code Style
+- TypeScript, Next.js 16 App Router, React 19, TailwindCSS 4
+- Keep components small and reusable in `src/components`
+- Prefer server components unless interactivity is needed
+
+## Available Dependencies (DO NOT install alternatives)
+| Package | Use For |
+|---------|---------|
+| `shadcn/ui` | UI components (add with `bunx shadcn@latest add <component>`) |
+| `@radix-ui/*` | Headless accessible primitives |
+| `lucide-react` | ALL icons |
+| `framer-motion` | Animations (sparingly) |
+| `react-hook-form` + `zod` | ALL forms |
+| `recharts` | ALL charts |
+| `tailwindcss` | ALL styling |
+
+## Forbidden Packages
+- NO other UI libs (MUI, Chakra, Ant Design, etc.) - use shadcn/ui
+- NO other icon libs (react-icons, heroicons, etc.)
+- NO other chart libs (Chart.js, Victory, Nivo, etc.)
+- NO other form libs (Formik, etc.)
+- NO CSS-in-JS (styled-components, emotion, etc.)
+
+## Product + Compliance
+- "Vida eterna" is ambition, never a literal promise.
+- Avoid claims like "garantido", "cura", "reverte idade", "imortalidade comprovada", "milagre".
+- Mention medical responsibility when referencing doctors/prescriptions.
+- Any health estimates are probabilistic, not diagnostic.
+
+## Forms + Data
+- Use `react-hook-form` + `zod` with accessible labels.
+- Lead capture goes through `/api/lead`.
+
+## UX
+- Mobile-first, high contrast, clear focus states.
+- Keep copy short; add a practical example with feature claims.
+
+---
+
+# Supabase Design System - Quick Reference
+
+## Architecture
+Three-tier component architecture:
+1. **Atoms** - Button, Input, Card, Dialog
+2. **Fragments** - Modal, Filter Bar, Page Header
+3. **UI Patterns** - Design guidelines for interfaces
+
+---
+
+## Accessibility (CRITICAL)
+
+### Keyboard Navigation
+- ALL interactive elements MUST be keyboard-reachable
+- Add `tabIndex={0}` to buttons, links, custom controls
+- Tie `tabIndex` to `disabled` property
+- MUST have `focus-visible` state with consistent `inset-focus` style
+
+### Interactive Elements Pattern
+```tsx
+<tr
+  onClick={handleClick}
+  onKeyDown={(e) => {
+    if (e.key === 'Enter' || e.key === ' ') handleClick()
+  }}
+  tabIndex={0}
+>
+```
+
+### Radio Groups
+- Only first item receives Tab focus
+- Arrow keys navigate options
+- Space activates (Enter secondary)
+
+### Screen Readers
+- Descriptive `alt` on images (objective content, not context)
+- `aria-label` on icons with meaning
+- `aria-hidden="true"` on decorative elements (NEVER on focusable)
+- `sr-only` class for screen-reader-only text
+
+---
+
+## Color Usage
+
+### Text Colors
+| Class | Use |
+|-------|-----|
+| `text-foreground` | Default text |
+| `text-foreground-light` | Softer text |
+| `text-foreground-lighter` | Even lighter |
+| `text-foreground-muted` | De-emphasized |
+
+### Accent Text (USE SPARINGLY)
+| Class | Use |
+|-------|-----|
+| `text-destructive` | Errors/danger |
+| `text-warning` | Warnings |
+| `text-brand` | Brand emphasis |
+
+### Backgrounds
+| Class | Use |
+|-------|-----|
+| `bg-surface-100` | Base panels |
+| `bg-surface-200` | Dropdowns, overlapping |
+| `bg-surface-300` | Stacked above 200 |
+| `bg-alternative` | Contrast/inverted |
+| `bg-overlay` | Modals/popovers |
+| `bg-control` | Inputs/checkboxes |
+
+### Borders
+| Class | Use |
+|-------|-----|
+| `border` | Standard |
+| `border-secondary` | Secondary |
+| `border-strong` | Hover/focus |
+| `border-stronger` | Highlighted |
+
+### Semantic Scales
+`200`, `300`, `400`, `500` (default), `600`
+Example: `bg-destructive-200`, `bg-brand-600`
+
+### Rules
+- Dialogs MUST use app background color
+- Use `bg-alternative` for theme-safe contrast
+- Opacity: `bg-surface-300/90`, `/80`, `/50`
+
+---
+
+## Copywriting
+
+### Voice
+- **Direct**: What it does, not what it enables
+- **Action-oriented**: Outcomes, not features
+- **Technical without jargon**: Precise with explanations
+- **Pragmatic**: Acknowledge tradeoffs
+
+### Buttons - Use Verbs
+| Bad | Good |
+|-----|------|
+| "Remove" | "Delete project" |
+| "Submit" | "Create table" |
+| "Configure" | "Enable RLS" |
+
+### Form Labels
+- Good: "Table name"
+- Bad: "Name your table"
+
+### Error Messages
+State problem, then fix:
+- "Table name already exists. Choose a different name."
+- NOT: "An error occurred"
+
+### Avoid
+- "easily", "simply", "powerful"
+- "manage", "handle", "work with"
+
+### Formatting
+- ALWAYS sentence case ("Set up authentication")
+- Inline code for technical terms: `RLS`, `API key`
+- NO italics for emphasis
+- Exclamation marks ONLY for destructive warnings
+
+---
+
+## Icons
+
+### Library
+Use **Lucide** (`lucide-react`). Custom only if Lucide lacks it.
+
+### Rules
+1. Icons MUST accompany text - never standalone
+2. Must be legible at small sizes
+3. Same icon for same action everywhere
+
+### Sizing
+Default: `strokeWidth={2}`, `size={24}`
+Override: `<Icon strokeWidth={1} size={16} />`
+
+### Coloring
+```tsx
+<SaveIcon className="text-foreground-muted" />
+```
+
+**NEVER** use `text-destructive` on icons. Confirmation dialog handles it.
+
+### Custom SVG Specs
+- 24x24px, `viewBox="0 0 24 24"`
+- `stroke="currentColor"` (no hardcoded colors)
+- `stroke-width="1.5"`
+- `fill="none"`
+- Only `<path>` elements, remove `<clipPath>`, `<defs>`, `<g>`
+
+---
+
+## Tailwind Classes
+
+### Primitive Tokens
+| Token | Purpose |
+|-------|---------|
+| `background` | Surfaces/overlays |
+| `foreground` | Text/foreground |
+| `border` | Borders |
+| `brand` | Accent |
+| `warning` | Alerts |
+| `destructive` | Errors |
+
+### Shorthands
+- `text-muted` = `text-foreground-muted`
+- Any primitive on any utility: `border-foreground-light`
+
+---
+
+## Theming
+
+### Supported Themes
+1. Light
+2. Dark (Classic Dark)
+3. Deep Dark
+4. System (auto-switches)
+
+### Rules
+- Use CSS custom properties for colors
+- Apply via `data-theme` attribute on root
+- Persist in localStorage
+- Support `prefers-color-scheme: dark`
+- NEVER hardcode color values
+- Test in light, dark, and deep dark modes
+
+---
+
+## Typography
+
+### Font Stacks
+- **Primary**: `'customFont', Circular, Helvetica Neue, Arial, sans-serif`
+- **Code**: `'Source Code Pro', Office Code Pro, Menlo, monospace`
+
+### Classes
+| Class | Use |
+|-------|-----|
+| `text-code-inline` | Inline `<code>` |
+| `text-brand-link` | Brand-colored links |
+
+---
+
+## Layout Patterns
+
+### Components
+| Component | Purpose |
+|-----------|---------|
+| `PageContainer` | Max-width + padding by size |
+| `PageHeader` | Breadcrumbs, title, actions |
+| `PageSection` | Content sections |
+
+### Size Variants
+| Type | Size |
+|------|------|
+| Settings pages | `size="default"` |
+| List pages | `size="large"` |
+| Full-page (editors) | `size="full"` |
+
+### Detail Pages
+Use `PageSection` with `orientation="horizontal"` for side-by-side content.
+
+---
+
+## Forms
+
+### Structure
+- Page forms: `PageSection` with Card containers
+- Horizontal toggles: `FormItemLayout` with `layout="flex-row-reverse"`
+
+### Validation
+- `react-hook-form` + `zod`
+- Errors below input with `text-destructive`
+- Focus first invalid field on submit
+
+### Button Placement
+- Primary action: RIGHT
+- Cancel/secondary: LEFT
+
+---
+
+## Empty States
+
+### When
+1. Initial state (no data yet)
+2. Zero results (search returned nothing)
+
+### Presentational Empty State
+```tsx
+<EmptyState>
+  <Icon />
+  <Title>Create a vector bucket</Title>  {/* Action-oriented! */}
+  <Description>Brief feature value</Description>
+  <Button>Create bucket</Button>
+</EmptyState>
+```
+
+### Table Empty States
+- Single row spanning all columns
+- Header text: `text-foreground-muted`
+- Remove hover: `[&>td]:hover:bg-inherit`
+
+---
+
+## Charts
+
+### Components
+| Component | Purpose |
+|-----------|---------|
+| `<Chart>` | Root provider (loading/disabled) |
+| `<ChartCard>` | Card wrapper |
+| `<ChartHeader>` | Header container |
+| `<ChartContent>` | Visualization area |
+| `<ChartTitle>` | Title with optional tooltip |
+| `<ChartMetric>` | Values with status |
+| `<ChartEmptyState>` | Empty state |
+| `<ChartLoadingState>` | Loading state |
+
+### Chart Types
+- `<ChartLine>` - Time-series line
+- `<ChartBar>` - Time-series bar
+
+### Colors
+- Default: `hsl(var(--brand-default))`
+- Hover: `hsl(var(--brand-500))`
+
+### State Management
+```tsx
+<Chart isLoading={loading}>
+  <ChartContent isEmpty={!data.length}>
+    <ChartLine data={data} />
+  </ChartContent>
+</Chart>
+```
+
+### Data Structure
+```ts
+interface ChartData {
+  timestamp: string;  // Required
+  [key: string]: number | string;
+}
+```
+
+### Best Practices
+1. Use provided chart components, not raw Recharts
+2. Use `useChart` context for state
+3. Keep abstraction minimal

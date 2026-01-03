@@ -1,0 +1,2 @@
+export { EmailCaptureForm } from './EmailCaptureForm';
+
