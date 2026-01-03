@@ -14,13 +14,14 @@ interface ButtonProps {
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
   onClick?: () => void;
+  tabIndex?: number;
 }
 
 const variants = {
-  primary: 'bg-[#00E676] text-[#0A0A0B] hover:bg-[#00C853] font-semibold shadow-lg shadow-[#00E676]/20',
-  secondary: 'bg-[#1A1A1D] text-white hover:bg-[#27272A] border border-[#27272A]',
-  outline: 'bg-transparent text-[#00E676] border-2 border-[#00E676] hover:bg-[#00E676]/10',
-  ghost: 'bg-transparent text-[#A1A1AA] hover:text-white hover:bg-[#1A1A1D]',
+  primary: 'bg-brand text-background hover:bg-brand-600 font-semibold shadow-lg shadow-brand/20',
+  secondary: 'bg-surface-200 text-foreground hover:bg-surface-300 border border-border',
+  outline: 'bg-transparent text-brand border-2 border-brand hover:bg-brand/10',
+  ghost: 'bg-transparent text-foreground-light hover:text-foreground hover:bg-surface-100',
 };
 
 const sizes = {
@@ -39,12 +40,13 @@ export function Button({
   disabled = false,
   type = 'button',
   onClick,
+  tabIndex = 0,
 }: ButtonProps) {
   const baseStyles = `
     inline-flex items-center justify-center gap-2 
     rounded-full font-medium 
     transition-all duration-200 
-    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#00E676] focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0B]
+    focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand focus-visible:ring-offset-2 focus-visible:ring-offset-background
     disabled:opacity-50 disabled:cursor-not-allowed
     ${variants[variant]} 
     ${sizes[size]} 
@@ -59,6 +61,7 @@ export function Button({
           xmlns="http://www.w3.org/2000/svg" 
           fill="none" 
           viewBox="0 0 24 24"
+          aria-hidden="true"
         >
           <circle 
             className="opacity-25" 
@@ -81,7 +84,7 @@ export function Button({
 
   if (href) {
     return (
-      <Link href={href} className={baseStyles}>
+      <Link href={href} className={baseStyles} tabIndex={tabIndex}>
         {content}
       </Link>
     );
@@ -95,6 +98,7 @@ export function Button({
       disabled={disabled || isLoading}
       type={type}
       onClick={onClick}
+      tabIndex={disabled ? -1 : tabIndex}
     >
       {content}
     </motion.button>

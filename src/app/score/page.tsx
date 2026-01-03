@@ -27,7 +27,6 @@ import {
 } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
-import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 
 // Quiz questions data
@@ -223,6 +222,13 @@ export default function ScorePage() {
     }
   };
 
+  const handleBackKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      handleBack();
+    }
+  };
+
   const onSubmitEmail = async (data: EmailFormData) => {
     setIsSubmitting(true);
     setSubmitError(null);
@@ -259,7 +265,7 @@ export default function ScorePage() {
   // Result Screen
   if (showResult && score !== null) {
     return (
-      <div className="min-h-screen bg-[#0A0A0B] py-12">
+      <div className="min-h-screen bg-background py-12">
         <Container>
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
@@ -269,7 +275,7 @@ export default function ScorePage() {
             {/* Score Display */}
             <div className="text-center mb-12">
               <Badge variant="premium" className="mb-4">Resultado</Badge>
-              <h1 className="text-2xl md:text-3xl font-bold text-white mb-8">
+              <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-8">
                 Seu Livvay Score inicial
               </h1>
               
@@ -278,58 +284,61 @@ export default function ScorePage() {
                 animate={{ scale: 1 }}
                 transition={{ type: 'spring', delay: 0.2 }}
                 className="relative inline-block"
+                role="img"
+                aria-label={`Seu score é ${score} pontos`}
               >
-                <div className="w-48 h-48 md:w-56 md:h-56 rounded-full bg-gradient-to-br from-[#00E676] to-[#00C853] flex items-center justify-center shadow-2xl shadow-[#00E676]/30">
+                <div className="w-48 h-48 md:w-56 md:h-56 rounded-full bg-gradient-to-br from-brand to-brand-600 flex items-center justify-center shadow-2xl shadow-brand/30">
                   <div className="text-center">
-                    <span className="text-5xl md:text-6xl font-bold text-[#0A0A0B]">
+                    <span className="text-5xl md:text-6xl font-bold text-background">
                       {score}
                     </span>
-                    <p className="text-sm text-[#0A0A0B]/70 font-medium">pontos</p>
+                    <p className="text-sm text-background/70 font-medium">pontos</p>
                   </div>
                 </div>
-                <Sparkles className="absolute -top-2 -right-2 w-8 h-8 text-[#EAB308] animate-pulse" />
+                <Sparkles className="absolute -top-2 -right-2 w-8 h-8 text-warning animate-pulse" aria-hidden="true" />
               </motion.div>
 
-              <p className="mt-6 text-[#A1A1AA] max-w-md mx-auto">
+              <p className="mt-6 text-foreground-light max-w-md mx-auto">
                 Este é seu ponto de partida. Com consistência e o método Livvay, 
                 esse número vai subir — e sua saúde também.
               </p>
             </div>
 
             {/* Actions */}
-            <Card variant="highlight" className="mb-8">
-              <h2 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-                <Target className="w-5 h-5 text-[#00E676]" />
-                3 ações para amanhã
+            <div className="bg-surface-100 border border-brand/30 rounded-2xl p-6 mb-8">
+              <h2 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
+                <Target className="w-5 h-5 text-brand" aria-hidden="true" />
+                <span>3 ações para amanhã</span>
               </h2>
-              <div className="space-y-4">
+              <div className="space-y-4" role="list">
                 {actions.map((action, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, x: -20 }}
                     animate={{ opacity: 1, x: 0 }}
                     transition={{ delay: 0.3 + index * 0.1 }}
-                    className="flex items-start gap-4 p-4 bg-[#0A0A0B] rounded-xl"
+                    className="flex items-start gap-4 p-4 bg-background rounded-xl"
+                    role="listitem"
                   >
-                    <div className="w-8 h-8 rounded-full bg-[#00E676]/20 flex items-center justify-center flex-shrink-0">
-                      <span className="text-[#00E676] font-bold">{index + 1}</span>
+                    <div className="w-8 h-8 rounded-full bg-brand/20 flex items-center justify-center flex-shrink-0">
+                      <span className="text-brand font-bold">{index + 1}</span>
                     </div>
-                    <p className="text-white">{action}</p>
+                    <p className="text-foreground">{action}</p>
                   </motion.div>
                 ))}
               </div>
-            </Card>
+            </div>
 
             {/* CTAs */}
             <div className="space-y-4">
               <div className="grid sm:grid-cols-2 gap-4">
                 <Button href="/plus" className="w-full">
-                  Conhecer o Plus
-                  <Users className="w-4 h-4" />
+                  <span>Conhecer o Plus</span>
+                  <Users className="w-4 h-4" aria-hidden="true" />
                 </Button>
                 <Button href="/liga" variant="secondary" className="w-full">
-                  Entrar na Liga
-                  <Trophy className="w-4 h-4" />
+                  <span>Entrar na Liga</span>
+                  <Trophy className="w-4 h-4" aria-hidden="true" />
                 </Button>
               </div>
               <Button href="/" variant="ghost" className="w-full">
@@ -338,7 +347,7 @@ export default function ScorePage() {
             </div>
 
             {/* Note */}
-            <p className="mt-8 text-xs text-[#71717A] text-center">
+            <p className="mt-8 text-xs text-foreground-muted text-center">
               O Livvay Score é uma estimativa baseada nas suas respostas para 
               orientar seu plano. Não substitui avaliação médica.
             </p>
@@ -350,18 +359,25 @@ export default function ScorePage() {
 
   // Quiz Steps
   return (
-    <div className="min-h-screen bg-[#0A0A0B] py-8 md:py-12">
+    <div className="min-h-screen bg-background py-8 md:py-12">
       <Container>
         <div className="max-w-2xl mx-auto">
           {/* Progress Bar */}
           <div className="mb-8">
-            <div className="flex justify-between text-sm text-[#71717A] mb-2">
+            <div className="flex justify-between text-sm text-foreground-muted mb-2">
               <span>Passo {currentStep + 1} de {quizSteps.length + 1}</span>
               <span>{Math.round(progress)}%</span>
             </div>
-            <div className="h-2 bg-[#27272A] rounded-full overflow-hidden">
+            <div 
+              className="h-2 bg-surface-200 rounded-full overflow-hidden"
+              role="progressbar"
+              aria-valuenow={Math.round(progress)}
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-label="Progresso do questionário"
+            >
               <motion.div
-                className="h-full bg-[#00E676] rounded-full"
+                className="h-full bg-brand rounded-full"
                 initial={{ width: 0 }}
                 animate={{ width: `${progress}%` }}
                 transition={{ duration: 0.3 }}
@@ -373,10 +389,12 @@ export default function ScorePage() {
           {currentStep > 0 && (
             <button
               onClick={handleBack}
-              className="flex items-center gap-2 text-[#A1A1AA] hover:text-white transition-colors mb-6"
+              onKeyDown={handleBackKeyDown}
+              className="flex items-center gap-2 text-foreground-light hover:text-foreground transition-colors mb-6 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded"
+              tabIndex={0}
             >
-              <ArrowLeft className="w-4 h-4" />
-              Voltar
+              <ArrowLeft className="w-4 h-4" aria-hidden="true" />
+              <span>Voltar</span>
             </button>
           )}
 
@@ -390,16 +408,16 @@ export default function ScorePage() {
                 exit={{ opacity: 0, x: -20 }}
                 transition={{ duration: 0.3 }}
               >
-                <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">
+                <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
                   {quizSteps[currentStep].question}
                 </h1>
                 {quizSteps[currentStep].subtitle && (
-                  <p className="text-[#A1A1AA] mb-8">
+                  <p className="text-foreground-light mb-8">
                     {quizSteps[currentStep].subtitle}
                   </p>
                 )}
 
-                <div className="grid gap-4">
+                <div className="grid gap-4" role="radiogroup" aria-label={quizSteps[currentStep].question}>
                   {quizSteps[currentStep].options.map((option) => {
                     const isSelected = answers[quizSteps[currentStep].id] === option.value;
                     return (
@@ -408,28 +426,38 @@ export default function ScorePage() {
                         whileHover={{ scale: 1.02 }}
                         whileTap={{ scale: 0.98 }}
                         onClick={() => handleOptionSelect(quizSteps[currentStep].id, option.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            handleOptionSelect(quizSteps[currentStep].id, option.value);
+                          }
+                        }}
                         className={`
                           flex items-center gap-4 p-5 rounded-xl border text-left transition-all
+                          focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand
                           ${isSelected
-                            ? 'bg-[#00E676]/10 border-[#00E676]'
-                            : 'bg-[#111113] border-[#27272A] hover:border-[#3F3F46]'
+                            ? 'bg-brand/10 border-brand'
+                            : 'bg-surface-100 border-border hover:border-border-strong'
                           }
                         `}
+                        role="radio"
+                        aria-checked={isSelected}
+                        tabIndex={0}
                       >
                         <div className={`
                           w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0
-                          ${isSelected ? 'bg-[#00E676]/20' : 'bg-[#1A1A1D]'}
+                          ${isSelected ? 'bg-brand/20' : 'bg-surface-200'}
                         `}>
-                          <option.icon className={`w-6 h-6 ${isSelected ? 'text-[#00E676]' : 'text-[#A1A1AA]'}`} />
+                          <option.icon className={`w-6 h-6 ${isSelected ? 'text-brand' : 'text-foreground-light'}`} aria-hidden="true" />
                         </div>
                         <div>
-                          <p className={`font-semibold ${isSelected ? 'text-[#00E676]' : 'text-white'}`}>
+                          <p className={`font-semibold ${isSelected ? 'text-brand' : 'text-foreground'}`}>
                             {option.label}
                           </p>
-                          <p className="text-sm text-[#71717A]">{option.description}</p>
+                          <p className="text-sm text-foreground-muted">{option.description}</p>
                         </div>
                         {isSelected && (
-                          <CheckCircle className="w-6 h-6 text-[#00E676] ml-auto flex-shrink-0" />
+                          <CheckCircle className="w-6 h-6 text-brand ml-auto flex-shrink-0" aria-hidden="true" />
                         )}
                       </motion.button>
                     );
@@ -445,44 +473,48 @@ export default function ScorePage() {
                 exit={{ opacity: 0, x: -20 }}
               >
                 <div className="text-center mb-8">
-                  <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-[#00E676]/10 flex items-center justify-center">
-                    <Mail className="w-8 h-8 text-[#00E676]" />
+                  <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-brand/10 flex items-center justify-center">
+                    <Mail className="w-8 h-8 text-brand" aria-hidden="true" />
                   </div>
-                  <h1 className="text-2xl md:text-3xl font-bold text-white mb-2">
+                  <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
                     Quase lá!
                   </h1>
-                  <p className="text-[#A1A1AA]">
+                  <p className="text-foreground-light">
                     Receba seu resultado + plano base de 7 dias
                   </p>
                 </div>
 
-                <form onSubmit={handleSubmit(onSubmitEmail)} className="space-y-4">
+                <form onSubmit={handleSubmit(onSubmitEmail)} className="space-y-4" noValidate>
                   <div>
+                    <label htmlFor="email" className="sr-only">
+                      Email
+                    </label>
                     <div className="relative">
-                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#71717A]" />
+                      <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground-muted" aria-hidden="true" />
                       <input
                         type="email"
+                        id="email"
                         placeholder="seu@email.com"
                         {...register('email')}
                         className={`
                           w-full pl-12 pr-4 py-4 
-                          bg-[#111113] border rounded-xl
-                          text-white placeholder-[#71717A]
-                          focus:outline-none focus:ring-2 focus:ring-[#00E676] focus:border-transparent
+                          bg-surface-100 border rounded-xl
+                          text-foreground placeholder-foreground-muted
+                          focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent
                           text-lg
-                          ${errors.email ? 'border-[#EF4444]' : 'border-[#27272A]'}
+                          ${errors.email ? 'border-destructive' : 'border-border'}
                         `}
-                        aria-label="Email"
                         aria-invalid={errors.email ? 'true' : 'false'}
+                        aria-describedby={errors.email ? 'email-error' : undefined}
                       />
                     </div>
                     {errors.email && (
-                      <p className="text-[#EF4444] text-sm mt-2" role="alert">
+                      <p id="email-error" className="text-destructive text-sm mt-2" role="alert">
                         {errors.email.message}
                       </p>
                     )}
                     {submitError && (
-                      <p className="text-[#EF4444] text-sm mt-2" role="alert">
+                      <p className="text-destructive text-sm mt-2" role="alert">
                         {submitError}
                       </p>
                     )}
@@ -494,13 +526,13 @@ export default function ScorePage() {
                     className="w-full"
                     size="lg"
                   >
-                    Ver meu resultado
-                    <ArrowRight className="w-5 h-5" />
+                    <span>Ver meu resultado</span>
+                    <ArrowRight className="w-5 h-5" aria-hidden="true" />
                   </Button>
 
-                  <p className="text-xs text-[#71717A] text-center">
+                  <p className="text-xs text-foreground-muted text-center">
                     Ao continuar, você concorda com nossa{' '}
-                    <a href="/privacidade" className="text-[#00E676] hover:underline">
+                    <a href="/privacidade" className="text-brand hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded">
                       política de privacidade
                     </a>
                     .
@@ -514,4 +546,3 @@ export default function ScorePage() {
     </div>
   );
 }
-

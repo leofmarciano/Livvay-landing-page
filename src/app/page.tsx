@@ -9,7 +9,6 @@ import {
   Users,
   Trophy,
   Heart,
-  Moon,
   TrendingUp,
   CheckCircle,
   ArrowRight,
@@ -94,9 +93,9 @@ export default function Home() {
       {/* Hero Section */}
       <section className="relative min-h-[90vh] flex items-center overflow-hidden">
         {/* Background Effects */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0B] via-[#0A0A0B] to-[#111113]" />
-        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-[#00E676]/5 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-[#00E676]/3 rounded-full blur-[100px]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background via-background to-surface-100" />
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand/5 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-brand/3 rounded-full blur-[100px]" />
 
         <Container className="relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
@@ -113,27 +112,27 @@ export default function Home() {
               </div>
 
               {/* Headline */}
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 text-foreground">
                 Você não quer morrer.{' '}
                 <span className="gradient-text">O Livvay também não.</span>
               </h1>
 
               {/* Subheadline */}
-              <p className="text-lg md:text-xl text-[#A1A1AA] mb-4 max-w-xl">
+              <p className="text-lg md:text-xl text-foreground-light mb-4 max-w-xl">
                 Um assistente de longevidade que transforma tudo que você come, dorme e faz em um plano simples, ajustado em tempo real.{' '}
-                <span className="text-white font-medium">Rumo à vida eterna, com método.</span>
+                <span className="text-foreground font-medium">Rumo à vida eterna, com método.</span>
               </p>
 
               {/* Microcopy */}
-              <p className="text-[#71717A] mb-8">
+              <p className="text-foreground-muted mb-8">
                 Sem termos difíceis. Sem terrorismo. Só direção clara.
               </p>
 
               {/* CTAs */}
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
                 <Button href="/score" size="lg">
-                  Calcular meu Livvay Score
-                  <ArrowRight className="w-5 h-5" />
+                  <span>Calcular meu Livvay Score</span>
+                  <ArrowRight className="w-5 h-5" aria-hidden="true" />
                 </Button>
                 <Button href="#waitlist" variant="secondary" size="lg">
                   Entrar na lista de espera
@@ -141,8 +140,8 @@ export default function Home() {
               </div>
 
               {/* Email Capture */}
-              <div className="pt-6 border-t border-[#27272A]">
-                <p className="text-sm text-[#71717A] mb-3">
+              <div className="pt-6 border-t border-border">
+                <p className="text-sm text-foreground-muted mb-3">
                   Ou entre direto na lista de espera:
                 </p>
                 <EmailCaptureForm source="hero" buttonText="Quero acesso" />
@@ -158,14 +157,14 @@ export default function Home() {
             >
               <div className="relative">
                 {/* Glow effect */}
-                <div className="absolute -inset-4 bg-[#00E676]/10 rounded-[50px] blur-2xl" />
-        <Image
+                <div className="absolute -inset-4 bg-brand/10 rounded-[50px] blur-2xl" />
+                <Image
                   src="/mock-phone.svg"
                   alt="Livvay App mostrando o painel do dia com Score, registro de comida e progresso"
                   width={280}
                   height={560}
                   className="relative z-10"
-          priority
+                  priority
                 />
               </div>
             </motion.div>
@@ -183,19 +182,19 @@ export default function Home() {
           {[
             {
               text: 'Você começa segunda. Desiste quarta.',
-              bg: 'bg-gradient-to-br from-[#EF4444]/10 to-transparent',
+              bg: 'bg-gradient-to-br from-destructive/10 to-transparent',
             },
             {
               text: 'Você tem dados. Mas não tem decisão.',
-              bg: 'bg-gradient-to-br from-[#F97316]/10 to-transparent',
+              bg: 'bg-gradient-to-br from-warning/10 to-transparent',
             },
             {
               text: "Você tenta 'ser saudável'. Sem um sistema, vira sorte.",
-              bg: 'bg-gradient-to-br from-[#EAB308]/10 to-transparent',
+              bg: 'bg-gradient-to-br from-warning/10 to-transparent',
             },
             {
               text: 'Você não quer morrer. Mas vive como se desse tempo.',
-              bg: 'bg-gradient-to-br from-[#8B5CF6]/10 to-transparent',
+              bg: 'bg-gradient-to-br from-brand/10 to-transparent',
             },
           ].map((item, index) => (
             <motion.div
@@ -204,9 +203,9 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.1 }}
-              className={`p-8 rounded-2xl border border-[#27272A] ${item.bg}`}
+              className={`p-8 rounded-2xl border border-border ${item.bg}`}
             >
-              <p className="text-xl md:text-2xl font-semibold text-white">
+              <p className="text-xl md:text-2xl font-semibold text-foreground">
                 {item.text}
               </p>
             </motion.div>
@@ -243,12 +242,12 @@ export default function Home() {
             },
           ].map((pillar, index) => (
             <Card key={index} variant="highlight" className="text-center">
-              <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-[#00E676]/10 flex items-center justify-center">
-                <pillar.icon className="w-8 h-8 text-[#00E676]" />
+              <div className="w-16 h-16 mx-auto mb-6 rounded-2xl bg-brand/10 flex items-center justify-center">
+                <pillar.icon className="w-8 h-8 text-brand" aria-hidden="true" />
               </div>
-              <h3 className="text-xl font-bold text-white mb-3">{pillar.title}</h3>
-              <p className="text-[#A1A1AA] mb-4">{pillar.description}</p>
-              <p className="text-sm text-[#00E676] bg-[#00E676]/10 px-4 py-2 rounded-lg">
+              <h3 className="text-xl font-bold text-foreground mb-3">{pillar.title}</h3>
+              <p className="text-foreground-light mb-4">{pillar.description}</p>
+              <p className="text-sm text-brand bg-brand/10 px-4 py-2 rounded-lg">
                 {pillar.example}
               </p>
             </Card>
@@ -304,27 +303,27 @@ export default function Home() {
             >
               {/* Timeline line */}
               {index < 3 && (
-                <div className="absolute left-[39px] top-16 w-0.5 h-full bg-gradient-to-b from-[#00E676] to-[#27272A]" />
+                <div className="absolute left-[39px] top-16 w-0.5 h-full bg-gradient-to-b from-brand to-border" />
               )}
               {/* Step number */}
-              <div className="absolute left-0 top-0 w-20 h-20 rounded-2xl bg-[#00E676]/10 border border-[#00E676]/30 flex items-center justify-center">
-                <span className="text-3xl font-bold text-[#00E676]">{item.step}</span>
+              <div className="absolute left-0 top-0 w-20 h-20 rounded-2xl bg-brand/10 border border-brand/30 flex items-center justify-center">
+                <span className="text-3xl font-bold text-brand">{item.step}</span>
               </div>
               {/* Content */}
               <div className="pt-2">
                 <div className="flex items-center gap-3 mb-2">
-                  <item.icon className="w-5 h-5 text-[#00E676]" />
-                  <h3 className="text-xl font-bold text-white">{item.title}</h3>
+                  <item.icon className="w-5 h-5 text-brand" aria-hidden="true" />
+                  <h3 className="text-xl font-bold text-foreground">{item.title}</h3>
                 </div>
-                <p className="text-[#A1A1AA] mb-4">{item.description}</p>
+                <p className="text-foreground-light mb-4">{item.description}</p>
                 {item.cta && (
                   <Button href="/score" size="sm">
-                    Quero meu Score
-                    <ArrowRight className="w-4 h-4" />
+                    <span>Quero meu Score</span>
+                    <ArrowRight className="w-4 h-4" aria-hidden="true" />
                   </Button>
                 )}
                 {item.note && (
-                  <p className="text-xs text-[#71717A] mt-4 p-3 bg-[#1A1A1D] rounded-lg border border-[#27272A]">
+                  <p className="text-xs text-foreground-muted mt-4 p-3 bg-surface-100 rounded-lg border border-border">
                     ⚠️ Nota: O Livvay Plus não substitui emergências médicas. Condutas dependem de avaliação clínica individualizada. Resultados variam de pessoa para pessoa.
                   </p>
                 )}
@@ -339,7 +338,7 @@ export default function Home() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div>
             <Badge variant="premium" className="mb-4">Tecnologia</Badge>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
               A AI do Livvay não é chat.{' '}
               <span className="gradient-text">É motor de decisão.</span>
             </h2>
@@ -358,32 +357,32 @@ export default function Home() {
                   transition={{ delay: index * 0.1 }}
                   className="flex items-start gap-3"
                 >
-                  <CheckCircle className="w-5 h-5 text-[#00E676] flex-shrink-0 mt-0.5" />
-                  <span className="text-[#A1A1AA]">{item}</span>
+                  <CheckCircle className="w-5 h-5 text-brand flex-shrink-0 mt-0.5" aria-hidden="true" />
+                  <span className="text-foreground-light">{item}</span>
                 </motion.li>
               ))}
             </ul>
           </div>
           {/* AI Panel Mock */}
-          <div className="bg-[#111113] rounded-2xl border border-[#27272A] p-6">
-            <h3 className="text-lg font-semibold text-white mb-6 flex items-center gap-2">
-              <Sparkles className="w-5 h-5 text-[#00E676]" />
-              Painel do dia
+          <div className="bg-surface-100 rounded-2xl border border-border p-6">
+            <h3 className="text-lg font-semibold text-foreground mb-6 flex items-center gap-2">
+              <Sparkles className="w-5 h-5 text-brand" aria-hidden="true" />
+              <span>Painel do dia</span>
             </h3>
             <div className="space-y-4">
               {[
-                { label: 'Proteína', value: 78, color: 'bg-[#00E676]' },
-                { label: 'Fibras', value: 50, color: 'bg-[#EAB308]' },
-                { label: 'Sono', value: 90, color: 'bg-[#8B5CF6]' },
-                { label: 'Hidratação', value: 65, color: 'bg-[#3B82F6]' },
-                { label: 'Estresse', value: 30, color: 'bg-[#22C55E]', inverted: true },
+                { label: 'Proteína', value: 78, color: 'bg-brand' },
+                { label: 'Fibras', value: 50, color: 'bg-warning' },
+                { label: 'Sono', value: 90, color: 'bg-brand-400' },
+                { label: 'Hidratação', value: 65, color: 'bg-brand-300' },
+                { label: 'Estresse', value: 30, color: 'bg-success' },
               ].map((metric) => (
                 <div key={metric.label} className="space-y-2">
                   <div className="flex justify-between text-sm">
-                    <span className="text-white">{metric.label}</span>
-                    <span className="text-[#71717A]">{metric.value}%</span>
+                    <span className="text-foreground">{metric.label}</span>
+                    <span className="text-foreground-muted">{metric.value}%</span>
                   </div>
-                  <div className="h-2 bg-[#27272A] rounded-full overflow-hidden">
+                  <div className="h-2 bg-surface-300 rounded-full overflow-hidden">
                     <motion.div
                       initial={{ width: 0 }}
                       whileInView={{ width: `${metric.value}%` }}
@@ -423,27 +422,27 @@ export default function Home() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.05 }}
-                className="flex items-center gap-4 p-4 bg-[#111113] rounded-xl border border-[#27272A]"
+                className="flex items-center gap-4 p-4 bg-surface-100 rounded-xl border border-border"
               >
-                <div className="w-10 h-10 rounded-lg bg-[#00E676]/10 flex items-center justify-center">
-                  <item.icon className="w-5 h-5 text-[#00E676]" />
+                <div className="w-10 h-10 rounded-lg bg-brand/10 flex items-center justify-center">
+                  <item.icon className="w-5 h-5 text-brand" aria-hidden="true" />
                 </div>
-                <span className="text-white">{item.text}</span>
+                <span className="text-foreground">{item.text}</span>
               </motion.div>
             ))}
             <div className="pt-4">
               <Button href="/plus" variant="outline" className="w-full sm:w-auto">
-                Conhecer o Plus
-                <ArrowRight className="w-4 h-4" />
+                <span>Conhecer o Plus</span>
+                <ArrowRight className="w-4 h-4" aria-hidden="true" />
               </Button>
             </div>
           </div>
 
           {/* Comparison Table */}
           <Card variant="glass">
-            <h3 className="text-xl font-bold text-white mb-6">Grátis vs Plus</h3>
+            <h3 className="text-xl font-bold text-foreground mb-6">Grátis vs Plus</h3>
             <ComparisonTable features={comparisonFeatures.slice(0, 8)} />
-            <Link href="/plus" className="block mt-4 text-center text-[#00E676] hover:underline text-sm">
+            <Link href="/plus" className="block mt-4 text-center text-brand hover:underline text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded">
               Ver comparação completa →
             </Link>
           </Card>
@@ -463,9 +462,9 @@ export default function Home() {
 
           {/* Rewards */}
           <div>
-            <h3 className="text-xl font-bold text-white mb-6 flex items-center gap-2">
-              <Award className="w-5 h-5 text-[#EAB308]" />
-              Benefícios destravados pelo Score
+            <h3 className="text-xl font-bold text-foreground mb-6 flex items-center gap-2">
+              <Award className="w-5 h-5 text-warning" aria-hidden="true" />
+              <span>Benefícios destravados pelo Score</span>
             </h3>
             <div className="grid grid-cols-2 gap-4">
               {[
@@ -475,16 +474,16 @@ export default function Home() {
                 { icon: '🏥', title: 'Planos de saúde', desc: 'Desconto na mensalidade' },
               ].map((reward, index) => (
                 <Card key={index} className="text-center p-4">
-                  <span className="text-3xl mb-2 block">{reward.icon}</span>
-                  <h4 className="font-semibold text-white mb-1">{reward.title}</h4>
-                  <p className="text-sm text-[#71717A]">{reward.desc}</p>
+                  <span className="text-3xl mb-2 block" aria-hidden="true">{reward.icon}</span>
+                  <h4 className="font-semibold text-foreground mb-1">{reward.title}</h4>
+                  <p className="text-sm text-foreground-muted">{reward.desc}</p>
                 </Card>
               ))}
             </div>
             <div className="mt-6">
               <Button href="/liga" variant="secondary" className="w-full">
-                Entrar na Liga
-                <Trophy className="w-4 h-4" />
+                <span>Entrar na Liga</span>
+                <Trophy className="w-4 h-4" aria-hidden="true" />
               </Button>
             </div>
           </div>
@@ -495,10 +494,10 @@ export default function Home() {
       <Section background="darker" id="foundation">
         <div className="max-w-3xl mx-auto text-center">
           <Badge variant="info" className="mb-4">LLL</Badge>
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
+          <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-6">
             Parte do lucro vira pesquisa de verdade
           </h2>
-          <p className="text-lg text-[#A1A1AA] mb-8">
+          <p className="text-lg text-foreground-light mb-8">
             A LLL (Livvay Life Foundation) financia um laboratório focado em longevidade, biohacking e pesquisa científica de longo prazo.
           </p>
           <div className="grid md:grid-cols-3 gap-6 mb-8">
@@ -509,16 +508,16 @@ export default function Home() {
             ].map((text, index) => (
               <div
                 key={index}
-                className="p-6 bg-[#111113] rounded-xl border border-[#27272A]"
+                className="p-6 bg-surface-100 rounded-xl border border-border"
               >
-                <p className="text-[#A1A1AA]">{text}</p>
+                <p className="text-foreground-light">{text}</p>
               </div>
             ))}
           </div>
           <Button href="/foundation" variant="outline">
             Conhecer a LLL
           </Button>
-          <p className="text-sm text-[#71717A] mt-4">
+          <p className="text-sm text-foreground-muted mt-4">
             Relatório anual (em breve)
           </p>
         </div>
@@ -550,10 +549,10 @@ export default function Home() {
             },
           ].map((item, index) => (
             <Card key={index}>
-              <h3 className="text-xl font-bold text-white mb-2">{item.title}</h3>
-              <p className="text-[#A1A1AA] mb-4">{item.description}</p>
-              <div className="p-3 bg-[#00E676]/10 rounded-lg border border-[#00E676]/20">
-                <p className="text-sm text-[#00E676]">{item.example}</p>
+              <h3 className="text-xl font-bold text-foreground mb-2">{item.title}</h3>
+              <p className="text-foreground-light mb-4">{item.description}</p>
+              <div className="p-3 bg-brand/10 rounded-lg border border-brand/20">
+                <p className="text-sm text-brand">{item.example}</p>
               </div>
             </Card>
           ))}
@@ -580,8 +579,8 @@ export default function Home() {
         className="relative py-24 md:py-32 overflow-hidden"
       >
         {/* Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-[#00E676]/20 via-[#0A0A0B] to-[#0A0A0B]" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-[#00E676]/10 rounded-full blur-[120px]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-brand/20 via-background to-background" />
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-brand/10 rounded-full blur-[120px]" />
 
         <Container className="relative z-10">
           <div className="max-w-2xl mx-auto text-center">
@@ -590,19 +589,19 @@ export default function Home() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
             >
-              <h2 className="text-3xl md:text-5xl font-bold text-white mb-6">
+              <h2 className="text-3xl md:text-5xl font-bold text-foreground mb-6">
                 Se você não quer morrer,{' '}
                 <span className="gradient-text">entra agora</span>
               </h2>
-              <p className="text-lg text-[#A1A1AA] mb-8">
+              <p className="text-lg text-foreground-light mb-8">
                 Faça o diagnóstico e receba seu plano base.
               </p>
               <Button href="/score" size="lg" className="animate-pulse-glow">
-                Calcular meu Score
-                <ArrowRight className="w-5 h-5" />
+                <span>Calcular meu Score</span>
+                <ArrowRight className="w-5 h-5" aria-hidden="true" />
               </Button>
-              <div className="mt-8 pt-8 border-t border-[#27272A]/50">
-                <p className="text-sm text-[#71717A] mb-4">
+              <div className="mt-8 pt-8 border-t border-border/50">
+                <p className="text-sm text-foreground-muted mb-4">
                   Ou entre na lista de espera:
                 </p>
                 <EmailCaptureForm
@@ -612,7 +611,7 @@ export default function Home() {
                 />
               </div>
             </motion.div>
-    </div>
+          </div>
         </Container>
       </section>
     </>

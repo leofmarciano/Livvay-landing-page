@@ -72,14 +72,16 @@ export function EmailCaptureForm({
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className={`flex items-center gap-3 p-4 bg-[#22C55E]/10 border border-[#22C55E]/30 rounded-xl ${className}`}
+        className={`flex items-center gap-3 p-4 bg-success-200 border border-success/30 rounded-xl ${className}`}
+        role="status"
+        aria-live="polite"
       >
-        <div className="w-10 h-10 rounded-full bg-[#22C55E]/20 flex items-center justify-center">
-          <Check className="w-5 h-5 text-[#22C55E]" />
+        <div className="w-10 h-10 rounded-full bg-success/20 flex items-center justify-center">
+          <Check className="w-5 h-5 text-success" aria-hidden="true" />
         </div>
         <div>
-          <p className="text-white font-medium">Você está dentro!</p>
-          <p className="text-[#A1A1AA] text-sm">Avisaremos quando lançar.</p>
+          <p className="text-foreground font-medium">Você está dentro!</p>
+          <p className="text-foreground-light text-sm">Avisaremos quando lançar.</p>
         </div>
       </motion.div>
     );
@@ -89,33 +91,39 @@ export function EmailCaptureForm({
     <form
       onSubmit={handleSubmit(onSubmit)}
       className={`${variant === 'inline' ? 'flex flex-col sm:flex-row gap-3' : 'space-y-3'} ${className}`}
+      noValidate
     >
       <div className="flex-1">
+        <label htmlFor={`email-${source}`} className="sr-only">
+          Email
+        </label>
         <div className="relative">
-          <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-[#71717A]" />
+          <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-foreground-muted" aria-hidden="true" />
           <input
             type="email"
+            id={`email-${source}`}
             placeholder={placeholder}
             {...register('email')}
             className={`
               w-full pl-12 pr-4 py-3 
-              bg-[#111113] border rounded-xl
-              text-white placeholder-[#71717A]
-              focus:outline-none focus:ring-2 focus:ring-[#00E676] focus:border-transparent
+              bg-surface-100 border rounded-xl
+              text-foreground placeholder-foreground-muted
+              focus:outline-none focus:ring-2 focus:ring-brand focus:border-transparent
               transition-all
-              ${errors.email ? 'border-[#EF4444]' : 'border-[#27272A]'}
+              ${errors.email ? 'border-destructive' : 'border-border'}
             `}
-            aria-label="Email"
             aria-invalid={errors.email ? 'true' : 'false'}
+            aria-describedby={errors.email ? `email-error-${source}` : undefined}
           />
         </div>
         <AnimatePresence>
           {(errors.email || serverError) && (
             <motion.p
+              id={`email-error-${source}`}
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="text-[#EF4444] text-sm mt-1 pl-1"
+              className="text-destructive text-sm mt-1 pl-1"
               role="alert"
             >
               {errors.email?.message || serverError}
@@ -130,8 +138,8 @@ export function EmailCaptureForm({
       >
         {isSubmitting ? (
           <>
-            <Loader2 className="w-4 h-4 animate-spin" />
-            Enviando...
+            <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
+            <span>Enviando...</span>
           </>
         ) : (
           buttonText
@@ -140,4 +148,3 @@ export function EmailCaptureForm({
     </form>
   );
 }
-

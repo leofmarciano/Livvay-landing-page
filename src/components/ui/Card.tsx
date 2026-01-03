@@ -11,9 +11,9 @@ interface CardProps {
 }
 
 const cardVariants = {
-  default: 'bg-[#111113] border border-[#27272A]',
-  highlight: 'bg-gradient-to-br from-[#1A1A1D] to-[#111113] border border-[#00E676]/30',
-  glass: 'bg-[#111113]/80 backdrop-blur-xl border border-[#27272A]/50',
+  default: 'bg-surface-100 border border-border',
+  highlight: 'bg-gradient-to-br from-surface-200 to-surface-100 border border-brand/30',
+  glass: 'bg-surface-100/80 backdrop-blur-xl border border-border/50',
 };
 
 export function Card({ 
@@ -36,4 +36,3 @@ export function Card({
     </motion.div>
   );
 }
-

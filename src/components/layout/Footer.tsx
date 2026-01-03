@@ -27,7 +27,7 @@ const footerLinks = {
     title: 'Legal',
     links: [
       { href: '/privacidade', label: 'Privacidade' },
-      { href: '/termos', label: 'Termos de Uso' },
+      { href: '/termos', label: 'Termos de uso' },
     ],
   },
 };
@@ -41,35 +41,47 @@ const socialLinks = [
 
 export function Footer() {
   return (
-    <footer className="bg-[#050506] border-t border-[#27272A]">
+    <footer className="bg-alternative border-t border-border" role="contentinfo">
       <Container>
         <div className="py-12 md:py-16">
           {/* Main Footer Content */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
             {/* Brand Column */}
             <div className="col-span-2 md:col-span-1">
-              <Link href="/" className="flex items-center gap-2 text-white font-bold text-xl mb-4">
-                <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <rect width="32" height="32" rx="8" fill="#00E676"/>
-                  <path d="M8 16L12 22L24 10" stroke="#0A0A0B" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
+              <Link 
+                href="/" 
+                className="flex items-center gap-2 text-foreground font-bold text-xl mb-4 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-lg"
+                aria-label="Livvay - Página inicial"
+              >
+                <svg 
+                  width="32" 
+                  height="32" 
+                  viewBox="0 0 32 32" 
+                  fill="none" 
+                  xmlns="http://www.w3.org/2000/svg"
+                  aria-hidden="true"
+                >
+                  <rect width="32" height="32" rx="8" className="fill-brand"/>
+                  <path d="M8 16L12 22L24 10" className="stroke-background" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
                 </svg>
                 <span>Livvay</span>
               </Link>
-              <p className="text-[#71717A] text-sm mb-4 max-w-xs">
+              <p className="text-foreground-muted text-sm mb-4 max-w-xs">
                 Um assistente de longevidade que transforma tudo que você come, dorme e faz em um plano simples.
               </p>
               {/* Social Links */}
-              <div className="flex gap-3">
+              <div className="flex gap-3" role="list" aria-label="Redes sociais">
                 {socialLinks.map((social) => (
                   <a
                     key={social.label}
                     href={social.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="w-10 h-10 rounded-full bg-[#1A1A1D] flex items-center justify-center text-[#A1A1AA] hover:bg-[#00E676] hover:text-[#0A0A0B] transition-colors"
-                    aria-label={social.label}
+                    className="w-10 h-10 rounded-full bg-surface-100 flex items-center justify-center text-foreground-light hover:bg-brand hover:text-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand"
+                    aria-label={`${social.label} (abre em nova janela)`}
+                    role="listitem"
                   >
-                    <social.icon className="w-5 h-5" />
+                    <social.icon className="w-5 h-5" aria-hidden="true" />
                   </a>
                 ))}
               </div>
@@ -77,30 +89,30 @@ export function Footer() {
 
             {/* Links Columns */}
             {Object.entries(footerLinks).map(([key, section]) => (
-              <div key={key}>
-                <h3 className="text-white font-semibold mb-4">{section.title}</h3>
-                <ul className="space-y-3">
+              <nav key={key} aria-label={section.title}>
+                <h3 className="text-foreground font-semibold mb-4">{section.title}</h3>
+                <ul className="space-y-3" role="list">
                   {section.links.map((link) => (
-                    <li key={link.href}>
+                    <li key={link.href} role="listitem">
                       <Link
                         href={link.href}
-                        className="text-[#71717A] hover:text-white transition-colors text-sm"
+                        className="text-foreground-muted hover:text-foreground transition-colors text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded"
                       >
                         {link.label}
                       </Link>
                     </li>
                   ))}
                 </ul>
-              </div>
+              </nav>
             ))}
           </div>
 
           {/* Bottom Bar */}
-          <div className="pt-8 border-t border-[#27272A] flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-[#71717A] text-sm">
+          <div className="pt-8 border-t border-border flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-foreground-muted text-sm">
               © {new Date().getFullYear()} Livvay. Todos os direitos reservados.
             </p>
-            <p className="text-[#71717A] text-xs">
+            <p className="text-foreground-muted text-xs">
               Livvay não substitui avaliação médica. Resultados variam de pessoa para pessoa.
             </p>
           </div>
@@ -109,4 +121,3 @@ export function Footer() {
     </footer>
   );
 }
-

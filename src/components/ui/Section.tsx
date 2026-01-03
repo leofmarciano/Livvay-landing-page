@@ -13,9 +13,9 @@ interface SectionProps {
 }
 
 const backgrounds = {
-  default: 'bg-[#0A0A0B]',
-  darker: 'bg-[#050506]',
-  gradient: 'bg-gradient-to-b from-[#0A0A0B] to-[#111113]',
+  default: 'bg-background',
+  darker: 'bg-alternative',
+  gradient: 'bg-gradient-to-b from-background to-surface-100',
 };
 
 export function Section({ 
@@ -66,19 +66,18 @@ export function SectionHeader({
       ${className}
     `}>
       {badge && (
-        <span className="inline-block mb-4 px-4 py-1.5 rounded-full text-sm font-medium bg-[#00E676]/10 text-[#00E676]">
+        <span className="inline-block mb-4 px-4 py-1.5 rounded-full text-sm font-medium bg-brand/10 text-brand">
           {badge}
         </span>
       )}
-      <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+      <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground mb-4">
         {title}
       </h2>
       {subtitle && (
-        <p className="text-lg md:text-xl text-[#A1A1AA] max-w-3xl mx-auto">
+        <p className="text-lg md:text-xl text-foreground-light max-w-3xl mx-auto">
           {subtitle}
         </p>
       )}
     </div>
   );
 }
-

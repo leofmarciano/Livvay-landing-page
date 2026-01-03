@@ -9,11 +9,11 @@ interface BadgeProps {
 }
 
 const badgeVariants = {
-  default: 'bg-[#27272A] text-[#A1A1AA]',
-  success: 'bg-[#22C55E]/20 text-[#22C55E]',
-  warning: 'bg-[#EAB308]/20 text-[#EAB308]',
-  info: 'bg-[#3B82F6]/20 text-[#3B82F6]',
-  premium: 'bg-[#00E676]/20 text-[#00E676]',
+  default: 'bg-surface-200 text-foreground-light',
+  success: 'bg-success-200 text-success',
+  warning: 'bg-warning-200 text-warning',
+  info: 'bg-brand-200 text-brand-600',
+  premium: 'bg-brand/20 text-brand',
 };
 
 export function Badge({ 
@@ -34,4 +34,3 @@ export function Badge({
     </span>
   );
 }
-
