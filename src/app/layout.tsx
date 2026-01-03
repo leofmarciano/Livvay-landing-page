@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Providers } from './providers';
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
+import { PageTransition } from '@/components/layout/PageTransition';
 import './globals.css';
 
 /**
@@ -132,7 +133,7 @@ export default function RootLayout({
           </a>
           <Header />
           <main id="main-content" className="min-h-screen pt-16 md:pt-20">
-            {children}
+            <PageTransition>{children}</PageTransition>
           </main>
           <Footer />
         </Providers>

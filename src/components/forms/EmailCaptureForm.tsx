@@ -72,12 +72,12 @@ export function EmailCaptureForm({
       <motion.div
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className={`flex items-center gap-3 p-4 bg-success-200 border border-success/30 rounded-xl ${className}`}
+        className={`flex items-center gap-3 p-4 bg-surface-200 border border-brand/30 rounded-md ${className}`}
         role="status"
         aria-live="polite"
       >
-        <div className="w-10 h-10 rounded-full bg-success/20 flex items-center justify-center">
-          <Check className="w-5 h-5 text-success" aria-hidden="true" />
+        <div className="w-10 h-10 rounded-full bg-brand/20 flex items-center justify-center shrink-0">
+          <Check size={20} className="text-brand" aria-hidden="true" />
         </div>
         <div>
           <p className="text-foreground font-medium">Você está dentro!</p>

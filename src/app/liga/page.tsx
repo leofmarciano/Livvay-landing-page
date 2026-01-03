@@ -258,8 +258,9 @@ export default function LigaPage() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ delay: index * 0.05 }}
+              className="h-full"
             >
-              <Card className="text-center p-4">
+              <Card className="h-full text-center p-4 flex flex-col items-center justify-center">
                 <span className="text-3xl mb-2 block" aria-hidden="true">{reward.icon}</span>
                 <h4 className="font-semibold text-foreground mb-1 text-sm">{reward.title}</h4>
                 <p className="text-xs text-foreground-muted">{reward.desc}</p>
