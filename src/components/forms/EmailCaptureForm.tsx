@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Check, Loader2 } from 'lucide-react';
+import { Mail, Check } from 'lucide-react';
 import { Button } from '@/components/ui/Button';
 
 const schema = z.object({
@@ -132,18 +132,11 @@ export function EmailCaptureForm({
         </AnimatePresence>
       </div>
       <Button
-        type="submit"
-        isLoading={isSubmitting}
+        htmlType="submit"
+        loading={isSubmitting}
         className={variant === 'stacked' ? 'w-full' : 'sm:w-auto'}
       >
-        {isSubmitting ? (
-          <>
-            <Loader2 className="w-4 h-4 animate-spin" aria-hidden="true" />
-            <span>Enviando...</span>
-          </>
-        ) : (
-          buttonText
-        )}
+        {buttonText}
       </Button>
     </form>
   );

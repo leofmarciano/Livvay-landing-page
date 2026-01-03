@@ -126,11 +126,10 @@ export default function PlusPage() {
               O Plus une a inteligência artificial do Livvay com profissionais de saúde dedicados a você.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 mb-8">
-              <Button href="#waitlist-plus" size="lg">
-                <span>Entrar na lista do Plus</span>
-                <ArrowRight className="w-5 h-5" aria-hidden="true" />
+              <Button href="#waitlist-plus" size="large" iconRight={<ArrowRight />}>
+                Entrar na lista do Plus
               </Button>
-              <Button href="/score" variant="secondary" size="lg">
+              <Button href="/score" type="default" size="large">
                 Calcular meu Score primeiro
               </Button>
             </div>

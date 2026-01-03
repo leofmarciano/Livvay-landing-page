@@ -412,9 +412,8 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
             <p className="text-foreground-light mb-6">
               O Livvay te ajuda a transformar conhecimento em ação diária.
             </p>
-            <Button href="/score" size="lg">
-              <span>Calcular meu Score</span>
-              <ArrowRight className="w-5 h-5" aria-hidden="true" />
+            <Button href="/score" size="large" iconRight={<ArrowRight />}>
+              Calcular meu Score
             </Button>
           </div>
         </Container>

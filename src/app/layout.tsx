@@ -89,23 +89,25 @@ export const metadata: Metadata = {
 
 /**
  * JSON-LD structured data to improve discoverability in search engines and LLMs.
+ * Uses @graph to properly represent multiple entities in a single JSON-LD block.
  */
-const structuredData = [
-  {
-    '@context': 'https://schema.org',
-    '@type': 'Organization',
-    name: 'Livvay',
-    url: 'https://livvay.com',
-    sameAs: ['https://youtube.com/@livvay'],
-  },
-  {
-    '@context': 'https://schema.org',
-    '@type': 'WebSite',
-    name: 'Livvay',
-    url: 'https://livvay.com',
-    inLanguage: 'pt-BR',
-  },
-] as const;
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      name: 'Livvay',
+      url: 'https://livvay.com',
+      sameAs: ['https://youtube.com/@livvay'],
+    },
+    {
+      '@type': 'WebSite',
+      name: 'Livvay',
+      url: 'https://livvay.com',
+      inLanguage: 'pt-BR',
+    },
+  ],
+};
 
 /**
  * Root layout wrapper for the application shell.

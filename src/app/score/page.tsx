@@ -332,16 +332,14 @@ export default function ScorePage() {
             {/* CTAs */}
             <div className="space-y-4">
               <div className="grid sm:grid-cols-2 gap-4">
-                <Button href="/plus" className="w-full">
-                  <span>Conhecer o Plus</span>
-                  <Users className="w-4 h-4" aria-hidden="true" />
+                <Button href="/plus" iconRight={<Users />} className="w-full">
+                  Conhecer o Plus
                 </Button>
-                <Button href="/liga" variant="secondary" className="w-full">
-                  <span>Entrar na Liga</span>
-                  <Trophy className="w-4 h-4" aria-hidden="true" />
+                <Button href="/liga" type="default" iconRight={<Trophy />} className="w-full">
+                  Entrar na Liga
                 </Button>
               </div>
-              <Button href="/" variant="ghost" className="w-full">
+              <Button href="/" type="ghost" className="w-full">
                 Voltar para o início
               </Button>
             </div>
@@ -521,13 +519,13 @@ export default function ScorePage() {
                   </div>
 
                   <Button
-                    type="submit"
-                    isLoading={isSubmitting}
+                    htmlType="submit"
+                    loading={isSubmitting}
                     className="w-full"
-                    size="lg"
+                    size="large"
+                    iconRight={<ArrowRight />}
                   >
-                    <span>Ver meu resultado</span>
-                    <ArrowRight className="w-5 h-5" aria-hidden="true" />
+                    Ver meu resultado
                   </Button>
 
                   <p className="text-xs text-foreground-muted text-center">

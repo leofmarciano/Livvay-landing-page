@@ -127,7 +127,7 @@ export function Header() {
 
           {/* CTA Button */}
           <div className="hidden md:block">
-            <Button href="/score" size="sm">
+            <Button href="/score" size="small">
               Calcular meu Score
             </Button>
           </div>

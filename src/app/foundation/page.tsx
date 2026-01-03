@@ -267,13 +267,11 @@ export default function FoundationPage() {
             com a Livvay Life Foundation podem entrar em contato.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button href="mailto:foundation@livvay.com" variant="outline">
-              <Mail className="w-5 h-5" aria-hidden="true" />
-              <span>foundation@livvay.com</span>
+            <Button href="mailto:foundation@livvay.com" type="outline" icon={<Mail />}>
+              foundation@livvay.com
             </Button>
-            <Button href="/contato" variant="secondary">
-              <span>Formulário de contato</span>
-              <ArrowRight className="w-4 h-4" aria-hidden="true" />
+            <Button href="/contato" type="default" iconRight={<ArrowRight />}>
+              Formulário de contato
             </Button>
           </div>
         </div>

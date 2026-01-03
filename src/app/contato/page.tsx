@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { motion } from 'framer-motion';
-import { Mail, User, MessageSquare, Send, Check, Loader2 } from 'lucide-react';
+import { Mail, User, MessageSquare, Send, Check } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
@@ -98,7 +98,7 @@ export default function ContatoPage() {
                   <p className="text-foreground-light mb-6">
                     Obrigado pelo contato. Responderemos em até 48 horas úteis.
                   </p>
-                  <Button onClick={() => setIsSuccess(false)} variant="secondary">
+                  <Button onClick={() => setIsSuccess(false)} type="default">
                     Enviar outra mensagem
                   </Button>
                 </Card>
@@ -203,18 +203,14 @@ export default function ContatoPage() {
                     </div>
                   )}
 
-                  <Button type="submit" isLoading={isSubmitting} className="w-full" size="lg">
-                    {isSubmitting ? (
-                      <>
-                        <Loader2 className="w-5 h-5 animate-spin" aria-hidden="true" />
-                        <span>Enviando...</span>
-                      </>
-                    ) : (
-                      <>
-                        <Send className="w-5 h-5" aria-hidden="true" />
-                        <span>Enviar mensagem</span>
-                      </>
-                    )}
+                  <Button
+                    htmlType="submit"
+                    loading={isSubmitting}
+                    className="w-full"
+                    size="large"
+                    icon={isSubmitting ? undefined : <Send />}
+                  >
+                    {isSubmitting ? 'Enviando...' : 'Enviar mensagem'}
                   </Button>
                 </form>
               </Card>

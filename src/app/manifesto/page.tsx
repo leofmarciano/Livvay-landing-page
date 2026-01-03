@@ -177,9 +177,8 @@ export default function ManifestoPage() {
               Faça o diagnóstico e receba seu plano base.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
-              <Button href="/score" size="lg">
-                <span>Calcular meu Score</span>
-                <ArrowRight className="w-5 h-5" aria-hidden="true" />
+              <Button href="/score" size="large" iconRight={<ArrowRight />}>
+                Calcular meu Score
               </Button>
             </div>
             <div className="pt-8 border-t border-border">

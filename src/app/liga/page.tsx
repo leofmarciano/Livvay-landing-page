@@ -149,11 +149,10 @@ export default function LigaPage() {
               Quanto mais consistente você for, mais benefícios desbloqueia.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button href="#join-liga" size="lg">
-                <span>Entrar na Liga</span>
-                <Trophy className="w-5 h-5" aria-hidden="true" />
+              <Button href="#join-liga" size="large" iconRight={<Trophy />}>
+                Entrar na Liga
               </Button>
-              <Button href="/score" variant="secondary" size="lg">
+              <Button href="/score" type="default" size="large">
                 Calcular meu Score
               </Button>
             </div>

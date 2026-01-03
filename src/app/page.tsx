@@ -130,11 +130,10 @@ export default function Home() {
 
               {/* CTAs */}
               <div className="flex flex-col sm:flex-row gap-4 mb-8">
-                <Button href="/score" size="lg">
-                  <span>Calcular meu Livvay Score</span>
-                  <ArrowRight className="w-5 h-5" aria-hidden="true" />
+                <Button href="/score" size="large" iconRight={<ArrowRight />}>
+                  Calcular meu Livvay Score
                 </Button>
-                <Button href="#waitlist" variant="secondary" size="lg">
+                <Button href="#waitlist" type="default" size="large">
                   Entrar na lista de espera
                 </Button>
               </div>
@@ -317,9 +316,8 @@ export default function Home() {
                 </div>
                 <p className="text-foreground-light mb-4">{item.description}</p>
                 {item.cta && (
-                  <Button href="/score" size="sm">
-                    <span>Quero meu Score</span>
-                    <ArrowRight className="w-4 h-4" aria-hidden="true" />
+                  <Button href="/score" size="small" iconRight={<ArrowRight />}>
+                    Quero meu Score
                   </Button>
                 )}
                 {item.note && (
@@ -431,9 +429,8 @@ export default function Home() {
               </motion.div>
             ))}
             <div className="pt-4">
-              <Button href="/plus" variant="outline" className="w-full sm:w-auto">
-                <span>Conhecer o Plus</span>
-                <ArrowRight className="w-4 h-4" aria-hidden="true" />
+              <Button href="/plus" type="outline" iconRight={<ArrowRight />} className="w-full sm:w-auto">
+                Conhecer o Plus
               </Button>
             </div>
           </div>
@@ -481,9 +478,8 @@ export default function Home() {
               ))}
             </div>
             <div className="mt-6">
-              <Button href="/liga" variant="secondary" className="w-full">
-                <span>Entrar na Liga</span>
-                <Trophy className="w-4 h-4" aria-hidden="true" />
+              <Button href="/liga" type="default" iconRight={<Trophy />} className="w-full">
+                Entrar na Liga
               </Button>
             </div>
           </div>
@@ -514,7 +510,7 @@ export default function Home() {
               </div>
             ))}
           </div>
-          <Button href="/foundation" variant="outline">
+          <Button href="/foundation" type="outline">
             Conhecer a LLL
           </Button>
           <p className="text-sm text-foreground-muted mt-4">
@@ -596,9 +592,8 @@ export default function Home() {
               <p className="text-lg text-foreground-light mb-8">
                 Faça o diagnóstico e receba seu plano base.
               </p>
-              <Button href="/score" size="lg" className="animate-pulse-glow">
-                <span>Calcular meu Score</span>
-                <ArrowRight className="w-5 h-5" aria-hidden="true" />
+              <Button href="/score" size="large" iconRight={<ArrowRight />} className="animate-pulse-glow">
+                Calcular meu Score
               </Button>
               <div className="mt-8 pt-8 border-t border-border/50">
                 <p className="text-sm text-foreground-muted mb-4">
