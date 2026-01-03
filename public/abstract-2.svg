@@ -1,0 +1,36 @@
+<svg width="300" height="300" viewBox="0 0 300 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Grid pattern representing structure and methodology -->
+  <defs>
+    <pattern id="grid" width="30" height="30" patternUnits="userSpaceOnUse">
+      <path d="M 30 0 L 0 0 0 30" fill="none" stroke="#27272A" stroke-width="0.5"/>
+    </pattern>
+    <linearGradient id="fadeGrad" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#00E676" stop-opacity="0.3"/>
+      <stop offset="50%" stop-color="#00E676" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#00E676" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  
+  <rect width="300" height="300" fill="url(#grid)" opacity="0.5"/>
+  
+  <!-- Highlight area -->
+  <rect x="60" y="60" width="180" height="180" rx="8" fill="url(#fadeGrad)"/>
+  
+  <!-- Key intersection points -->
+  <circle cx="90" cy="90" r="6" fill="#00E676" fill-opacity="0.8"/>
+  <circle cx="150" cy="90" r="4" fill="#00E676" fill-opacity="0.5"/>
+  <circle cx="210" cy="90" r="5" fill="#00E676" fill-opacity="0.7"/>
+  
+  <circle cx="90" cy="150" r="4" fill="#00E676" fill-opacity="0.6"/>
+  <circle cx="150" cy="150" r="8" fill="#00E676"/>
+  <circle cx="210" cy="150" r="4" fill="#00E676" fill-opacity="0.6"/>
+  
+  <circle cx="90" cy="210" r="5" fill="#00E676" fill-opacity="0.7"/>
+  <circle cx="150" cy="210" r="4" fill="#00E676" fill-opacity="0.5"/>
+  <circle cx="210" cy="210" r="6" fill="#00E676" fill-opacity="0.8"/>
+  
+  <!-- Connection lines -->
+  <path d="M90 90 L150 150 L210 90" stroke="#00E676" stroke-width="1.5" fill="none" stroke-opacity="0.4"/>
+  <path d="M90 210 L150 150 L210 210" stroke="#00E676" stroke-width="1.5" fill="none" stroke-opacity="0.4"/>
+</svg>
+

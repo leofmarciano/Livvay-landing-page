@@ -1,0 +1,28 @@
+# Codex Project Rules
+
+You are working in the Livvay marketing site repo.
+
+## Read First
+- Always read `AGENTS.md` before making changes.
+- Follow the Supabase Design System docs linked there.
+
+## Code Style
+- TypeScript, Next.js App Router, TailwindCSS.
+- Keep components small and reusable in `src/components`.
+- Prefer server components unless interactivity is needed.
+- Use `lucide-react` for icons and `framer-motion` sparingly.
+
+## Product + Compliance
+- "Vida eterna" is ambition, never a literal promise.
+- Avoid claims like "garantido", "cura", "reverte idade", "imortalidade comprovada", "milagre".
+- Mention medical responsibility when referencing doctors/prescriptions.
+- Any health estimates are probabilistic, not diagnostic.
+
+## Forms + Data
+- Use `react-hook-form` + `zod` with accessible labels.
+- Lead capture goes through `/api/lead`.
+
+## UX
+- Mobile-first, high contrast, clear focus states.
+- Keep copy short; add a practical example with feature claims.
+
