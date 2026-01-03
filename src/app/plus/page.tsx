@@ -208,64 +208,6 @@ export default function PlusPage() {
         </div>
       </Section>
 
-      {/* What Plus Is and Isn't */}
-      <Section>
-        <div className="grid md:grid-cols-2 gap-12">
-          <div>
-            <h2 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
-              <CheckCircle className="w-6 h-6 text-success" aria-hidden="true" />
-              <span>O que o Plus é</span>
-            </h2>
-            <ul className="space-y-4" role="list">
-              {[
-                'Acompanhamento contínuo por profissionais de saúde',
-                'Revisão dos seus dados reais (não genérico)',
-                'Ajustes baseados no seu progresso',
-                'Suporte para dúvidas e orientações',
-                'Pedido de exames quando faz sentido clínico',
-                'Prescrição quando indicado pelo médico',
-              ].map((item, index) => (
-                <li key={index} className="flex items-start gap-3 text-foreground-light" role="listitem">
-                  <CheckCircle className="w-5 h-5 text-success flex-shrink-0 mt-0.5" aria-hidden="true" />
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold text-foreground mb-6 flex items-center gap-3">
-              <Shield className="w-6 h-6 text-destructive" aria-hidden="true" />
-              <span>O que o Plus NÃO é</span>
-            </h2>
-            <ul className="space-y-4" role="list">
-              {[
-                'Pronto-socorro ou emergência',
-                'Substituto do seu médico de referência',
-                'Promessa de cura ou resultados garantidos',
-                'Atendimento 24h instantâneo',
-                'Tratamento de doenças graves sem encaminhamento',
-              ].map((item, index) => (
-                <li key={index} className="flex items-start gap-3 text-foreground-light" role="listitem">
-                  <div className="w-5 h-5 rounded-full border-2 border-destructive flex items-center justify-center flex-shrink-0 mt-0.5">
-                    <span className="text-destructive text-xs" aria-hidden="true">✕</span>
-                  </div>
-                  <span>{item}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-        
-        {/* Disclaimer */}
-        <div className="mt-12 p-6 bg-surface-100 rounded-xl border border-border">
-          <p className="text-sm text-foreground-muted">
-            <strong className="text-foreground-light">⚠️ Nota de responsabilidade:</strong> O Livvay Plus oferece acompanhamento 
-            de saúde preventivo e orientação médica, mas não substitui atendimento de emergência. 
-            Condutas médicas dependem de avaliação clínica individualizada. Resultados variam de pessoa para pessoa. 
-            Em caso de urgência, procure um pronto-socorro.
-          </p>
-        </div>
-      </Section>
 
       {/* Comparison */}
       <Section background="darker">
