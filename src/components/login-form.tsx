@@ -8,6 +8,8 @@ import { cn } from '@/lib/utils';
 import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
+import { getDefaultDashboard } from '@/lib/rbac/config';
+import { parseRole } from '@/lib/rbac/types';
 
 export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
   const [email, setEmail] = useState('');
@@ -18,7 +20,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
   const searchParams = useSearchParams();
   const _next = searchParams.get('next');
   // Prevent open redirect: only allow relative paths starting with / but not //
-  const next = _next?.startsWith('/') && !_next.startsWith('//') ? _next : '/afiliados';
+  const hasExplicitNext = _next?.startsWith('/') && !_next.startsWith('//');
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,12 +29,19 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
     setError(null);
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
+      const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
       if (error) throw error;
-      router.push(next);
+
+      // Get user role and determine destination
+      const userRole = parseRole(data.user?.app_metadata?.role) || 'afiliado';
+      const destination = hasExplicitNext ? _next : getDefaultDashboard(userRole);
+
+      // Use hard navigation to ensure middleware runs with fresh session
+      router.refresh();
+      window.location.href = destination;
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : 'Erro ao fazer login');
     } finally {
@@ -86,6 +95,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
               <input
                 id="password"
                 type="password"
+                placeholder="••••••••"
                 required
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}

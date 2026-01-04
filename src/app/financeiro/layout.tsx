@@ -1,8 +1,9 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { hasRoleAccess, parseRole } from '@/lib/rbac/types';
+import { getDefaultDashboard } from '@/lib/rbac/config';
 
-export default async function AfiliadosLayout({
+export default async function FinanceiroLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -11,14 +12,13 @@ export default async function AfiliadosLayout({
   const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect('/auth/login?next=/afiliados');
+    redirect('/auth/login?next=/financeiro');
   }
 
-  // All authenticated users have at least afiliado access
-  const userRole = parseRole(user.app_metadata?.role) || 'afiliado';
+  const userRole = parseRole(user.app_metadata?.role);
 
-  if (!hasRoleAccess(userRole, 'afiliado')) {
-    redirect('/auth/login');
+  if (!hasRoleAccess(userRole, 'financeiro')) {
+    redirect(getDefaultDashboard(userRole));
   }
 
   return <>{children}</>;

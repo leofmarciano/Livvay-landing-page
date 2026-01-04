@@ -1,10 +1,10 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, User } from 'lucide-react';
+import { Menu, X, User, LogOut, CreditCard, Bell } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { LogoutButton } from '@/components/logout-button';
@@ -17,12 +17,120 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from '@/components/ui';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { isProtectedPath, getNavLinksForRole } from '@/lib/rbac/config';
+import { parseRole, getRoleLabel, type Role } from '@/lib/rbac/types';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 /**
- * Primary navigation links for the header.
+ * User dropdown menu component with avatar.
  */
-const navLinks = [
+function UserDropdown({ user, userRole }: { user: SupabaseUser; userRole: Role | null }) {
+  const [open, setOpen] = useState(false);
+  const closeTimeout = useRef<NodeJS.Timeout | null>(null);
+  const supabase = createClient();
+
+  const handleOpen = () => {
+    if (closeTimeout.current) {
+      clearTimeout(closeTimeout.current);
+      closeTimeout.current = null;
+    }
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    closeTimeout.current = setTimeout(() => setOpen(false), 150);
+  };
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    window.location.href = '/';
+  };
+
+  const getInitials = (email: string) => {
+    return email.split('@')[0].slice(0, 2).toUpperCase();
+  };
+
+  return (
+    <DropdownMenu open={open} onOpenChange={setOpen} modal={false}>
+      <DropdownMenuTrigger asChild>
+        <button
+          type="button"
+          aria-label="Menu do usuário"
+          onMouseEnter={handleOpen}
+          onMouseLeave={handleClose}
+          className="relative h-9 w-9 rounded-full !outline-none focus:!outline-none focus-visible:!outline-none"
+        >
+          <Avatar className="h-9 w-9 ring-2 ring-brand">
+            <AvatarImage src={user.user_metadata?.avatar_url} alt={user.email || 'User'} />
+            <AvatarFallback className="bg-brand/10 text-brand text-sm font-medium">
+              {getInitials(user.email || 'U')}
+            </AvatarFallback>
+          </Avatar>
+        </button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent
+        className="w-56"
+        align="end"
+        sideOffset={8}
+        onMouseEnter={handleOpen}
+        onMouseLeave={handleClose}
+      >
+        <DropdownMenuLabel className="font-normal">
+          <div className="flex flex-col space-y-1">
+            <p className="text-sm font-medium leading-none">{user.email?.split('@')[0]}</p>
+            <p className="text-xs leading-none text-foreground-muted">{user.email}</p>
+            {userRole && (
+              <span className="inline-block mt-1 px-2 py-0.5 text-xs rounded-full bg-brand/10 text-brand w-fit">
+                {getRoleLabel(userRole)}
+              </span>
+            )}
+          </div>
+        </DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuGroup>
+          <DropdownMenuItem asChild>
+            <Link href="/conta">
+              <User className="mr-2 h-4 w-4" />
+              Minha conta
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href="/assinatura">
+              <CreditCard className="mr-2 h-4 w-4" />
+              Assinatura
+            </Link>
+          </DropdownMenuItem>
+          <DropdownMenuItem asChild>
+            <Link href="/notificacoes">
+              <Bell className="mr-2 h-4 w-4" />
+              Notificações
+            </Link>
+          </DropdownMenuItem>
+        </DropdownMenuGroup>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem onSelect={handleLogout} variant="destructive">
+          <LogOut className="mr-2 h-4 w-4" />
+          Sair
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+
+/**
+ * Primary navigation links for the public header.
+ */
+const publicNavLinks = [
   { href: '/plus', label: 'Plus' },
   { href: '/liga', label: 'Liga' },
   { href: '/foundation', label: 'Fundação' },
@@ -31,28 +139,17 @@ const navLinks = [
 ];
 
 /**
- * Navigation links for authenticated users in protected routes.
- */
-const protectedNavLinks = [
-  { href: '/afiliados', label: 'Dashboard' },
-];
-
-/**
- * Routes that require authentication and show protected header.
- */
-const protectedRoutes = ['/afiliados'];
-
-/**
  * Renders the sticky header with primary navigation and CTA actions.
- * Adapts UI based on whether user is on a protected route.
+ * Adapts UI based on whether user is on a protected route and their role.
  */
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<SupabaseUser | null>(null);
+  const [userRole, setUserRole] = useState<Role | null>(null);
   const pathname = usePathname();
 
-  const isProtectedRoute = protectedRoutes.some((route) => pathname.startsWith(route));
+  const isProtectedRoute = isProtectedPath(pathname);
 
   useEffect(() => {
     /**
@@ -69,20 +166,30 @@ export function Header() {
   useEffect(() => {
     if (!isProtectedRoute) {
       setUser(null);
+      setUserRole(null);
       return;
     }
 
     const supabase = createClient();
 
     const fetchUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       setUser(user);
+      const role = user ? parseRole(user.app_metadata?.role) || 'afiliado' : null;
+      setUserRole(role);
     };
 
     fetchUser();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      const sessionUser = session?.user ?? null;
+      setUser(sessionUser);
+      const role = sessionUser ? parseRole(sessionUser.app_metadata?.role) || 'afiliado' : null;
+      setUserRole(role);
     });
 
     return () => subscription.unsubscribe();
@@ -112,6 +219,9 @@ export function Header() {
     }
   };
 
+  // Get navigation links based on context
+  const currentNavLinks = isProtectedRoute && userRole ? getNavLinksForRole(userRole) : publicNavLinks;
+
   return (
     <header
       className={`
@@ -121,7 +231,11 @@ export function Header() {
       `}
     >
       <Container>
-        <nav className="flex items-center justify-between h-16 md:h-20" role="navigation" aria-label="Navegação principal">
+        <nav
+          className="relative flex items-center justify-between h-16 md:h-20"
+          role="navigation"
+          aria-label="Navegação principal"
+        >
           {/* Logo */}
           <Link
             href="/"
@@ -132,20 +246,31 @@ export function Header() {
             Livvay
           </Link>
 
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
+          {/* Desktop Navigation - Centered absolutely when logged in */}
+          <div className={cn(
+            "hidden md:flex items-center",
+            isProtectedRoute && user
+              ? "absolute left-1/2 -translate-x-1/2"
+              : "ml-8"
+          )}>
             <NavigationMenu className="w-fit">
               <NavigationMenuList>
-                {(isProtectedRoute ? protectedNavLinks : navLinks).map((link) => (
+                {currentNavLinks.map((link) => (
                   <NavigationMenuItem key={link.href}>
                     <NavigationMenuLink
                       asChild
                       className={cn(
                         navigationMenuTriggerStyle(),
-                        pathname === link.href ? 'text-brand' : 'text-foreground-light hover:text-foreground'
+                        pathname === link.href || pathname.startsWith(link.href + '/')
+                          ? 'text-brand'
+                          : 'text-foreground-light hover:text-foreground'
                       )}
                     >
-                      <Link href={link.href} aria-current={pathname === link.href ? 'page' : undefined} tabIndex={0}>
+                      <Link
+                        href={link.href}
+                        aria-current={pathname === link.href ? 'page' : undefined}
+                        tabIndex={0}
+                      >
                         {link.label}
                       </Link>
                     </NavigationMenuLink>
@@ -156,15 +281,9 @@ export function Header() {
           </div>
 
           {/* CTA / User Actions */}
-          <div className="hidden md:flex items-center gap-4">
+          <div className="hidden md:flex items-center gap-4 ml-auto">
             {isProtectedRoute && user ? (
-              <>
-                <span className="text-sm text-foreground-light flex items-center gap-2">
-                  <User className="w-4 h-4" aria-hidden="true" />
-                  {user.email}
-                </span>
-                <LogoutButton size="small" />
-              </>
+              <UserDropdown user={user} userRole={userRole} />
             ) : (
               <Button href="/score" size="small">
                 Calcular meu Score
@@ -208,11 +327,16 @@ export function Header() {
                   <div className="px-4 py-2 mb-2 border-b border-border">
                     <span className="text-sm text-foreground-light flex items-center gap-2">
                       <User className="w-4 h-4" aria-hidden="true" />
-                      {user.email}
+                      <span className="truncate">{user.email}</span>
                     </span>
+                    {userRole && (
+                      <span className="inline-block mt-1 px-2 py-0.5 text-xs rounded-full bg-brand/10 text-brand">
+                        {getRoleLabel(userRole)}
+                      </span>
+                    )}
                   </div>
                 )}
-                {(isProtectedRoute ? protectedNavLinks : navLinks).map((link) => (
+                {currentNavLinks.map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
@@ -220,9 +344,10 @@ export function Header() {
                     className={`
                       block py-3 px-4 rounded-lg font-medium transition-colors
                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand
-                      ${pathname === link.href
-                        ? 'bg-brand/10 text-brand'
-                        : 'text-foreground-light hover:bg-surface-100 hover:text-foreground'
+                      ${
+                        pathname === link.href || pathname.startsWith(link.href + '/')
+                          ? 'bg-brand/10 text-brand'
+                          : 'text-foreground-light hover:bg-surface-100 hover:text-foreground'
                       }
                     `}
                     role="menuitem"

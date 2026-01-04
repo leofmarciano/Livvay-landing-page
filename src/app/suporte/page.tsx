@@ -3,15 +3,15 @@ import { Card } from '@/components/ui/Card';
 import { getCurrentUser } from '@/lib/rbac/server';
 import { getRoleLabel } from '@/lib/rbac/types';
 
-export default async function AfiliadosPage() {
+export default async function SuportePage() {
   const user = await getCurrentUser();
 
   return (
     <Container className="py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-foreground">Painel do Afiliado</h1>
+        <h1 className="text-3xl font-bold text-foreground">Painel de Suporte & Risk</h1>
         <p className="text-foreground-light mt-2">
-          Bem-vindo, {user?.email} ({getRoleLabel(user?.role || 'afiliado')})
+          Bem-vindo, {user?.email} ({getRoleLabel(user?.role || 'suporte')})
         </p>
       </div>
 
@@ -19,19 +19,19 @@ export default async function AfiliadosPage() {
         <Card hover={false}>
           <div className="text-center py-6">
             <p className="text-3xl font-bold text-foreground">0</p>
-            <p className="text-foreground-light text-sm mt-1">Links Ativos</p>
+            <p className="text-foreground-light text-sm mt-1">Tickets Abertos</p>
           </div>
         </Card>
         <Card hover={false}>
           <div className="text-center py-6">
             <p className="text-3xl font-bold text-foreground">0</p>
-            <p className="text-foreground-light text-sm mt-1">Cliques</p>
+            <p className="text-foreground-light text-sm mt-1">Em Analise</p>
           </div>
         </Card>
         <Card hover={false}>
           <div className="text-center py-6">
-            <p className="text-3xl font-bold text-foreground">R$ 0</p>
-            <p className="text-foreground-light text-sm mt-1">Ganhos</p>
+            <p className="text-3xl font-bold text-foreground">0</p>
+            <p className="text-foreground-light text-sm mt-1">Alertas de Risco</p>
           </div>
         </Card>
       </div>
@@ -39,8 +39,7 @@ export default async function AfiliadosPage() {
       <Card hover={false} className="mt-8">
         <div className="text-center py-8">
           <p className="text-foreground-light">
-            Sua area de afiliados esta em construcao.
-            Em breve voce tera acesso a todas as funcionalidades.
+            O painel de suporte esta em construcao.
           </p>
         </div>
       </Card>
