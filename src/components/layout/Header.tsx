@@ -4,9 +4,11 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, User } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
+import { LogoutButton } from '@/components/logout-button';
+import { createClient } from '@/lib/supabase/client';
 import { cn } from '@/lib/utils';
 import {
   NavigationMenu,
@@ -15,6 +17,7 @@ import {
   NavigationMenuList,
   navigationMenuTriggerStyle,
 } from '@/components/ui';
+import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 /**
  * Primary navigation links for the header.
@@ -28,12 +31,28 @@ const navLinks = [
 ];
 
 /**
+ * Navigation links for authenticated users in protected routes.
+ */
+const protectedNavLinks = [
+  { href: '/afiliados', label: 'Dashboard' },
+];
+
+/**
+ * Routes that require authentication and show protected header.
+ */
+const protectedRoutes = ['/afiliados'];
+
+/**
  * Renders the sticky header with primary navigation and CTA actions.
+ * Adapts UI based on whether user is on a protected route.
  */
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [user, setUser] = useState<SupabaseUser | null>(null);
   const pathname = usePathname();
+
+  const isProtectedRoute = protectedRoutes.some((route) => pathname.startsWith(route));
 
   useEffect(() => {
     /**
@@ -46,6 +65,28 @@ export function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  useEffect(() => {
+    if (!isProtectedRoute) {
+      setUser(null);
+      return;
+    }
+
+    const supabase = createClient();
+
+    const fetchUser = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+    };
+
+    fetchUser();
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [isProtectedRoute]);
 
   /**
    * Closes the mobile navigation drawer.
@@ -95,7 +136,7 @@ export function Header() {
           <div className="hidden md:flex items-center gap-8">
             <NavigationMenu className="w-fit">
               <NavigationMenuList>
-                {navLinks.map((link) => (
+                {(isProtectedRoute ? protectedNavLinks : navLinks).map((link) => (
                   <NavigationMenuItem key={link.href}>
                     <NavigationMenuLink
                       asChild
@@ -114,11 +155,21 @@ export function Header() {
             </NavigationMenu>
           </div>
 
-          {/* CTA Button */}
-          <div className="hidden md:block">
-            <Button href="/score" size="small">
-              Calcular meu Score
-            </Button>
+          {/* CTA / User Actions */}
+          <div className="hidden md:flex items-center gap-4">
+            {isProtectedRoute && user ? (
+              <>
+                <span className="text-sm text-foreground-light flex items-center gap-2">
+                  <User className="w-4 h-4" aria-hidden="true" />
+                  {user.email}
+                </span>
+                <LogoutButton size="small" />
+              </>
+            ) : (
+              <Button href="/score" size="small">
+                Calcular meu Score
+              </Button>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -153,7 +204,15 @@ export function Header() {
           >
             <Container>
               <div className="py-4 space-y-2">
-                {navLinks.map((link) => (
+                {isProtectedRoute && user && (
+                  <div className="px-4 py-2 mb-2 border-b border-border">
+                    <span className="text-sm text-foreground-light flex items-center gap-2">
+                      <User className="w-4 h-4" aria-hidden="true" />
+                      {user.email}
+                    </span>
+                  </div>
+                )}
+                {(isProtectedRoute ? protectedNavLinks : navLinks).map((link) => (
                   <Link
                     key={link.href}
                     href={link.href}
@@ -161,8 +220,8 @@ export function Header() {
                     className={`
                       block py-3 px-4 rounded-lg font-medium transition-colors
                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand
-                      ${pathname === link.href 
-                        ? 'bg-brand/10 text-brand' 
+                      ${pathname === link.href
+                        ? 'bg-brand/10 text-brand'
                         : 'text-foreground-light hover:bg-surface-100 hover:text-foreground'
                       }
                     `}
@@ -174,9 +233,13 @@ export function Header() {
                   </Link>
                 ))}
                 <div className="pt-2">
-                  <Button href="/score" className="w-full" onClick={closeMobileMenu}>
-                    Calcular meu Score
-                  </Button>
+                  {isProtectedRoute && user ? (
+                    <LogoutButton className="w-full" />
+                  ) : (
+                    <Button href="/score" className="w-full" onClick={closeMobileMenu}>
+                      Calcular meu Score
+                    </Button>
+                  )}
                 </div>
               </div>
             </Container>
