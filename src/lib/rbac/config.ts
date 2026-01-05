@@ -26,6 +26,7 @@ export const PROTECTED_ROUTES: RouteConfig[] = [
   { path: '/financeiro', requiredRole: 'financeiro' },
   { path: '/suporte', requiredRole: 'suporte' },
   { path: '/afiliados', requiredRole: 'afiliado' },
+  { path: '/clinica', requiredRole: 'clinica' },
 ];
 
 /**
@@ -54,6 +55,11 @@ export const ROLE_NAV_LINKS: Record<Role, NavLink[]> = {
     { href: '/afiliados/links', label: 'Links' },
     { href: '/afiliados/earnings', label: 'Ganhos' },
   ],
+  clinica: [
+    { href: '/clinica', label: 'Dashboard' },
+    { href: '/clinica/pacientes', label: 'Pacientes' },
+    { href: '/clinica/agendamentos', label: 'Agendamentos' },
+  ],
 };
 
 /**
@@ -67,6 +73,8 @@ export function getDefaultDashboard(role: Role | null | undefined): string {
       return '/financeiro';
     case 'suporte':
       return '/suporte';
+    case 'clinica':
+      return '/clinica';
     case 'afiliado':
     default:
       return '/afiliados';

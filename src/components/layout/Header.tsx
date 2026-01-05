@@ -4,7 +4,7 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, User, LogOut, CreditCard, Bell } from 'lucide-react';
+import { Menu, X, User, LogOut, CreditCard, Bell, LayoutGrid } from 'lucide-react';
 import { Container } from '@/components/ui/Container';
 import { Button } from '@/components/ui/Button';
 import { LogoutButton } from '@/components/logout-button';
@@ -25,19 +25,44 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { isProtectedPath, getNavLinksForRole } from '@/lib/rbac/config';
-import { parseRole, getRoleLabel, type Role } from '@/lib/rbac/types';
+import { parseRole, getRoleLabel, hasRoleAccess, type Role } from '@/lib/rbac/types';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
+
+/**
+ * All available dashboards with their required roles.
+ */
+const ALL_DASHBOARDS: { href: string; label: string; requiredRole: Role }[] = [
+  { href: '/admin', label: 'Admin', requiredRole: 'admin' },
+  { href: '/financeiro', label: 'Financeiro', requiredRole: 'financeiro' },
+  { href: '/suporte', label: 'Suporte', requiredRole: 'suporte' },
+  { href: '/afiliados', label: 'Afiliados', requiredRole: 'afiliado' },
+  { href: '/clinica', label: 'Clinica', requiredRole: 'clinica' },
+];
 
 /**
  * User dropdown menu component with avatar.
  */
+/**
+ * Get accessible dashboards for a user role.
+ */
+function getAccessibleDashboards(userRole: Role | null) {
+  return ALL_DASHBOARDS.filter((dashboard) =>
+    hasRoleAccess(userRole, dashboard.requiredRole)
+  );
+}
+
 function UserDropdown({ user, userRole }: { user: SupabaseUser; userRole: Role | null }) {
   const [open, setOpen] = useState(false);
   const closeTimeout = useRef<NodeJS.Timeout | null>(null);
   const supabase = createClient();
+
+  const accessibleDashboards = getAccessibleDashboards(userRole);
 
   const handleOpen = () => {
     if (closeTimeout.current) {
@@ -117,6 +142,24 @@ function UserDropdown({ user, userRole }: { user: SupabaseUser; userRole: Role |
             </Link>
           </DropdownMenuItem>
         </DropdownMenuGroup>
+        {accessibleDashboards.length > 1 && (
+          <>
+            <DropdownMenuSeparator />
+            <DropdownMenuSub>
+              <DropdownMenuSubTrigger>
+                <LayoutGrid className="mr-2 h-4 w-4" />
+                Trocar dashboard
+              </DropdownMenuSubTrigger>
+              <DropdownMenuSubContent>
+                {accessibleDashboards.map((dashboard) => (
+                  <DropdownMenuItem key={dashboard.href} asChild>
+                    <Link href={dashboard.href}>{dashboard.label}</Link>
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuSubContent>
+            </DropdownMenuSub>
+          </>
+        )}
         <DropdownMenuSeparator />
         <DropdownMenuItem onSelect={handleLogout} variant="destructive">
           <LogOut className="mr-2 h-4 w-4" />
@@ -357,6 +400,38 @@ export function Header() {
                     {link.label}
                   </Link>
                 ))}
+                {/* Dashboard Switcher - Mobile */}
+                {isProtectedRoute && user && (() => {
+                  const accessibleDashboards = getAccessibleDashboards(userRole);
+                  if (accessibleDashboards.length <= 1) return null;
+                  return (
+                    <div className="pt-2 mt-2 border-t border-border">
+                      <p className="px-4 py-2 text-xs font-medium text-foreground-muted flex items-center gap-2">
+                        <LayoutGrid className="w-4 h-4" aria-hidden="true" />
+                        Trocar dashboard
+                      </p>
+                      {accessibleDashboards.map((dashboard) => (
+                        <Link
+                          key={dashboard.href}
+                          href={dashboard.href}
+                          onClick={closeMobileMenu}
+                          className={`
+                            block py-2 px-4 ml-6 rounded-lg text-sm transition-colors
+                            focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand
+                            ${
+                              pathname.startsWith(dashboard.href)
+                                ? 'bg-brand/10 text-brand'
+                                : 'text-foreground-light hover:bg-surface-100 hover:text-foreground'
+                            }
+                          `}
+                          role="menuitem"
+                        >
+                          {dashboard.label}
+                        </Link>
+                      ))}
+                    </div>
+                  );
+                })()}
                 <div className="pt-2">
                   {isProtectedRoute && user ? (
                     <LogoutButton className="w-full" />

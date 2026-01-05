@@ -37,7 +37,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
 
       // Get user role and determine destination
       const userRole = parseRole(data.user?.app_metadata?.role) || 'afiliado';
-      const destination = hasExplicitNext ? _next : getDefaultDashboard(userRole);
+      const destination = hasExplicitNext ? _next! : getDefaultDashboard(userRole);
 
       // Use hard navigation to ensure middleware runs with fresh session
       router.refresh();
