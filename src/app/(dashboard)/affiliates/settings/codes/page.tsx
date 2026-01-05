@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { Card } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { Input } from '@/components/ui/input';
 import {
@@ -12,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Plus, Trash2, Copy, Check, Ticket, ExternalLink, Eye, Users } from 'lucide-react';
+import { Plus, Trash2, Copy, Check, Ticket, ExternalLink, Eye, Users, Crown, Gem } from 'lucide-react';
 
 interface ReferralCode {
   id: string;
@@ -20,8 +19,21 @@ interface ReferralCode {
   description: string | null;
   is_active: boolean;
   created_at: string;
-  claim_count: number;
+  // Metrics
   visit_count: number;
+  unique_visitors: number;
+  claim_count: number;
+  // Conversion metrics
+  conversion_count: number;
+  plus_count: number;
+  max_count: number;
+  upgrade_count: number;
+  active_subscribers: number;
+  cancel_count: number;
+  // Timestamps
+  last_visit: string | null;
+  last_claim: string | null;
+  last_conversion: string | null;
 }
 
 export default function AffiliatesSettingsCodesPage() {
@@ -208,7 +220,7 @@ export default function AffiliatesSettingsCodesPage() {
 
   return (
     <div className="space-y-6">
-      <Card hover={false}>
+      <div className="rounded-xl bg-surface-100 border border-border">
         <div className="p-6">
           <div className="flex items-center justify-between">
             <div>
@@ -320,11 +332,11 @@ export default function AffiliatesSettingsCodesPage() {
             </form>
           )}
         </div>
-      </Card>
+      </div>
 
       {/* Codes list */}
       {isLoading ? (
-        <Card hover={false}>
+        <div className="rounded-xl bg-surface-100 border border-border">
           <div className="p-6">
             <div className="animate-pulse space-y-4">
               <div className="h-12 bg-surface-200 rounded" />
@@ -332,9 +344,9 @@ export default function AffiliatesSettingsCodesPage() {
               <div className="h-12 bg-surface-200 rounded" />
             </div>
           </div>
-        </Card>
+        </div>
       ) : codes.length === 0 ? (
-        <Card hover={false}>
+        <div className="rounded-xl bg-surface-100 border border-border">
           <div className="p-12 text-center">
             <div className="inline-flex items-center justify-center w-12 h-12 rounded-full bg-surface-200 mb-4">
               <Ticket className="w-6 h-6 text-foreground-muted" />
@@ -343,7 +355,7 @@ export default function AffiliatesSettingsCodesPage() {
               Crie seu primeiro código
             </h3>
             <p className="text-foreground-light text-sm mb-4 max-w-sm mx-auto">
-              Códigos de indicação permitem rastrear quantas pessoas se cadastraram através de você
+              Códigos de indicação permitem rastrear cadastros e assinaturas geradas por você
             </p>
             <Button
               type="primary"
@@ -353,9 +365,9 @@ export default function AffiliatesSettingsCodesPage() {
               Criar código
             </Button>
           </div>
-        </Card>
+        </div>
       ) : (
-        <Card hover={false}>
+        <div className="rounded-xl bg-surface-100 border border-border">
           <div className="divide-y divide-border">
             {codes.map((code) => (
               <div
@@ -388,9 +400,17 @@ export default function AffiliatesSettingsCodesPage() {
                       <Eye className="w-3.5 h-3.5" />
                       {code.visit_count}
                     </span>
-                    <span className="flex items-center gap-1" title="Códigos usados">
+                    <span className="flex items-center gap-1" title="Cadastros (installs)">
                       <Users className="w-3.5 h-3.5" />
                       {code.claim_count}
+                    </span>
+                    <span className="flex items-center gap-1" title="Assinaturas Plus">
+                      <Crown className="w-3.5 h-3.5" />
+                      {code.plus_count}
+                    </span>
+                    <span className="flex items-center gap-1" title="Assinaturas Max">
+                      <Gem className="w-3.5 h-3.5" />
+                      {code.max_count}
                     </span>
                     <span>{formatDate(code.created_at)}</span>
                   </div>
@@ -426,7 +446,7 @@ export default function AffiliatesSettingsCodesPage() {
               </div>
             ))}
           </div>
-        </Card>
+        </div>
       )}
 
       {/* Delete confirmation dialog */}

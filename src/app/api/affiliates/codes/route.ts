@@ -41,37 +41,73 @@ export async function GET() {
       return NextResponse.json({ error: 'Não autenticado' }, { status: 401 });
     }
 
-    // Fetch codes with claim count and visit count
-    const { data: codes, error } = await supabase
+    // Fetch codes with basic info
+    const { data: codes, error: codesError } = await supabase
       .from('referral_codes')
-      .select(
-        `
-        id,
-        code,
-        description,
-        is_active,
-        created_at,
-        updated_at,
-        referral_code_claims (count),
-        referral_link_visits (count)
-      `
-      )
+      .select('id, code, description, is_active, created_at, updated_at')
       .eq('affiliate_id', user.id)
       .order('created_at', { ascending: false });
 
-    if (error) {
-      console.error('[Codes] Error fetching codes:', error);
+    if (codesError) {
+      console.error('[Codes] Error fetching codes:', codesError);
       return NextResponse.json({ error: 'Erro ao buscar códigos' }, { status: 500 });
     }
 
-    // Transform the response to include claim_count and visit_count
-    const transformedCodes = codes?.map((code) => ({
-      ...code,
-      claim_count: code.referral_code_claims?.[0]?.count || 0,
-      visit_count: code.referral_link_visits?.[0]?.count || 0,
-      referral_code_claims: undefined,
-      referral_link_visits: undefined,
-    }));
+    // Fetch stats from the view (includes visits, claims, and conversions)
+    const { data: stats, error: statsError } = await supabase
+      .from('referral_code_stats')
+      .select(
+        `
+        code_id,
+        total_visits,
+        unique_visitors,
+        total_claims,
+        total_conversions,
+        new_plus,
+        new_max,
+        total_upgrades,
+        active_subscribers,
+        total_cancels,
+        last_visit,
+        last_claim,
+        last_conversion
+      `
+      )
+      .eq('affiliate_id', user.id);
+
+    if (statsError) {
+      console.error('[Codes] Error fetching stats:', statsError);
+      // Continue without stats if view fails (graceful degradation)
+    }
+
+    // Create a map of stats by code_id for efficient lookup
+    const statsMap = new Map(
+      stats?.map((stat) => [stat.code_id, stat]) || []
+    );
+
+    // Transform the response to include all metrics
+    const transformedCodes = codes?.map((code) => {
+      const codeStats = statsMap.get(code.id);
+      return {
+        ...code,
+        // Visit metrics
+        visit_count: codeStats?.total_visits || 0,
+        unique_visitors: codeStats?.unique_visitors || 0,
+        // Claim metrics (installs)
+        claim_count: codeStats?.total_claims || 0,
+        // Conversion metrics (subscriptions)
+        conversion_count: codeStats?.total_conversions || 0,
+        plus_count: codeStats?.new_plus || 0,
+        max_count: codeStats?.new_max || 0,
+        upgrade_count: codeStats?.total_upgrades || 0,
+        active_subscribers: codeStats?.active_subscribers || 0,
+        cancel_count: codeStats?.total_cancels || 0,
+        // Timestamps
+        last_visit: codeStats?.last_visit || null,
+        last_claim: codeStats?.last_claim || null,
+        last_conversion: codeStats?.last_conversion || null,
+      };
+    });
 
     return NextResponse.json({ codes: transformedCodes });
   } catch (error) {

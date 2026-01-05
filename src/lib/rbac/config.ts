@@ -74,10 +74,10 @@ export const DASHBOARD_ROUTES: Record<string, DashboardConfig> = {
     requiredRole: 'affiliate',
     label: 'Affiliates',
     routes: [
-      { href: '/affiliates', label: 'Dashboard', icon: 'LayoutDashboard' },
-      { href: '/affiliates/users', label: 'Users', icon: 'Users' },
-      { href: '/affiliates/reports', label: 'Reports', icon: 'FileText' },
-      { href: '/affiliates/settings', label: 'Settings', icon: 'Settings' },
+      { href: '/affiliates', label: 'Painel', icon: 'LayoutDashboard' },
+      { href: '/affiliates/users', label: 'Usuários', icon: 'Users' },
+      { href: '/affiliates/reports', label: 'Relatórios', icon: 'FileText' },
+      { href: '/affiliates/settings', label: 'Configurações', icon: 'Settings' },
     ],
   },
 } as const;
