@@ -12,7 +12,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
-import { Plus, Trash2, Copy, Check, Link2, Ticket } from 'lucide-react';
+import { Plus, Trash2, Copy, Check, Ticket, ExternalLink, Eye, Users } from 'lucide-react';
 
 interface ReferralCode {
   id: string;
@@ -21,6 +21,7 @@ interface ReferralCode {
   is_active: boolean;
   created_at: string;
   claim_count: number;
+  visit_count: number;
 }
 
 export default function AffiliatesSettingsCodesPage() {
@@ -45,6 +46,13 @@ export default function AffiliatesSettingsCodesPage() {
 
   // Copy feedback state
   const [copiedId, setCopiedId] = useState<string | null>(null);
+  const [copiedLinkId, setCopiedLinkId] = useState<string | null>(null);
+
+  // Get the base URL for invite links
+  const getInviteUrl = (code: string) => {
+    const baseUrl = typeof window !== 'undefined' ? window.location.origin : 'https://livvay.com';
+    return `${baseUrl}/convite/${code}`;
+  };
 
   const fetchCodes = useCallback(async () => {
     try {
@@ -165,6 +173,17 @@ export default function AffiliatesSettingsCodesPage() {
       setTimeout(() => setCopiedId(null), 2000);
     } catch {
       setError('Erro ao copiar código');
+    }
+  };
+
+  const handleCopyLink = async (code: string, id: string) => {
+    try {
+      const url = getInviteUrl(code);
+      await navigator.clipboard.writeText(url);
+      setCopiedLinkId(id);
+      setTimeout(() => setCopiedLinkId(null), 2000);
+    } catch {
+      setError('Erro ao copiar link');
     }
   };
 
@@ -365,21 +384,45 @@ export default function AffiliatesSettingsCodesPage() {
                     {code.description && (
                       <span className="truncate max-w-[200px]">{code.description}</span>
                     )}
-                    <span className="flex items-center gap-1">
-                      <Link2 className="w-3.5 h-3.5" />
-                      {code.claim_count} {code.claim_count === 1 ? 'uso' : 'usos'}
+                    <span className="flex items-center gap-1" title="Visitas ao link">
+                      <Eye className="w-3.5 h-3.5" />
+                      {code.visit_count}
+                    </span>
+                    <span className="flex items-center gap-1" title="Códigos usados">
+                      <Users className="w-3.5 h-3.5" />
+                      {code.claim_count}
                     </span>
                     <span>{formatDate(code.created_at)}</span>
                   </div>
                 </div>
-                <Button
-                  type="ghost"
-                  size="small"
-                  icon={<Trash2 />}
-                  onClick={() => setDeleteDialog({ open: true, code })}
-                  className="text-foreground-muted hover:text-destructive"
-                  aria-label="Excluir código"
-                />
+                <div className="flex items-center gap-1">
+                  <button
+                    onClick={() => handleCopyLink(code.code, code.id)}
+                    className="p-2 rounded hover:bg-surface-200 transition-colors flex items-center gap-1.5 text-sm text-foreground-muted hover:text-foreground"
+                    title="Copiar link de convite"
+                    aria-label="Copiar link de convite"
+                  >
+                    {copiedLinkId === code.id ? (
+                      <>
+                        <Check className="w-4 h-4 text-brand" />
+                        <span className="text-brand hidden sm:inline">Copiado!</span>
+                      </>
+                    ) : (
+                      <>
+                        <ExternalLink className="w-4 h-4" />
+                        <span className="hidden sm:inline">Copiar link</span>
+                      </>
+                    )}
+                  </button>
+                  <Button
+                    type="ghost"
+                    size="small"
+                    icon={<Trash2 />}
+                    onClick={() => setDeleteDialog({ open: true, code })}
+                    className="text-foreground-muted hover:text-destructive"
+                    aria-label="Excluir código"
+                  />
+                </div>
               </div>
             ))}
           </div>

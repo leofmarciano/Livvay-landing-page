@@ -41,7 +41,7 @@ export async function GET() {
       return NextResponse.json({ error: 'Não autenticado' }, { status: 401 });
     }
 
-    // Fetch codes with claim count
+    // Fetch codes with claim count and visit count
     const { data: codes, error } = await supabase
       .from('referral_codes')
       .select(
@@ -52,7 +52,8 @@ export async function GET() {
         is_active,
         created_at,
         updated_at,
-        referral_code_claims (count)
+        referral_code_claims (count),
+        referral_link_visits (count)
       `
       )
       .eq('affiliate_id', user.id)
@@ -63,11 +64,13 @@ export async function GET() {
       return NextResponse.json({ error: 'Erro ao buscar códigos' }, { status: 500 });
     }
 
-    // Transform the response to include claim_count
+    // Transform the response to include claim_count and visit_count
     const transformedCodes = codes?.map((code) => ({
       ...code,
       claim_count: code.referral_code_claims?.[0]?.count || 0,
+      visit_count: code.referral_link_visits?.[0]?.count || 0,
       referral_code_claims: undefined,
+      referral_link_visits: undefined,
     }));
 
     return NextResponse.json({ codes: transformedCodes });
