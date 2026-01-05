@@ -8,7 +8,7 @@ export async function GET(request: NextRequest) {
 
   // Get redirect destination (prevent open redirect via protocol-relative URLs)
   const _next = searchParams.get('next');
-  const next = _next?.startsWith('/') && !_next.startsWith('//') ? _next : '/afiliados';
+  const next = _next?.startsWith('/') && !_next.startsWith('//') ? _next : '/affiliates';
 
   // Check for error in URL (from Supabase redirect)
   const error = searchParams.get('error');

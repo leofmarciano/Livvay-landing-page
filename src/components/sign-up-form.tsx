@@ -39,7 +39,7 @@ export function SignUpForm({ className, ...props }: React.ComponentPropsWithoutR
         email,
         password,
         options: {
-          emailRedirectTo: `${window.location.origin}/auth/confirm?next=/afiliados`,
+          emailRedirectTo: `${window.location.origin}/auth/confirm?next=/affiliates`,
         },
       });
       if (error) throw error;

@@ -35,7 +35,7 @@ export function UpdatePasswordForm({ className, ...props }: React.ComponentProps
     try {
       const { error } = await supabase.auth.updateUser({ password });
       if (error) throw error;
-      router.push('/afiliados');
+      router.push('/affiliates');
     } catch (error: unknown) {
       setError(error instanceof Error ? error.message : 'Erro ao atualizar senha');
     } finally {

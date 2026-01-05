@@ -31,18 +31,18 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { isProtectedPath, getNavLinksForRole } from '@/lib/rbac/config';
-import { parseRole, getRoleLabel, hasRoleAccess, type Role } from '@/lib/rbac/types';
+import { parseRole, getRoleLabel, hasRoleAccess, type RoleName, DEFAULT_ROLE } from '@/lib/rbac/types';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 /**
  * All available dashboards with their required roles.
  */
-const ALL_DASHBOARDS: { href: string; label: string; requiredRole: Role }[] = [
+const ALL_DASHBOARDS: { href: string; label: string; requiredRole: RoleName }[] = [
   { href: '/admin', label: 'Admin', requiredRole: 'admin' },
-  { href: '/financeiro', label: 'Financeiro', requiredRole: 'financeiro' },
-  { href: '/suporte', label: 'Suporte', requiredRole: 'suporte' },
-  { href: '/afiliados', label: 'Afiliados', requiredRole: 'afiliado' },
-  { href: '/clinica', label: 'Clinica', requiredRole: 'clinica' },
+  { href: '/finance', label: 'Finance', requiredRole: 'finance' },
+  { href: '/support', label: 'Support', requiredRole: 'support' },
+  { href: '/affiliates', label: 'Affiliates', requiredRole: 'affiliate' },
+  { href: '/clinic', label: 'Clinic', requiredRole: 'clinic' },
 ];
 
 /**
@@ -51,13 +51,13 @@ const ALL_DASHBOARDS: { href: string; label: string; requiredRole: Role }[] = [
 /**
  * Get accessible dashboards for a user role.
  */
-function getAccessibleDashboards(userRole: Role | null) {
+function getAccessibleDashboards(userRole: RoleName | null) {
   return ALL_DASHBOARDS.filter((dashboard) =>
     hasRoleAccess(userRole, dashboard.requiredRole)
   );
 }
 
-function UserDropdown({ user, userRole }: { user: SupabaseUser; userRole: Role | null }) {
+function UserDropdown({ user, userRole }: { user: SupabaseUser; userRole: RoleName | null }) {
   const [open, setOpen] = useState(false);
   const closeTimeout = useRef<NodeJS.Timeout | null>(null);
   const supabase = createClient();
@@ -189,7 +189,7 @@ export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [user, setUser] = useState<SupabaseUser | null>(null);
-  const [userRole, setUserRole] = useState<Role | null>(null);
+  const [userRole, setUserRole] = useState<RoleName | null>(null);
   const pathname = usePathname();
 
   const isProtectedRoute = isProtectedPath(pathname);
@@ -220,7 +220,7 @@ export function Header() {
         data: { user },
       } = await supabase.auth.getUser();
       setUser(user);
-      const role = user ? parseRole(user.app_metadata?.role) || 'afiliado' : null;
+      const role = user ? parseRole(user.app_metadata?.role) || DEFAULT_ROLE : null;
       setUserRole(role);
     };
 
@@ -231,7 +231,7 @@ export function Header() {
     } = supabase.auth.onAuthStateChange((_event, session) => {
       const sessionUser = session?.user ?? null;
       setUser(sessionUser);
-      const role = sessionUser ? parseRole(sessionUser.app_metadata?.role) || 'afiliado' : null;
+      const role = sessionUser ? parseRole(sessionUser.app_metadata?.role) || DEFAULT_ROLE : null;
       setUserRole(role);
     });
 

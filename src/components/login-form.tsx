@@ -9,7 +9,7 @@ import { createClient } from '@/lib/supabase/client';
 import { Button } from '@/components/ui/Button';
 import { Card } from '@/components/ui/Card';
 import { getDefaultDashboard } from '@/lib/rbac/config';
-import { parseRole } from '@/lib/rbac/types';
+import { parseRole, DEFAULT_ROLE } from '@/lib/rbac/types';
 
 export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRef<'div'>) {
   const [email, setEmail] = useState('');
@@ -36,7 +36,7 @@ export function LoginForm({ className, ...props }: React.ComponentPropsWithoutRe
       if (error) throw error;
 
       // Get user role and determine destination
-      const userRole = parseRole(data.user?.app_metadata?.role) || 'afiliado';
+      const userRole = parseRole(data.user?.app_metadata?.role) || DEFAULT_ROLE;
       const destination = hasExplicitNext ? _next! : getDefaultDashboard(userRole);
 
       // Use hard navigation to ensure middleware runs with fresh session

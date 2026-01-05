@@ -2,58 +2,90 @@
  * RBAC Type Definitions
  *
  * Defines user roles with hierarchy levels for tiered access control.
- * Higher level = more access (admin can access all, afiliado only their area).
+ * Higher level = more access (admin can access all, affiliate only their area).
  */
 
 /**
  * Role hierarchy with numeric levels for comparison.
  * Higher number = more privileges.
  *
- * Note: 'clinica' is completely isolated - it's a separate track
- * that doesn't participate in the hierarchy. Only clinica users
- * can access clinica routes, and clinica users can't access anything else.
+ * Note: 'clinic' is completely isolated - it's a separate track
+ * that doesn't participate in the hierarchy. Only clinic users
+ * can access clinic routes, and clinic users can't access anything else.
  */
 export const ROLES = {
-  afiliado: 1,
-  suporte: 2,
-  financeiro: 3,
-  admin: 4,
-  clinica: 0, // Isolated role - separate track
+  affiliate: 40,
+  support: 60,
+  finance: 80,
+  admin: 100,
+  clinic: 0, // Isolated role - separate track
 } as const;
 
-export type Role = keyof typeof ROLES;
+export type RoleName = keyof typeof ROLES;
 
-export const DEFAULT_ROLE: Role = 'afiliado';
+export const DEFAULT_ROLE: RoleName = 'affiliate';
 
 /**
  * All valid role values for validation.
  */
-export const ROLE_VALUES = Object.keys(ROLES) as Role[];
+export const ROLE_VALUES = Object.keys(ROLES) as RoleName[];
+
+/**
+ * Role interface for database-backed roles.
+ */
+export interface Role {
+  id: string;
+  name: RoleName;
+  label: string;
+  level: number;
+  isIsolated: boolean;
+}
+
+/**
+ * Permission interface for granular access control.
+ */
+export interface Permission {
+  name: string;
+  resource: string;
+  action: string;
+}
+
+/**
+ * User with role information from database.
+ */
+export interface UserWithRole {
+  id: string;
+  email: string;
+  primaryRole: RoleName;
+  primaryRoleLabel: string;
+  allRoles: RoleName[];
+  permissions: Permission[];
+}
 
 /**
  * Check if a role has at least the required access level.
- * Uses hierarchy: admin > financeiro > suporte > afiliado
+ * Uses hierarchy: admin > finance > support > affiliate
  *
- * IMPORTANT: 'clinica' is isolated from the hierarchy.
- * - Clinica users can only access clinica routes
- * - Admin can access clinica routes (admin has full access)
- * - Other roles (financeiro, suporte, afiliado) cannot access clinica
+ * IMPORTANT: 'clinic' is isolated from the hierarchy.
+ * - Clinic users can only access clinic routes
+ * - Admin can access clinic routes (admin has full access)
+ * - Other roles (finance, support, affiliate) cannot access clinic
  */
-export function hasRoleAccess(userRole: Role | null | undefined, requiredRole: Role): boolean {
+export function hasRoleAccess(userRole: RoleName | null | undefined, requiredRole: RoleName): boolean {
   if (!userRole) return false;
 
-  // Admin has access to everything, including clinica
+  // Admin has access to everything, including clinic
   if (userRole === 'admin') {
     return true;
   }
 
-  // Clinica routes: only clinica users (and admin, handled above)
-  if (requiredRole === 'clinica') {
-    return userRole === 'clinica';
+  // Clinic routes: only clinic users (and admin, handled above)
+  if (requiredRole === 'clinic') {
+    return userRole === 'clinic';
   }
 
-  // Clinica users can only access clinica routes
-  if (userRole === 'clinica') {
+  // Clinic users can only access clinic routes
+  if (userRole === 'clinic') {
     return false;
   }
 
@@ -64,24 +96,41 @@ export function hasRoleAccess(userRole: Role | null | undefined, requiredRole: R
 /**
  * Type-safe role parsing from unknown value.
  * Returns undefined for invalid roles.
+ * Handles both old Portuguese and new English role names.
  */
-export function parseRole(value: unknown): Role | undefined {
-  if (typeof value === 'string' && value in ROLES) {
-    return value as Role;
+export function parseRole(value: unknown): RoleName | undefined {
+  if (typeof value !== 'string') return undefined;
+
+  // Direct match
+  if (value in ROLES) {
+    return value as RoleName;
   }
-  return undefined;
+
+  // Map old Portuguese names to new English names
+  const legacyMapping: Record<string, RoleName> = {
+    afiliado: 'affiliate',
+    financeiro: 'finance',
+    suporte: 'support',
+    clinica: 'clinic',
+  };
+
+  return legacyMapping[value];
 }
 
 /**
- * Get display label for a role (Portuguese).
+ * Role display labels (English).
  */
-export function getRoleLabel(role: Role): string {
-  const labels: Record<Role, string> = {
-    admin: 'Administrador',
-    financeiro: 'Financeiro',
-    suporte: 'Suporte & Risk',
-    afiliado: 'Afiliado',
-    clinica: 'Clinica',
-  };
-  return labels[role];
+export const ROLE_LABELS: Record<RoleName, string> = {
+  admin: 'Administrator',
+  finance: 'Finance',
+  support: 'Support & Risk',
+  affiliate: 'Affiliate',
+  clinic: 'Clinic',
+};
+
+/**
+ * Get display label for a role.
+ */
+export function getRoleLabel(role: RoleName): string {
+  return ROLE_LABELS[role] || role;
 }
