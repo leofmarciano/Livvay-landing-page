@@ -12,20 +12,9 @@ import {
   MessageSquare,
   Link as LinkIcon,
   DollarSign,
-  ChevronDown,
-  LogOut,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { DASHBOARD_ROUTES, type DashboardConfig } from '@/lib/rbac/config';
-import { hasRoleAccess, type RoleName, type UserWithRole } from '@/lib/rbac/types';
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { LogoutButton } from '@/components/logout-button';
+import { DASHBOARD_ROUTES } from '@/lib/rbac/config';
 
 const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   LayoutDashboard,
@@ -39,11 +28,12 @@ const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
   DollarSign,
 };
 
-interface DashboardSidebarProps {
-  user: UserWithRole;
-}
-
-export function DashboardSidebar({ user }: DashboardSidebarProps) {
+/**
+ * Sidebar navigation for dashboard pages.
+ * Only shows navigation links for the current dashboard.
+ * Dashboard switching and user actions are handled by the Header.
+ */
+export function DashboardSidebar() {
   const pathname = usePathname();
 
   // Get current dashboard config
@@ -51,47 +41,14 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
     pathname.startsWith(config.base)
   );
 
-  // Get all accessible dashboards
-  const accessibleDashboards = Object.entries(DASHBOARD_ROUTES).filter(([, config]) =>
-    hasRoleAccess(user.primaryRole, config.requiredRole)
-  );
-
   if (!currentDashboard) return null;
 
   return (
-    <aside className="hidden lg:flex w-64 flex-col border-r border-border bg-surface-100">
-      {/* Logo */}
-      <div className="h-16 flex items-center px-6 border-b border-border">
-        <Link href="/" className="flex items-center gap-2">
-          <span className="text-xl font-bold text-foreground">Livvay</span>
-        </Link>
+    <aside className="hidden lg:flex w-64 flex-col border-r border-border bg-surface-100 min-h-[calc(100vh-5rem)]">
+      {/* Dashboard Title */}
+      <div className="p-4 border-b border-border">
+        <h2 className="text-sm font-semibold text-foreground">{currentDashboard.label}</h2>
       </div>
-
-      {/* Dashboard Switcher */}
-      {accessibleDashboards.length > 1 && (
-        <div className="p-4 border-b border-border">
-          <DropdownMenu>
-            <DropdownMenuTrigger className="w-full flex items-center justify-between px-3 py-2 rounded-lg bg-surface-200 hover:bg-surface-300 transition-colors text-sm font-medium text-foreground">
-              <span>{currentDashboard.label}</span>
-              <ChevronDown className="w-4 h-4 text-foreground-muted" />
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="w-56">
-              {accessibleDashboards.map(([key, config]) => (
-                <DropdownMenuItem key={key} asChild>
-                  <Link
-                    href={config.base}
-                    className={cn(
-                      pathname.startsWith(config.base) && 'bg-surface-200'
-                    )}
-                  >
-                    {config.label}
-                  </Link>
-                </DropdownMenuItem>
-              ))}
-            </DropdownMenuContent>
-          </DropdownMenu>
-        </div>
-      )}
 
       {/* Navigation */}
       <nav className="flex-1 p-4 space-y-1 overflow-y-auto">
@@ -118,24 +75,6 @@ export function DashboardSidebar({ user }: DashboardSidebarProps) {
           );
         })}
       </nav>
-
-      {/* User Info */}
-      <div className="p-4 border-t border-border">
-        <div className="flex items-center gap-3 px-3 py-2">
-          <div className="w-8 h-8 rounded-full bg-brand/20 flex items-center justify-center">
-            <span className="text-sm font-medium text-brand">
-              {user.email.charAt(0).toUpperCase()}
-            </span>
-          </div>
-          <div className="flex-1 min-w-0">
-            <p className="text-sm font-medium text-foreground truncate">{user.email}</p>
-            <p className="text-xs text-foreground-muted">{user.primaryRoleLabel}</p>
-          </div>
-        </div>
-        <div className="mt-2">
-          <LogoutButton className="w-full" type="ghost" size="small" />
-        </div>
-      </div>
     </aside>
   );
 }

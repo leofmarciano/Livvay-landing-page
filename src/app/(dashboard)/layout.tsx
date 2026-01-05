@@ -29,5 +29,5 @@ export default async function DashboardLayout({
     redirect(getDefaultDashboard(user.primaryRole));
   }
 
-  return <DashboardShell user={user}>{children}</DashboardShell>;
+  return <DashboardShell>{children}</DashboardShell>;
 }

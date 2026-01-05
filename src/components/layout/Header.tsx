@@ -30,7 +30,7 @@ import {
   DropdownMenuSubContent,
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { isProtectedPath, getNavLinksForRole } from '@/lib/rbac/config';
+import { isProtectedPath, getNavLinksForRole, DASHBOARD_ROUTES } from '@/lib/rbac/config';
 import { parseRole, getRoleLabel, hasRoleAccess, type RoleName, DEFAULT_ROLE } from '@/lib/rbac/types';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 
@@ -52,16 +52,31 @@ const ALL_DASHBOARDS: { href: string; label: string; requiredRole: RoleName }[] 
  * Get accessible dashboards for a user role.
  */
 function getAccessibleDashboards(userRole: RoleName | null) {
-  return ALL_DASHBOARDS.filter((dashboard) =>
-    hasRoleAccess(userRole, dashboard.requiredRole)
+  return ALL_DASHBOARDS.filter((dashboard) => hasRoleAccess(userRole, dashboard.requiredRole));
+}
+
+/**
+ * Check if a navigation link should be marked as active.
+ * Dashboard base paths (e.g., /admin) only match exactly.
+ * Sub-paths (e.g., /admin/settings) match with startsWith for nested routes.
+ */
+function isNavLinkActive(pathname: string, linkHref: string): boolean {
+  if (pathname === linkHref) return true;
+
+  // Check if this is a dashboard base path - only match exact
+  const isDashboardBase = Object.values(DASHBOARD_ROUTES).some(
+    (config) => config.base === linkHref
   );
+  if (isDashboardBase) return false;
+
+  // For sub-paths, check startsWith
+  return pathname.startsWith(linkHref + '/');
 }
 
 function UserDropdown({ user, userRole }: { user: SupabaseUser; userRole: RoleName | null }) {
   const [open, setOpen] = useState(false);
   const closeTimeout = useRef<NodeJS.Timeout | null>(null);
   const supabase = createClient();
-
   const accessibleDashboards = getAccessibleDashboards(userRole);
 
   const handleOpen = () => {
@@ -215,23 +230,26 @@ export function Header() {
 
     const supabase = createClient();
 
-    const fetchUser = async () => {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      setUser(user);
-      const role = user ? parseRole(user.app_metadata?.role) || DEFAULT_ROLE : null;
-      setUserRole(role);
-    };
+    // Initial session fetch
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      if (session?.user) {
+        setUser(session.user);
+        const role = parseRole(session.user.app_metadata?.role) || DEFAULT_ROLE;
+        setUserRole(role);
+      }
+    });
 
-    fetchUser();
-
+    // Listen for auth changes
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange((_event, session) => {
-      const sessionUser = session?.user ?? null;
-      setUser(sessionUser);
-      const role = sessionUser ? parseRole(sessionUser.app_metadata?.role) || DEFAULT_ROLE : null;
+      if (!session) {
+        setUser(null);
+        setUserRole(null);
+        return;
+      }
+      setUser(session.user);
+      const role = parseRole(session.user.app_metadata?.role) || DEFAULT_ROLE;
       setUserRole(role);
     });
 
@@ -304,7 +322,7 @@ export function Header() {
                       asChild
                       className={cn(
                         navigationMenuTriggerStyle(),
-                        pathname === link.href || pathname.startsWith(link.href + '/')
+                        isNavLinkActive(pathname, link.href)
                           ? 'text-brand'
                           : 'text-foreground-light hover:text-foreground'
                       )}
@@ -388,7 +406,7 @@ export function Header() {
                       block py-3 px-4 rounded-lg font-medium transition-colors
                       focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand
                       ${
-                        pathname === link.href || pathname.startsWith(link.href + '/')
+                        isNavLinkActive(pathname, link.href)
                           ? 'bg-brand/10 text-brand'
                           : 'text-foreground-light hover:bg-surface-100 hover:text-foreground'
                       }
