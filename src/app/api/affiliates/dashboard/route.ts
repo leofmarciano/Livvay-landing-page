@@ -62,49 +62,26 @@ export async function GET(request: NextRequest) {
       console.error('[Dashboard] Error fetching top codes:', topCodesError);
     }
 
-    // Get funnel metrics for the period
-    const { data: funnelData, error: funnelError } = await supabase
-      .from('referral_code_stats')
-      .select(
-        'total_visits, unique_visitors, total_claims, total_conversions, new_plus, new_max, active_subscribers, total_cancels'
-      )
-      .eq('affiliate_id', user.id);
+    // Get funnel metrics using optimized function
+    const { data: funnelData, error: funnelError } = await supabase.rpc(
+      'get_affiliate_funnel',
+      { p_affiliate_id: user.id }
+    );
 
     if (funnelError) {
       console.error('[Dashboard] Error fetching funnel:', funnelError);
     }
 
-    // Aggregate funnel stats across all codes
-    const funnel = funnelData?.reduce(
-      (acc, code) => ({
-        visits: acc.visits + (code.total_visits || 0),
-        unique_visitors: acc.unique_visitors + (code.unique_visitors || 0),
-        installs: acc.installs + (code.total_claims || 0),
-        subscriptions: acc.subscriptions + (code.total_conversions || 0),
-        plus: acc.plus + (code.new_plus || 0),
-        max: acc.max + (code.new_max || 0),
-        active: acc.active + (code.active_subscribers || 0),
-        churns: acc.churns + (code.total_cancels || 0),
-      }),
-      {
-        visits: 0,
-        unique_visitors: 0,
-        installs: 0,
-        subscriptions: 0,
-        plus: 0,
-        max: 0,
-        active: 0,
-        churns: 0,
-      }
-    ) || {
-      visits: 0,
-      unique_visitors: 0,
-      installs: 0,
-      subscriptions: 0,
-      plus: 0,
-      max: 0,
-      active: 0,
-      churns: 0,
+    const funnelRow = funnelData?.[0];
+    const funnel = {
+      visits: funnelRow?.total_visits || 0,
+      unique_visitors: funnelRow?.unique_visitors || 0,
+      installs: funnelRow?.total_claims || 0,
+      subscriptions: funnelRow?.total_conversions || 0,
+      plus: funnelRow?.new_plus || 0,
+      max: funnelRow?.new_max || 0,
+      active: funnelRow?.active_subscribers || 0,
+      churns: funnelRow?.total_cancels || 0,
     };
 
     // Calculate conversion rate and churn rate

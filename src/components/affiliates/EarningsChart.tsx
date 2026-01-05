@@ -1,14 +1,7 @@
 'use client';
 
-import {
-  ResponsiveContainer,
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-} from 'recharts';
+import { useLayoutEffect, useRef, useState } from 'react';
+import { LineChart, Line, XAxis, YAxis, Tooltip, Legend } from 'recharts';
 import { formatCurrency } from '@/lib/constants/affiliate';
 
 interface EarningsDataPoint {
@@ -25,6 +18,28 @@ interface EarningsChartProps {
 const formatDate = (dateStr: string) => {
   const date = new Date(dateStr);
   return date.toLocaleDateString('pt-BR', { day: '2-digit', month: 'short' });
+};
+
+const useContainerSize = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [size, setSize] = useState({ width: 0, height: 0 });
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const update = () => {
+      const { width, height } = el.getBoundingClientRect();
+      setSize({ width, height });
+    };
+
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, ...size };
 };
 
 const CustomTooltip = ({
@@ -67,6 +82,9 @@ export function EarningsChart({ data, showSubscriptions = true }: EarningsChartP
     (d) => d.date && typeof d.earnings_cents === 'number' && !isNaN(d.earnings_cents)
   ) || [];
 
+  const { ref, width, height } = useContainerSize();
+  const ready = width >= 240 && height >= 220;
+
   if (validData.length === 0) {
     return (
       <div className="flex items-center justify-center h-[300px] text-foreground-muted">
@@ -76,9 +94,14 @@ export function EarningsChart({ data, showSubscriptions = true }: EarningsChartP
   }
 
   return (
-    <div className="h-[300px] w-full relative overflow-hidden isolate [&_svg]:overflow-hidden bg-surface-100 rounded-lg" style={{ clipPath: 'inset(0)' }}>
-      <ResponsiveContainer width="100%" height="100%" className="[&_.recharts-wrapper]:!overflow-hidden">
+    <div
+      ref={ref}
+      className="relative h-[300px] w-full min-w-0 overflow-hidden bg-surface-100 rounded-lg"
+    >
+      {ready ? (
         <LineChart
+          width={width}
+          height={height}
           data={validData}
           margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
         >
@@ -133,7 +156,11 @@ export function EarningsChart({ data, showSubscriptions = true }: EarningsChartP
             />
           )}
         </LineChart>
-      </ResponsiveContainer>
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center text-sm text-foreground-muted">
+          Carregando gráfico...
+        </div>
+      )}
     </div>
   );
 }

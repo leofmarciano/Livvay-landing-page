@@ -1,14 +1,7 @@
 'use client';
 
-import {
-  ResponsiveContainer,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Cell,
-} from 'recharts';
+import { useLayoutEffect, useRef, useState } from 'react';
+import { BarChart, Bar, XAxis, YAxis, Tooltip, Cell } from 'recharts';
 
 interface FunnelData {
   visits: number;
@@ -25,6 +18,28 @@ const COLORS = [
   'hsl(var(--warning-default))',
   'hsl(var(--brand-default))',
 ];
+
+const useContainerSize = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [size, setSize] = useState({ width: 0, height: 0 });
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const update = () => {
+      const { width, height } = el.getBoundingClientRect();
+      setSize({ width, height });
+    };
+
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, ...size };
+};
 
 const CustomTooltip = ({
   active,
@@ -71,10 +86,15 @@ export function FunnelChart({ data }: FunnelChartProps) {
     },
   ];
 
+  const { ref, width, height } = useContainerSize();
+  const ready = width >= 200 && height >= 180;
+
   return (
-    <div className="h-[250px] w-full relative overflow-hidden isolate [&_svg]:overflow-hidden" style={{ clipPath: 'inset(0)' }}>
-      <ResponsiveContainer width="100%" height="100%">
+    <div className="relative h-[250px] w-full min-w-0 overflow-hidden" ref={ref}>
+      {ready ? (
         <BarChart
+          width={width}
+          height={height}
           data={chartData}
           layout="vertical"
           margin={{ top: 5, right: 30, left: 80, bottom: 5 }}
@@ -100,7 +120,11 @@ export function FunnelChart({ data }: FunnelChartProps) {
             ))}
           </Bar>
         </BarChart>
-      </ResponsiveContainer>
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center text-sm text-foreground-muted">
+          Carregando gráfico...
+        </div>
+      )}
     </div>
   );
 }

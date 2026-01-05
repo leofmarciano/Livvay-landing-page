@@ -1,13 +1,7 @@
 'use client';
 
-import {
-  ResponsiveContainer,
-  PieChart,
-  Pie,
-  Cell,
-  Legend,
-  Tooltip,
-} from 'recharts';
+import { useLayoutEffect, useRef, useState } from 'react';
+import { PieChart, Pie, Cell, Legend, Tooltip } from 'recharts';
 import { PLAN_LABELS, formatCurrency, PLAN_PRICES_CENTS } from '@/lib/constants/affiliate';
 
 interface SubscribersData {
@@ -23,6 +17,28 @@ interface SubscribersChartProps {
 const COLORS = {
   plus: 'hsl(var(--brand-default))',
   max: 'hsl(var(--warning-default))',
+};
+
+const useContainerSize = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const [size, setSize] = useState({ width: 0, height: 0 });
+
+  useLayoutEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const update = () => {
+      const { width, height } = el.getBoundingClientRect();
+      setSize({ width, height });
+    };
+
+    update();
+    const observer = new ResizeObserver(update);
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  return { ref, ...size };
 };
 
 const CustomTooltip = ({
@@ -95,10 +111,13 @@ export function SubscribersChart({ data, showValue = true }: SubscribersChartPro
     );
   }
 
+  const { ref, width, height } = useContainerSize();
+  const ready = width >= 200 && height >= 180;
+
   return (
-    <div className="h-[250px] w-full relative overflow-hidden isolate [&_svg]:overflow-hidden" style={{ clipPath: 'inset(0)' }}>
-      <ResponsiveContainer width="100%" height="100%">
-        <PieChart>
+    <div className="relative h-[250px] w-full min-w-0 overflow-hidden" ref={ref}>
+      {ready ? (
+        <PieChart width={width} height={height}>
           <Pie
             data={chartData}
             cx="50%"
@@ -124,7 +143,11 @@ export function SubscribersChart({ data, showValue = true }: SubscribersChartPro
             )}
           />
         </PieChart>
-      </ResponsiveContainer>
+      ) : (
+        <div className="absolute inset-0 flex items-center justify-center text-sm text-foreground-muted">
+          Carregando gráfico...
+        </div>
+      )}
       {showValue && (
         <div className="text-center -mt-2">
           <p className="text-2xl font-semibold text-foreground">{total}</p>
