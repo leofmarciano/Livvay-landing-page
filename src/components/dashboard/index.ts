@@ -1,2 +1,2 @@
 export { DashboardShell } from './dashboard-shell';
-export { DashboardSidebar } from './dashboard-sidebar';
+export { AppSidebar } from './app-sidebar';
