@@ -6,7 +6,6 @@ import {
   Line,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   Legend,
 } from 'recharts';
@@ -63,7 +62,12 @@ const CustomTooltip = ({
 };
 
 export function EarningsChart({ data, showSubscriptions = true }: EarningsChartProps) {
-  if (!data || data.length === 0) {
+  // Filter out invalid data points
+  const validData = data?.filter(
+    (d) => d.date && typeof d.earnings_cents === 'number' && !isNaN(d.earnings_cents)
+  ) || [];
+
+  if (validData.length === 0) {
     return (
       <div className="flex items-center justify-center h-[300px] text-foreground-muted">
         Sem dados para o período selecionado
@@ -72,22 +76,17 @@ export function EarningsChart({ data, showSubscriptions = true }: EarningsChartP
   }
 
   return (
-    <div className="h-[300px] w-full">
-      <ResponsiveContainer width="100%" height="100%">
+    <div className="h-[300px] w-full relative overflow-hidden isolate [&_svg]:overflow-hidden bg-surface-100 rounded-lg" style={{ clipPath: 'inset(0)' }}>
+      <ResponsiveContainer width="100%" height="100%" className="[&_.recharts-wrapper]:!overflow-hidden">
         <LineChart
-          data={data}
+          data={validData}
           margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
         >
-          <CartesianGrid
-            strokeDasharray="3 3"
-            stroke="hsl(var(--border-default))"
-            vertical={false}
-          />
           <XAxis
             dataKey="date"
             tickFormatter={formatDate}
             tick={{ fill: 'hsl(var(--foreground-muted))', fontSize: 12 }}
-            axisLine={{ stroke: 'hsl(var(--border-default))' }}
+            axisLine={false}
             tickLine={false}
           />
           <YAxis
@@ -106,13 +105,7 @@ export function EarningsChart({ data, showSubscriptions = true }: EarningsChartP
               tickLine={false}
             />
           )}
-          <Tooltip content={<CustomTooltip />} />
-          <Legend
-            wrapperStyle={{ paddingTop: 20 }}
-            formatter={(value) => (
-              <span className="text-sm text-foreground-light">{value}</span>
-            )}
-          />
+          <Tooltip content={<CustomTooltip />} cursor={false} />
           <Line
             yAxisId="left"
             type="monotone"
@@ -122,6 +115,8 @@ export function EarningsChart({ data, showSubscriptions = true }: EarningsChartP
             strokeWidth={2}
             dot={{ fill: 'hsl(var(--brand-default))', strokeWidth: 0, r: 3 }}
             activeDot={{ r: 5, strokeWidth: 0 }}
+            connectNulls={false}
+            isAnimationActive={false}
           />
           {showSubscriptions && (
             <Line
@@ -133,6 +128,8 @@ export function EarningsChart({ data, showSubscriptions = true }: EarningsChartP
               strokeWidth={2}
               dot={{ fill: 'hsl(var(--warning-default))', strokeWidth: 0, r: 3 }}
               activeDot={{ r: 5, strokeWidth: 0 }}
+              connectNulls={false}
+              isAnimationActive={false}
             />
           )}
         </LineChart>

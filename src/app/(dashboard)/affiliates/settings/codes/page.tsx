@@ -392,27 +392,27 @@ export default function AffiliatesSettingsCodesPage() {
                       )}
                     </button>
                   </div>
-                  <div className="flex items-center gap-3 mt-1 text-sm text-foreground-light">
+                  <div className="flex items-center gap-3 mt-1 text-sm text-foreground-light overflow-hidden">
                     {code.description && (
                       <span className="truncate max-w-[200px]">{code.description}</span>
                     )}
-                    <span className="flex items-center gap-1" title="Visitas ao link">
-                      <Eye className="w-3.5 h-3.5" />
+                    <span className="flex items-center gap-1 shrink-0" title="Visitas ao link">
+                      <Eye className="w-3.5 h-3.5 shrink-0" />
                       {code.visit_count}
                     </span>
-                    <span className="flex items-center gap-1" title="Cadastros (installs)">
-                      <Users className="w-3.5 h-3.5" />
+                    <span className="flex items-center gap-1 shrink-0" title="Cadastros (installs)">
+                      <Users className="w-3.5 h-3.5 shrink-0" />
                       {code.claim_count}
                     </span>
-                    <span className="flex items-center gap-1" title="Assinaturas Plus">
-                      <Crown className="w-3.5 h-3.5" />
+                    <span className="flex items-center gap-1 shrink-0" title="Assinaturas Plus">
+                      <Crown className="w-3.5 h-3.5 shrink-0" />
                       {code.plus_count}
                     </span>
-                    <span className="flex items-center gap-1" title="Assinaturas Max">
-                      <Gem className="w-3.5 h-3.5" />
+                    <span className="flex items-center gap-1 shrink-0" title="Assinaturas Max">
+                      <Gem className="w-3.5 h-3.5 shrink-0" />
                       {code.max_count}
                     </span>
-                    <span>{formatDate(code.created_at)}</span>
+                    <span className="shrink-0">{formatDate(code.created_at)}</span>
                   </div>
                 </div>
                 <div className="flex items-center gap-1">

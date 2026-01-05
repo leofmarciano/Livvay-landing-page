@@ -53,7 +53,7 @@ export function MetricCard({
 
   return (
     <div
-      className={`rounded-xl border border-border p-5 ${variantStyles[variant]}`}
+      className={`rounded-xl border border-solid border-border p-5 ${variantStyles[variant]}`}
     >
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">

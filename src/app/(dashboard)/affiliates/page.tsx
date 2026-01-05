@@ -210,7 +210,7 @@ export default function AffiliatesPage() {
           </MetricsGrid>
 
           {/* Earnings Chart */}
-          <div className="rounded-xl bg-surface-100 border border-border p-6">
+          <div className="rounded-xl bg-surface-100 border border-solid border-border p-6 overflow-hidden">
             <h2 className="text-lg font-semibold text-foreground mb-4">
               Ganhos e Assinaturas
             </h2>
@@ -220,7 +220,7 @@ export default function AffiliatesPage() {
           {/* Two Column Row */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Funnel Chart */}
-            <div className="rounded-xl bg-surface-100 border border-border p-6">
+            <div className="rounded-xl bg-surface-100 border border-solid border-border p-6 overflow-hidden">
               <h2 className="text-lg font-semibold text-foreground mb-4">
                 Funil de conversão
               </h2>
@@ -242,7 +242,7 @@ export default function AffiliatesPage() {
             </div>
 
             {/* Subscribers Chart */}
-            <div className="rounded-xl bg-surface-100 border border-border p-6">
+            <div className="rounded-xl bg-surface-100 border border-solid border-border p-6 overflow-hidden">
               <h2 className="text-lg font-semibold text-foreground mb-4">
                 Assinantes por plano
               </h2>
@@ -256,7 +256,7 @@ export default function AffiliatesPage() {
           </div>
 
           {/* Top Codes */}
-          <div className="rounded-xl bg-surface-100 border border-border">
+          <div className="rounded-xl bg-surface-100 border border-solid border-border">
             <div className="p-6 border-b border-border">
               <h2 className="text-lg font-semibold text-foreground">
                 Códigos com melhor performance

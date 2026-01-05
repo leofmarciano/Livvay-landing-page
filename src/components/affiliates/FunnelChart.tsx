@@ -6,7 +6,6 @@ import {
   Bar,
   XAxis,
   YAxis,
-  CartesianGrid,
   Tooltip,
   Cell,
 } from 'recharts';
@@ -73,22 +72,17 @@ export function FunnelChart({ data }: FunnelChartProps) {
   ];
 
   return (
-    <div className="h-[250px] w-full">
+    <div className="h-[250px] w-full relative overflow-hidden isolate [&_svg]:overflow-hidden" style={{ clipPath: 'inset(0)' }}>
       <ResponsiveContainer width="100%" height="100%">
         <BarChart
           data={chartData}
           layout="vertical"
           margin={{ top: 5, right: 30, left: 80, bottom: 5 }}
         >
-          <CartesianGrid
-            strokeDasharray="3 3"
-            stroke="hsl(var(--border-default))"
-            horizontal={false}
-          />
           <XAxis
             type="number"
             tick={{ fill: 'hsl(var(--foreground-muted))', fontSize: 12 }}
-            axisLine={{ stroke: 'hsl(var(--border-default))' }}
+            axisLine={false}
             tickLine={false}
           />
           <YAxis
@@ -100,7 +94,7 @@ export function FunnelChart({ data }: FunnelChartProps) {
             width={75}
           />
           <Tooltip content={<CustomTooltip />} cursor={{ fill: 'hsl(var(--surface-200))' }} />
-          <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={30}>
+          <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={30} isAnimationActive={false}>
             {chartData.map((_, index) => (
               <Cell key={`cell-${index}`} fill={COLORS[index]} />
             ))}

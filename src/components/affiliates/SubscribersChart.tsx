@@ -96,7 +96,7 @@ export function SubscribersChart({ data, showValue = true }: SubscribersChartPro
   }
 
   return (
-    <div className="h-[250px] w-full">
+    <div className="h-[250px] w-full relative overflow-hidden isolate [&_svg]:overflow-hidden" style={{ clipPath: 'inset(0)' }}>
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
@@ -109,6 +109,7 @@ export function SubscribersChart({ data, showValue = true }: SubscribersChartPro
             innerRadius={40}
             dataKey="value"
             paddingAngle={2}
+            isAnimationActive={false}
           >
             {chartData.map((entry) => (
               <Cell key={entry.plan} fill={COLORS[entry.plan]} />
