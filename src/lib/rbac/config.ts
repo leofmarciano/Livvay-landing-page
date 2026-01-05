@@ -75,8 +75,9 @@ export const DASHBOARD_ROUTES: Record<string, DashboardConfig> = {
     label: 'Affiliates',
     routes: [
       { href: '/affiliates', label: 'Dashboard', icon: 'LayoutDashboard' },
-      { href: '/affiliates/links', label: 'Links', icon: 'Link' },
-      { href: '/affiliates/earnings', label: 'Earnings', icon: 'DollarSign' },
+      { href: '/affiliates/users', label: 'Users', icon: 'Users' },
+      { href: '/affiliates/reports', label: 'Reports', icon: 'FileText' },
+      { href: '/affiliates/settings', label: 'Settings', icon: 'Settings' },
     ],
   },
 } as const;

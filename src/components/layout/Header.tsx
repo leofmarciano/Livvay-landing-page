@@ -30,8 +30,9 @@ import {
   DropdownMenuSubContent,
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { isProtectedPath, getNavLinksForRole, DASHBOARD_ROUTES } from '@/lib/rbac/config';
-import { parseRole, getRoleLabel, hasRoleAccess, type RoleName, DEFAULT_ROLE } from '@/lib/rbac/types';
+import { getCurrentDashboard, DASHBOARD_ROUTES } from '@/lib/rbac/config';
+import { getRoleLabel, hasRoleAccess, type RoleName } from '@/lib/rbac/types';
+import { useAuth } from '@/lib/auth/auth-context';
 import type { User as SupabaseUser } from '@supabase/supabase-js';
 
 /**
@@ -203,11 +204,8 @@ const publicNavLinks = [
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [user, setUser] = useState<SupabaseUser | null>(null);
-  const [userRole, setUserRole] = useState<RoleName | null>(null);
   const pathname = usePathname();
-
-  const isProtectedRoute = isProtectedPath(pathname);
+  const { user, userRole, isLoading } = useAuth();
 
   useEffect(() => {
     /**
@@ -220,41 +218,6 @@ export function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
-
-  useEffect(() => {
-    if (!isProtectedRoute) {
-      setUser(null);
-      setUserRole(null);
-      return;
-    }
-
-    const supabase = createClient();
-
-    // Initial session fetch
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      if (session?.user) {
-        setUser(session.user);
-        const role = parseRole(session.user.app_metadata?.role) || DEFAULT_ROLE;
-        setUserRole(role);
-      }
-    });
-
-    // Listen for auth changes
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      if (!session) {
-        setUser(null);
-        setUserRole(null);
-        return;
-      }
-      setUser(session.user);
-      const role = parseRole(session.user.app_metadata?.role) || DEFAULT_ROLE;
-      setUserRole(role);
-    });
-
-    return () => subscription.unsubscribe();
-  }, [isProtectedRoute]);
 
   /**
    * Closes the mobile navigation drawer.
@@ -280,8 +243,9 @@ export function Header() {
     }
   };
 
-  // Get navigation links based on context
-  const currentNavLinks = isProtectedRoute && userRole ? getNavLinksForRole(userRole) : publicNavLinks;
+  // Get navigation links based on current dashboard path
+  const currentDashboard = getCurrentDashboard(pathname);
+  const currentNavLinks = currentDashboard ? currentDashboard.routes : publicNavLinks;
 
   return (
     <header
@@ -307,10 +271,10 @@ export function Header() {
             Livvay
           </Link>
 
-          {/* Desktop Navigation - Centered absolutely when logged in */}
+          {/* Desktop Navigation - Centered absolutely when on dashboard */}
           <div className={cn(
             "hidden md:flex items-center",
-            isProtectedRoute && user
+            currentDashboard && user
               ? "absolute left-1/2 -translate-x-1/2"
               : "ml-8"
           )}>
@@ -343,12 +307,16 @@ export function Header() {
 
           {/* CTA / User Actions */}
           <div className="hidden md:flex items-center gap-4 ml-auto">
-            {isProtectedRoute && user ? (
-              <UserDropdown user={user} userRole={userRole} />
-            ) : (
-              <Button href="/score" size="small">
-                Calcular meu Score
-              </Button>
+            {!isLoading && (
+              <>
+                {currentDashboard && user ? (
+                  <UserDropdown user={user} userRole={userRole} />
+                ) : (
+                  <Button href="/score" size="small">
+                    Calcular meu Score
+                  </Button>
+                )}
+              </>
             )}
           </div>
 
@@ -384,7 +352,7 @@ export function Header() {
           >
             <Container>
               <div className="py-4 space-y-2">
-                {isProtectedRoute && user && (
+                {!isLoading && currentDashboard && user && (
                   <div className="px-4 py-2 mb-2 border-b border-border">
                     <span className="text-sm text-foreground-light flex items-center gap-2">
                       <User className="w-4 h-4" aria-hidden="true" />
@@ -419,7 +387,7 @@ export function Header() {
                   </Link>
                 ))}
                 {/* Dashboard Switcher - Mobile */}
-                {isProtectedRoute && user && (() => {
+                {!isLoading && currentDashboard && user && (() => {
                   const accessibleDashboards = getAccessibleDashboards(userRole);
                   if (accessibleDashboards.length <= 1) return null;
                   return (
@@ -451,12 +419,16 @@ export function Header() {
                   );
                 })()}
                 <div className="pt-2">
-                  {isProtectedRoute && user ? (
-                    <LogoutButton className="w-full" />
-                  ) : (
-                    <Button href="/score" className="w-full" onClick={closeMobileMenu}>
-                      Calcular meu Score
-                    </Button>
+                  {!isLoading && (
+                    <>
+                      {currentDashboard && user ? (
+                        <LogoutButton className="w-full" />
+                      ) : (
+                        <Button href="/score" className="w-full" onClick={closeMobileMenu}>
+                          Calcular meu Score
+                        </Button>
+                      )}
+                    </>
                   )}
                 </div>
               </div>
