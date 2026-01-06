@@ -1,8 +1,6 @@
 'use client';
 
-import { useLayoutEffect, useRef, useState } from 'react';
-import { PieChart, Pie, Cell, Legend, Tooltip } from 'recharts';
-import { cn } from '@/lib/utils';
+import { ResponsiveContainer, PieChart, Pie, Cell, Legend, Tooltip } from 'recharts';
 import { PLAN_LABELS, formatCurrency, PLAN_PRICES_CENTS } from '@/lib/constants/affiliate';
 
 interface SubscribersData {
@@ -13,7 +11,6 @@ interface SubscribersData {
 interface SubscribersChartProps {
   data: SubscribersData;
   showValue?: boolean;
-  className?: string;
 }
 
 const COLORS = {
@@ -21,42 +18,20 @@ const COLORS = {
   max: 'hsl(var(--warning-default))',
 };
 
-const useContainerSize = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [size, setSize] = useState({ width: 0, height: 0 });
-
-  useLayoutEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const update = () => {
-      const { width, height } = el.getBoundingClientRect();
-      setSize({ width, height });
-    };
-
-    update();
-    const observer = new ResizeObserver(update);
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  return { ref, ...size };
-};
-
-const CustomTooltip = ({
+function CustomTooltip({
   active,
   payload,
 }: {
   active?: boolean;
   payload?: Array<{ name: string; value: number; payload: { name: string; value: number; plan: 'plus' | 'max' } }>;
-}) => {
+}) {
   if (!active || !payload || !payload[0]) return null;
 
   const data = payload[0].payload;
   const monthlyValue = data.value * PLAN_PRICES_CENTS[data.plan];
 
   return (
-    <div className="bg-surface-200 border border-solid border-border rounded-lg p-3 shadow-lg">
+    <div className="bg-surface-200 border border-border rounded-lg p-3 shadow-lg">
       <p className="text-sm font-medium text-foreground mb-1">{data.name}</p>
       <p className="text-lg font-semibold text-foreground">{data.value} assinantes</p>
       <p className="text-xs text-foreground-muted mt-1">
@@ -64,16 +39,16 @@ const CustomTooltip = ({
       </p>
     </div>
   );
-};
+}
 
-const renderCustomLabel = (props: {
+function renderCustomLabel(props: {
   cx?: number;
   cy?: number;
   midAngle?: number;
   innerRadius?: number;
   outerRadius?: number;
   percent?: number;
-}) => {
+}) {
   const { cx = 0, cy = 0, midAngle = 0, innerRadius = 0, outerRadius = 0, percent = 0 } = props;
 
   if (percent < 0.05) return null;
@@ -95,9 +70,9 @@ const renderCustomLabel = (props: {
       {`${(percent * 100).toFixed(0)}%`}
     </text>
   );
-};
+}
 
-export function SubscribersChart({ data, showValue = true, className }: SubscribersChartProps) {
+export function SubscribersChart({ data, showValue = true }: SubscribersChartProps) {
   const chartData = [
     { name: PLAN_LABELS.plus, value: data.plus, plan: 'plus' as const },
     { name: PLAN_LABELS.max, value: data.max, plan: 'max' as const },
@@ -113,52 +88,40 @@ export function SubscribersChart({ data, showValue = true, className }: Subscrib
     );
   }
 
-  const { ref, width, height } = useContainerSize();
-  const ready = width >= 200 && height >= 180;
-
   return (
-    <div
-      ref={ref}
-      className={cn(
-        'relative h-[250px] w-full min-w-0 overflow-hidden',
-        '[&_svg]:border-0 [&_path]:border-0 [&_.recharts-wrapper]:border-0',
-        className
-      )}
-    >
-      {ready ? (
-        <PieChart width={width} height={height}>
-          <Pie
-            data={chartData}
-            cx="50%"
-            cy="50%"
-            labelLine={false}
-            label={renderCustomLabel}
-            outerRadius={80}
-            innerRadius={40}
-            dataKey="value"
-            paddingAngle={2}
-            isAnimationActive={false}
-          >
-            {chartData.map((entry) => (
-              <Cell key={entry.plan} fill={COLORS[entry.plan]} />
-            ))}
-          </Pie>
-          <Tooltip content={<CustomTooltip />} />
-          <Legend
-            verticalAlign="bottom"
-            height={36}
-            formatter={(value: string) => (
-              <span className="text-sm text-foreground-light">{value}</span>
-            )}
-          />
-        </PieChart>
-      ) : (
-        <div className="absolute inset-0 flex items-center justify-center text-sm text-foreground-muted">
-          Carregando gráfico...
-        </div>
-      )}
+    <div className="flex flex-col">
+      <div className="w-full h-[200px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <PieChart>
+            <Pie
+              data={chartData}
+              cx="50%"
+              cy="50%"
+              labelLine={false}
+              label={renderCustomLabel}
+              outerRadius={70}
+              innerRadius={35}
+              dataKey="value"
+              paddingAngle={2}
+              isAnimationActive={false}
+            >
+              {chartData.map((entry) => (
+                <Cell key={entry.plan} fill={COLORS[entry.plan]} />
+              ))}
+            </Pie>
+            <Tooltip content={<CustomTooltip />} />
+            <Legend
+              verticalAlign="bottom"
+              height={36}
+              formatter={(value: string) => (
+                <span className="text-sm text-foreground-light">{value}</span>
+              )}
+            />
+          </PieChart>
+        </ResponsiveContainer>
+      </div>
       {showValue && (
-        <div className="text-center -mt-2">
+        <div className="text-center mt-2">
           <p className="text-2xl font-semibold text-foreground">{total}</p>
           <p className="text-xs text-foreground-muted">Total de assinantes</p>
         </div>
