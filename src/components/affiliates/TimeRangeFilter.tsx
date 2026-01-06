@@ -2,14 +2,16 @@
 
 import { useState } from 'react';
 import { Calendar } from 'lucide-react';
+import { cn } from '@/lib/utils';
 import { TIME_PRESETS, DEFAULT_TIME_PRESET, type TimePresetKey } from '@/lib/constants/affiliate';
 
 interface TimeRangeFilterProps {
   value: TimePresetKey;
   onChange: (preset: TimePresetKey, startDate: string, endDate: string) => void;
+  className?: string;
 }
 
-export function TimeRangeFilter({ value, onChange }: TimeRangeFilterProps) {
+export function TimeRangeFilter({ value, onChange, className }: TimeRangeFilterProps) {
   const [selected, setSelected] = useState<TimePresetKey>(value);
 
   const handleSelect = (presetKey: TimePresetKey) => {
@@ -29,21 +31,22 @@ export function TimeRangeFilter({ value, onChange }: TimeRangeFilterProps) {
   };
 
   return (
-    <div className="flex items-center gap-2">
+    <div className={cn('flex items-center gap-2', className)}>
       <div className="flex items-center gap-1.5 text-sm text-foreground-muted">
-        <Calendar className="w-4 h-4" />
+        <Calendar className="w-4 h-4" aria-hidden="true" />
         <span className="hidden sm:inline">Período:</span>
       </div>
-      <div className="flex items-center gap-1 p-1 rounded-lg bg-surface-100 border border-border">
+      <div className="flex items-center gap-1 p-1 rounded-lg bg-surface-100 border border-solid border-border overflow-hidden">
         {TIME_PRESETS.map((preset) => (
           <button
             key={preset.key}
             onClick={() => handleSelect(preset.key)}
-            className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
+            className={cn(
+              'px-3 py-1.5 text-sm font-medium rounded-md transition-colors border-0',
               selected === preset.key
                 ? 'bg-surface-300 text-foreground'
                 : 'text-foreground-muted hover:text-foreground hover:bg-surface-200'
-            }`}
+            )}
           >
             {preset.label}
           </button>

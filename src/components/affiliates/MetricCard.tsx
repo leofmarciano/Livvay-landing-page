@@ -15,20 +15,6 @@ interface MetricCardProps {
   variant?: 'default' | 'success' | 'warning' | 'danger';
 }
 
-const variantStyles = {
-  default: 'bg-surface-100',
-  success: 'bg-brand/10 border-brand/20',
-  warning: 'bg-warning/10 border-warning/20',
-  danger: 'bg-destructive/10 border-destructive/20',
-};
-
-const iconVariantStyles = {
-  default: 'bg-surface-200 text-foreground-muted',
-  success: 'bg-brand/20 text-brand',
-  warning: 'bg-warning/20 text-warning',
-  danger: 'bg-destructive/20 text-destructive',
-};
-
 export function MetricCard({
   title,
   value,
@@ -37,47 +23,44 @@ export function MetricCard({
   trend,
   variant = 'default',
 }: MetricCardProps) {
-  const getTrendIcon = () => {
-    if (!trend) return null;
-    if (trend.value > 0) return <TrendingUp className="w-3.5 h-3.5" />;
-    if (trend.value < 0) return <TrendingDown className="w-3.5 h-3.5" />;
-    return <Minus className="w-3.5 h-3.5" />;
-  };
+  const cardBg = {
+    default: 'bg-surface-100',
+    success: 'bg-brand/10',
+    warning: 'bg-warning/10',
+    danger: 'bg-destructive/10',
+  }[variant];
 
-  const getTrendColor = () => {
-    if (!trend) return '';
-    if (trend.value > 0) return 'text-brand';
-    if (trend.value < 0) return 'text-destructive';
-    return 'text-foreground-muted';
-  };
+  const iconBg = {
+    default: 'bg-surface-200 text-foreground-muted',
+    success: 'bg-brand/20 text-brand',
+    warning: 'bg-warning/20 text-warning',
+    danger: 'bg-destructive/20 text-destructive',
+  }[variant];
+
+  const trendColor = !trend ? 'text-foreground-muted' :
+    trend.value > 0 ? 'text-brand' :
+    trend.value < 0 ? 'text-destructive' : 'text-foreground-muted';
 
   return (
-    <div
-      className={`rounded-xl border border-solid border-border p-5 ${variantStyles[variant]}`}
-    >
+    <div className={`rounded-xl p-5 border border-border ${cardBg}`}>
       <div className="flex items-start justify-between gap-4">
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-foreground-light truncate">
-            {title}
-          </p>
+          <p className="text-sm font-medium text-foreground-light truncate">{title}</p>
           <p className="text-2xl font-semibold text-foreground mt-1">{value}</p>
           {description && (
             <p className="text-xs text-foreground-muted mt-1">{description}</p>
           )}
           {trend && (
-            <div className={`flex items-center gap-1 mt-2 text-xs ${getTrendColor()}`}>
-              {getTrendIcon()}
-              <span>
-                {trend.value > 0 ? '+' : ''}
-                {trend.value}% {trend.label}
-              </span>
+            <div className={`flex items-center gap-1 mt-2 text-xs ${trendColor}`}>
+              {trend.value > 0 ? <TrendingUp className="w-3.5 h-3.5" /> :
+               trend.value < 0 ? <TrendingDown className="w-3.5 h-3.5" /> :
+               <Minus className="w-3.5 h-3.5" />}
+              <span>{trend.value > 0 ? '+' : ''}{trend.value}% {trend.label}</span>
             </div>
           )}
         </div>
         {icon && (
-          <div
-            className={`flex items-center justify-center w-10 h-10 rounded-lg ${iconVariantStyles[variant]}`}
-          >
+          <div className={`flex items-center justify-center w-10 h-10 rounded-lg shrink-0 ${iconBg}`}>
             {icon}
           </div>
         )}
@@ -92,11 +75,15 @@ interface MetricsGridProps {
 }
 
 export function MetricsGrid({ children, columns = 4 }: MetricsGridProps) {
-  const gridCols = {
+  const cols = {
     2: 'grid-cols-1 sm:grid-cols-2',
     3: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3',
     4: 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4',
-  };
+  }[columns];
 
-  return <div className={`grid ${gridCols[columns]} gap-4`}>{children}</div>;
+  return (
+    <div className={`grid gap-4 ${cols}`}>
+      {children}
+    </div>
+  );
 }

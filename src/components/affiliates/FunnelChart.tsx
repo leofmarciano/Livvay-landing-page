@@ -2,6 +2,7 @@
 
 import { useLayoutEffect, useRef, useState } from 'react';
 import { BarChart, Bar, XAxis, YAxis, Tooltip, Cell } from 'recharts';
+import { cn } from '@/lib/utils';
 
 interface FunnelData {
   visits: number;
@@ -11,6 +12,7 @@ interface FunnelData {
 
 interface FunnelChartProps {
   data: FunnelData;
+  className?: string;
 }
 
 const COLORS = [
@@ -53,7 +55,7 @@ const CustomTooltip = ({
   const data = payload[0].payload;
 
   return (
-    <div className="bg-surface-200 border border-border rounded-lg p-3 shadow-lg">
+    <div className="bg-surface-200 border border-solid border-border rounded-lg p-3 shadow-lg">
       <p className="text-sm font-medium text-foreground mb-1">{data.name}</p>
       <p className="text-lg font-semibold text-foreground">{data.value.toLocaleString()}</p>
       {data.rate && (
@@ -63,7 +65,7 @@ const CustomTooltip = ({
   );
 };
 
-export function FunnelChart({ data }: FunnelChartProps) {
+export function FunnelChart({ data, className }: FunnelChartProps) {
   const chartData = [
     {
       name: 'Visitas',
@@ -90,7 +92,14 @@ export function FunnelChart({ data }: FunnelChartProps) {
   const ready = width >= 200 && height >= 180;
 
   return (
-    <div className="relative h-[250px] w-full min-w-0 overflow-hidden" ref={ref}>
+    <div
+      ref={ref}
+      className={cn(
+        'relative h-[250px] w-full min-w-0 overflow-hidden',
+        '[&_svg]:border-0 [&_path]:border-0 [&_.recharts-wrapper]:border-0',
+        className
+      )}
+    >
       {ready ? (
         <BarChart
           width={width}

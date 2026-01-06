@@ -4,3 +4,4 @@ export { TimeRangeFilter, getDateRangeFromPreset, getGroupByFromPreset } from '.
 export { EarningsChart } from './EarningsChart';
 export { FunnelChart } from './FunnelChart';
 export { SubscribersChart } from './SubscribersChart';
+export { TopCodesTable } from './TopCodesTable';

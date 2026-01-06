@@ -10,7 +10,6 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@heroui/react": "^2.8.7",
     "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-avatar": "^1.1.11",
     "@radix-ui/react-dialog": "^1.1.15",
@@ -52,7 +51,6 @@
     "unrs-resolver"
   ],
   "trustedDependencies": [
-    "@heroui/shared-utils",
     "sharp",
     "unrs-resolver"
   ]

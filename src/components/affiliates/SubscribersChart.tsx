@@ -2,6 +2,7 @@
 
 import { useLayoutEffect, useRef, useState } from 'react';
 import { PieChart, Pie, Cell, Legend, Tooltip } from 'recharts';
+import { cn } from '@/lib/utils';
 import { PLAN_LABELS, formatCurrency, PLAN_PRICES_CENTS } from '@/lib/constants/affiliate';
 
 interface SubscribersData {
@@ -12,6 +13,7 @@ interface SubscribersData {
 interface SubscribersChartProps {
   data: SubscribersData;
   showValue?: boolean;
+  className?: string;
 }
 
 const COLORS = {
@@ -54,7 +56,7 @@ const CustomTooltip = ({
   const monthlyValue = data.value * PLAN_PRICES_CENTS[data.plan];
 
   return (
-    <div className="bg-surface-200 border border-border rounded-lg p-3 shadow-lg">
+    <div className="bg-surface-200 border border-solid border-border rounded-lg p-3 shadow-lg">
       <p className="text-sm font-medium text-foreground mb-1">{data.name}</p>
       <p className="text-lg font-semibold text-foreground">{data.value} assinantes</p>
       <p className="text-xs text-foreground-muted mt-1">
@@ -95,7 +97,7 @@ const renderCustomLabel = (props: {
   );
 };
 
-export function SubscribersChart({ data, showValue = true }: SubscribersChartProps) {
+export function SubscribersChart({ data, showValue = true, className }: SubscribersChartProps) {
   const chartData = [
     { name: PLAN_LABELS.plus, value: data.plus, plan: 'plus' as const },
     { name: PLAN_LABELS.max, value: data.max, plan: 'max' as const },
@@ -115,7 +117,14 @@ export function SubscribersChart({ data, showValue = true }: SubscribersChartPro
   const ready = width >= 200 && height >= 180;
 
   return (
-    <div className="relative h-[250px] w-full min-w-0 overflow-hidden" ref={ref}>
+    <div
+      ref={ref}
+      className={cn(
+        'relative h-[250px] w-full min-w-0 overflow-hidden',
+        '[&_svg]:border-0 [&_path]:border-0 [&_.recharts-wrapper]:border-0',
+        className
+      )}
+    >
       {ready ? (
         <PieChart width={width} height={height}>
           <Pie
