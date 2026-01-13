@@ -394,6 +394,7 @@ export default function SchedulePage() {
                       disabled={!isCurrentMonth}
                       className={`
                         relative p-2 rounded-lg text-center transition-colors min-h-[60px]
+                        overflow-hidden
                         ${!isCurrentMonth ? 'opacity-30 cursor-not-allowed' : 'cursor-pointer'}
                         ${isSelected ? 'bg-brand/10 ring-2 ring-brand' : 'hover:bg-surface-200'}
                         ${isToday && !isSelected ? 'bg-surface-200' : ''}
@@ -402,7 +403,7 @@ export default function SchedulePage() {
                     >
                       <span
                         className={`
-                          text-sm font-medium
+                          text-sm font-medium block
                           ${isSelected ? 'text-brand' : 'text-foreground'}
                           ${isPast && !isSelected ? 'text-foreground-muted' : ''}
                         `}
@@ -410,11 +411,13 @@ export default function SchedulePage() {
                         {day}
                       </span>
                       {isCurrentMonth && !isPast && (
-                        <div className="mt-1">
+                        <div className="mt-1 overflow-hidden">
                           {summary.blocked ? (
-                            <span className="text-xs text-destructive">Bloqueado</span>
+                            <span className="text-xs text-destructive block truncate whitespace-nowrap">
+                              Bloqueado
+                            </span>
                           ) : (
-                            <span className="text-xs text-foreground-muted">
+                            <span className="text-xs text-foreground-muted block truncate whitespace-nowrap">
                               {summary.available > 0 ? `${summary.available} vagas` : 'Lotado'}
                             </span>
                           )}

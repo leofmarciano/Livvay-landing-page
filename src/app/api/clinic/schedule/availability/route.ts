@@ -78,10 +78,11 @@ export async function GET(request: NextRequest) {
     }
 
     const slots: AvailableSlot[] = (data || []).map((slot: Record<string, unknown>) => ({
-      date: slot.slot_date,
-      start: slot.slot_start,
-      end: slot.slot_end,
-      available_spots: slot.available_spots,
+      date: slot.slot_date as string,
+      // Strip seconds from time (PostgreSQL returns HH:MM:SS, frontend expects HH:MM)
+      start: (slot.slot_start as string).slice(0, 5),
+      end: (slot.slot_end as string).slice(0, 5),
+      available_spots: slot.available_spots as number,
     }));
 
     return NextResponse.json({

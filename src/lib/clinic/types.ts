@@ -165,6 +165,29 @@ export interface DeleteBlockResponse {
 }
 
 // ============================================================================
+// Patient Types
+// ============================================================================
+
+export interface PatientClaim {
+  claim_id: string;
+  livvay_user_id: string;
+  professional_type: ProfessionalType;
+  claimed_at: string;
+  can_change_at: string;
+  scheduled_count: number;
+  completed_count: number;
+  cancelled_count: number;
+  last_appointment_date: string | null;
+}
+
+// GET /api/clinic/patients
+export interface PatientsResponse {
+  patients: PatientClaim[];
+  pagination: Pagination;
+  professional: ProfessionalInfo;
+}
+
+// ============================================================================
 // UI Helper Types
 // ============================================================================
 

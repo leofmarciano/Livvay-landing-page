@@ -740,14 +740,7 @@ export function ClinicProfileForm({ initialData, onSuccess }: ClinicProfileFormP
       {/* Submit */}
       <div className="flex justify-end pt-4 border-t border-border">
         <Button type="primary" htmlType="submit" loading={isSubmitting}>
-          {isSubmitting ? (
-            <>
-              <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Salvando...
-            </>
-          ) : (
-            'Salvar Perfil'
-          )}
+          {isSubmitting ? 'Salvando...' : 'Salvar Perfil'}
         </Button>
       </div>
     </form>
