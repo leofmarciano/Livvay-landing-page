@@ -9,26 +9,28 @@ interface PatientHeaderProps {
   patient: MockPatient;
 }
 
-interface InfoBadgeProps {
+interface InfoItemProps {
   label: string;
   value: string | number;
   variant?: 'default' | 'success' | 'warning' | 'muted';
 }
 
-function InfoBadge({ label, value, variant = 'default' }: InfoBadgeProps) {
+function InfoItem({ label, value, variant = 'default' }: InfoItemProps) {
   const variantClasses = {
-    default: 'bg-surface-100 text-foreground',
-    success: 'bg-brand/10 text-brand',
-    warning: 'bg-warning/10 text-warning',
-    muted: 'bg-surface-200 text-foreground-muted',
+    default: 'text-foreground',
+    success: 'text-brand',
+    warning: 'text-warning',
+    muted: 'text-foreground-muted',
   };
 
   return (
-    <div className={cn('px-3 py-2 rounded-lg', variantClasses[variant])}>
-      <p className="text-[10px] text-foreground-muted uppercase tracking-wide mb-0.5">
+    <div className="flex flex-col">
+      <span className="text-[10px] text-foreground-muted uppercase tracking-wide">
         {label}
-      </p>
-      <p className="text-sm font-medium">{value}</p>
+      </span>
+      <span className={cn('text-sm font-medium', variantClasses[variant])}>
+        {value}
+      </span>
     </div>
   );
 }
@@ -38,7 +40,7 @@ function StatusBadge({ status }: { status: 'active' | 'inactive' }) {
   return (
     <span
       className={cn(
-        'inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium',
+        'inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-xs font-medium',
         isActive ? 'bg-brand/10 text-brand' : 'bg-destructive/10 text-destructive'
       )}
     >
@@ -65,53 +67,50 @@ export function PatientHeader({ patient }: PatientHeaderProps) {
 
   return (
     <Card hover={false}>
-      <div className="space-y-4">
-        {/* Top Row: Avatar, Name, Status */}
-        <div className="flex items-start gap-4">
-          {/* Avatar */}
-          <div className="flex-shrink-0">
-            {patient.avatarUrl ? (
-              <img
-                src={patient.avatarUrl}
-                alt={patient.name}
-                className="w-14 h-14 rounded-xl object-cover border border-border"
-              />
-            ) : (
-              <div className="w-14 h-14 rounded-xl bg-surface-200 flex items-center justify-center border border-border">
-                <User className="w-6 h-6 text-foreground-muted" />
-              </div>
-            )}
-          </div>
-
-          {/* Name, Email, Status */}
-          <div className="min-w-0">
-            <div className="flex items-center gap-3 flex-wrap">
-              <h2 className="text-lg font-bold text-foreground">{patient.name}</h2>
-              <StatusBadge status={patient.status} />
+      <div className="flex items-center gap-4 overflow-x-auto">
+        {/* Avatar */}
+        <div className="flex-shrink-0">
+          {patient.avatarUrl ? (
+            <img
+              src={patient.avatarUrl}
+              alt={patient.name}
+              className="w-12 h-12 rounded-xl object-cover border border-border"
+            />
+          ) : (
+            <div className="w-12 h-12 rounded-xl bg-surface-200 flex items-center justify-center border border-border">
+              <User className="w-5 h-5 text-foreground-muted" />
             </div>
-            <p className="text-sm text-foreground-muted truncate">{patient.email}</p>
-          </div>
+          )}
         </div>
 
-        {/* Info Badges Grid - All Patient Info */}
-        <div className="grid grid-cols-3 sm:grid-cols-5 lg:grid-cols-9 gap-2">
-          <InfoBadge label="CPF" value={patient.cpf} />
-          <InfoBadge label="Sexo" value={sexLabel} />
-          <InfoBadge label="Idade" value={`${patient.age}`} />
-          <InfoBadge label="Altura" value={heightFormatted} />
-          <InfoBadge label="JTBD" value={patient.jtbd} />
-          <InfoBadge label="Perfil" value={patient.profile} />
-          <InfoBadge
+        {/* Name, Email, Status */}
+        <div className="flex-shrink-0 min-w-0 pr-4 border-r border-border">
+          <div className="flex items-center gap-2">
+            <h2 className="text-base font-bold text-foreground whitespace-nowrap">{patient.name}</h2>
+            <StatusBadge status={patient.status} />
+          </div>
+          <p className="text-xs text-foreground-muted truncate max-w-[200px]">{patient.email}</p>
+        </div>
+
+        {/* Info Items - Single Row */}
+        <div className="flex items-center gap-12 flex-shrink-0">
+          <InfoItem label="CPF" value={patient.cpf} />
+          <InfoItem label="Sexo" value={sexLabel} />
+          <InfoItem label="Idade" value={`${patient.age}`} />
+          <InfoItem label="Altura" value={heightFormatted} />
+          <InfoItem label="JTBD" value={patient.jtbd} />
+          <InfoItem label="Perfil" value={patient.profile} />
+          <InfoItem
             label="Motivação"
             value={`${patient.motivation}/10`}
             variant={patient.motivation >= 7 ? 'success' : 'warning'}
           />
-          <InfoBadge
+          <InfoItem
             label="Frequência"
             value={frequencyLabel}
             variant={patient.frequency === 'high' ? 'success' : 'muted'}
           />
-          <InfoBadge label="Produto" value={patient.product} variant="muted" />
+          <InfoItem label="Produto" value={patient.product} variant="muted" />
         </div>
       </div>
     </Card>
