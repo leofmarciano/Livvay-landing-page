@@ -116,7 +116,7 @@ BEGIN
   FROM get_available_slots(
     p_clinic_profile_id,
     p_from_date,
-    p_from_date + INTERVAL '60 days'
+    (p_from_date + INTERVAL '60 days')::DATE  -- Cast back to DATE
   ) gas
   LIMIT 1;
 END;
