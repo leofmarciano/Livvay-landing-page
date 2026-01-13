@@ -1,9 +1,9 @@
 import { NotificationsSettings } from '@/components/settings';
 
 export const metadata = {
-  title: 'Notifications | Settings | Affiliates | Livvay',
+  title: 'Notificações | Configurações | Clínica | Livvay',
 };
 
-export default function AffiliatesSettingsNotificationsPage() {
+export default function ClinicSettingsNotificationsPage() {
   return <NotificationsSettings />;
 }

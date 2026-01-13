@@ -13,6 +13,8 @@ import {
   type RoleName,
   type Permission,
   type UserWithRole,
+  type ClinicProfile,
+  type UserWithRoleAndClinic,
   DEFAULT_ROLE,
 } from './types';
 
@@ -213,4 +215,142 @@ export async function removeRole(
   });
 
   return { success: true };
+}
+
+// ─────────────────────────────────────────────────
+// Clinic Profile Helpers
+// ─────────────────────────────────────────────────
+
+/**
+ * Get clinic profile for the current authenticated user.
+ * Returns null if user is not authenticated or doesn't have clinic role.
+ */
+export async function getCurrentClinicProfile(): Promise<ClinicProfile | null> {
+  const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) return null;
+
+  const { data, error } = await supabase
+    .from('clinic_profiles')
+    .select('*')
+    .eq('user_id', user.id)
+    .single();
+
+  if (error || !data) return null;
+  return data as ClinicProfile;
+}
+
+/**
+ * Get clinic profile by user ID.
+ * Useful for admin operations.
+ */
+export async function getClinicProfileByUserId(userId: string): Promise<ClinicProfile | null> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from('clinic_profiles')
+    .select('*')
+    .eq('user_id', userId)
+    .single();
+
+  if (error || !data) return null;
+  return data as ClinicProfile;
+}
+
+/**
+ * Get current user with role and clinic profile information.
+ * Fetches clinic profile only when user has 'clinic' role for efficiency.
+ */
+export async function getCurrentUserWithClinic(): Promise<UserWithRoleAndClinic | null> {
+  const user = await getCurrentUser();
+  if (!user) return null;
+
+  // Only fetch clinic profile if user has clinic role
+  if (user.primaryRole === 'clinic') {
+    const clinicProfile = await getCurrentClinicProfile();
+    return {
+      ...user,
+      clinicProfile: clinicProfile || undefined,
+    };
+  }
+
+  return user;
+}
+
+/**
+ * Create or update clinic profile for a user.
+ * Used during registration or profile setup.
+ */
+export async function upsertClinicProfile(params: {
+  userId: string;
+  // Professional info
+  professionalType: ClinicProfile['professional_type'];
+  licenseNumber?: string;
+  specialty?: string;
+  clinicName?: string;
+  // Personal info
+  fullName?: string;
+  phone?: string;
+  birthDate?: string;
+  cpf?: string;
+  rg?: string;
+  // Address
+  postalCode?: string;
+  street?: string;
+  number?: string;
+  complement?: string;
+  neighborhood?: string;
+  city?: string;
+  state?: string;
+  country?: string;
+}): Promise<{ success: boolean; profile?: ClinicProfile; error?: string }> {
+  const supabase = await createClient();
+
+  const { data, error } = await supabase
+    .from('clinic_profiles')
+    .upsert(
+      {
+        user_id: params.userId,
+        // Professional info
+        professional_type: params.professionalType,
+        license_number: params.licenseNumber || null,
+        specialty: params.specialty || null,
+        clinic_name: params.clinicName || null,
+        // Personal info
+        full_name: params.fullName || null,
+        phone: params.phone || null,
+        birth_date: params.birthDate || null,
+        cpf: params.cpf || null,
+        rg: params.rg || null,
+        // Address
+        postal_code: params.postalCode || null,
+        street: params.street || null,
+        number: params.number || null,
+        complement: params.complement || null,
+        neighborhood: params.neighborhood || null,
+        city: params.city || null,
+        state: params.state || null,
+        country: params.country || 'Brasil',
+      },
+      { onConflict: 'user_id' }
+    )
+    .select()
+    .single();
+
+  if (error) {
+    return { success: false, error: error.message };
+  }
+
+  // Log audit
+  await logAudit({
+    action: 'clinic_profile.upsert',
+    resource: 'clinic_profile',
+    resourceId: data.id,
+    details: { professionalType: params.professionalType },
+  });
+
+  return { success: true, profile: data as ClinicProfile };
 }

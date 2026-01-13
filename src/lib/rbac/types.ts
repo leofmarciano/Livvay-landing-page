@@ -134,3 +134,81 @@ export const ROLE_LABELS: Record<RoleName, string> = {
 export function getRoleLabel(role: RoleName): string {
   return ROLE_LABELS[role] || role;
 }
+
+// ─────────────────────────────────────────────────
+// Clinic Professional Types
+// ─────────────────────────────────────────────────
+
+/**
+ * Clinic professional types.
+ * When a user has the 'clinic' role, they must be one of these types.
+ */
+export const CLINIC_PROFESSIONAL_TYPES = {
+  doctor: 'doctor',
+  nutritionist: 'nutritionist',
+  therapist: 'therapist',
+} as const;
+
+export type ClinicProfessionalType = keyof typeof CLINIC_PROFESSIONAL_TYPES;
+
+/**
+ * Display labels for clinic professional types.
+ */
+export const CLINIC_PROFESSIONAL_LABELS: Record<ClinicProfessionalType, string> = {
+  doctor: 'Médico',
+  nutritionist: 'Nutricionista',
+  therapist: 'Terapeuta',
+};
+
+/**
+ * Get display label for a clinic professional type.
+ */
+export function getClinicProfessionalLabel(type: ClinicProfessionalType): string {
+  return CLINIC_PROFESSIONAL_LABELS[type] || type;
+}
+
+/**
+ * Clinic profile stored in database.
+ * Links a user with 'clinic' role to their professional type and details.
+ */
+export interface ClinicProfile {
+  id: string;
+  user_id: string;
+
+  // Professional information
+  professional_type: ClinicProfessionalType;
+  license_number: string | null;
+  specialty: string | null;
+  clinic_name: string | null;
+
+  // Personal information
+  full_name: string | null;
+  phone: string | null;
+  birth_date: string | null;
+  cpf: string | null;
+  rg: string | null;
+
+  // Address
+  postal_code: string | null;
+  street: string | null;
+  number: string | null;
+  complement: string | null;
+  neighborhood: string | null;
+  city: string | null;
+  state: string | null;
+  country: string | null;
+
+  // Status
+  is_active: boolean;
+
+  // Timestamps
+  created_at: string;
+  updated_at: string;
+}
+
+/**
+ * Extended user interface that includes clinic profile when applicable.
+ */
+export interface UserWithRoleAndClinic extends UserWithRole {
+  clinicProfile?: ClinicProfile;
+}

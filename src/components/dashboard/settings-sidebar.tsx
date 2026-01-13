@@ -2,10 +2,14 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { User, Bell, CreditCard, Shield, QrCode } from 'lucide-react';
+import { User, Bell, CreditCard, Shield, QrCode, Stethoscope, Building2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
-interface SettingsNavItem {
+// ─────────────────────────────────────────────────
+// Types
+// ─────────────────────────────────────────────────
+
+export interface SettingsNavItem {
   href: string;
   label: string;
   icon: React.ComponentType<{ className?: string }>;
@@ -13,17 +17,37 @@ interface SettingsNavItem {
 
 interface SettingsSidebarProps {
   basePath: string;
+  items?: SettingsNavItem[];
 }
 
-const SETTINGS_NAV: SettingsNavItem[] = [
+// ─────────────────────────────────────────────────
+// Navigation Presets
+// ─────────────────────────────────────────────────
+
+/**
+ * Default navigation items for affiliate settings.
+ */
+export const AFFILIATE_SETTINGS_NAV: SettingsNavItem[] = [
+  { href: '', label: 'Profile', icon: User },
+  { href: '/notifications', label: 'Notifications', icon: Bell },
+  { href: '/payments', label: 'Payments', icon: CreditCard },
+  { href: '/codes', label: 'Codes', icon: QrCode },
+  { href: '/security', label: 'Security', icon: Shield },
+];
+
+/**
+ * Navigation items for clinic settings.
+ * Differs from affiliate: no codes/payments, has professional profile and practice settings.
+ */
+export const CLINIC_SETTINGS_NAV: SettingsNavItem[] = [
   { href: '', label: 'Perfil', icon: User },
+  { href: '/professional', label: 'Profissional', icon: Stethoscope },
+  { href: '/practice', label: 'Consultório', icon: Building2 },
   { href: '/notifications', label: 'Notificações', icon: Bell },
-  { href: '/payments', label: 'Pagamentos', icon: CreditCard },
-  { href: '/codes', label: 'Códigos', icon: QrCode },
   { href: '/security', label: 'Segurança', icon: Shield },
 ];
 
-export function SettingsSidebar({ basePath }: SettingsSidebarProps) {
+export function SettingsSidebar({ basePath, items = AFFILIATE_SETTINGS_NAV }: SettingsSidebarProps) {
   const pathname = usePathname();
 
   return (
@@ -31,7 +55,7 @@ export function SettingsSidebar({ basePath }: SettingsSidebarProps) {
       {/* Mobile: Horizontal scrolling tabs */}
       <nav className="lg:hidden -mx-4 px-4 overflow-x-auto no-scrollbar" aria-label="Settings navigation">
         <div className="flex gap-1 min-w-max pb-1">
-          {SETTINGS_NAV.map((item) => {
+          {items.map((item) => {
             const href = `${basePath}${item.href}`;
             const isActive = item.href === ''
               ? pathname === basePath || pathname === `${basePath}/`
@@ -62,7 +86,7 @@ export function SettingsSidebar({ basePath }: SettingsSidebarProps) {
       {/* Desktop: Vertical sidebar */}
       <nav className="hidden lg:block w-56 shrink-0" aria-label="Settings navigation">
         <ul className="space-y-1">
-          {SETTINGS_NAV.map((item) => {
+          {items.map((item) => {
             const href = `${basePath}${item.href}`;
             const isActive = item.href === ''
               ? pathname === basePath || pathname === `${basePath}/`
