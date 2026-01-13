@@ -1,9 +1,9 @@
 import { SecuritySettings } from '@/components/settings';
 
 export const metadata = {
-  title: 'Security | Settings | Affiliates | Livvay',
+  title: 'Security | Settings | Clinic | Livvay',
 };
 
-export default function AffiliatesSettingsSecurityPage() {
+export default function ClinicSettingsSecurityPage() {
   return <SecuritySettings />;
 }

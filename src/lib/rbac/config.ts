@@ -48,6 +48,7 @@ export const DASHBOARD_ROUTES: Record<string, DashboardConfig> = {
       { href: '/clinic', label: 'Dashboard', icon: 'LayoutDashboard' },
       { href: '/clinic/patients', label: 'Patients', icon: 'Users' },
       { href: '/clinic/appointments', label: 'Appointments', icon: 'Calendar' },
+      { href: '/clinic/settings', label: 'Settings', icon: 'Settings' },
     ],
   },
   finance: {
