@@ -7,7 +7,7 @@
 
 -- Add the is_active column with default true
 ALTER TABLE public.clinic_profiles
-ADD COLUMN IF NOT EXISTS is_active BOOLEAN NOT NULL DEFAULT true;
+ADD COLUMN IF NOT EXISTS is_active BOOLEAN NOT NULL DEFAULT false;
 
 -- Create an index for faster filtering on is_active
 CREATE INDEX IF NOT EXISTS idx_clinic_profiles_is_active
