@@ -47,6 +47,7 @@ export const DASHBOARD_ROUTES: Record<string, DashboardConfig> = {
     routes: [
       { href: '/clinic', label: 'Painel', icon: 'LayoutDashboard' },
       { href: '/clinic/appointments', label: 'Agendamentos', icon: 'Calendar' },
+      { href: '/clinic/schedule', label: 'Minha Agenda', icon: 'CalendarDays' },
       { href: '/clinic/patients', label: 'Pacientes', icon: 'Users' },
       { href: '/clinic/settings', label: 'Configurações', icon: 'Settings' },
     ],
