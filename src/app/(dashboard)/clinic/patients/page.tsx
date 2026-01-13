@@ -14,6 +14,7 @@ import {
   ChevronLeft,
   ChevronRight,
   ExternalLink,
+  User,
 } from 'lucide-react';
 import {
   PatientClaim,
@@ -275,13 +276,22 @@ export default function PatientsPage() {
                           : '-'}
                       </td>
                       <td className="px-4 py-4 text-right">
-                        <a
-                          href={`/clinic/appointments?patient=${patient.livvay_user_id}`}
-                          className="inline-flex items-center gap-1 text-sm text-brand hover:text-brand-600 transition-colors"
-                        >
-                          Ver agendamentos
-                          <ExternalLink className="w-3.5 h-3.5" />
-                        </a>
+                        <div className="flex items-center justify-end gap-3">
+                          <a
+                            href={`/clinic/patients/${patient.livvay_user_id}`}
+                            className="inline-flex items-center gap-1 text-sm text-foreground hover:text-brand transition-colors"
+                          >
+                            <User className="w-3.5 h-3.5" />
+                            Ver resumo
+                          </a>
+                          <a
+                            href={`/clinic/appointments?patient=${patient.livvay_user_id}`}
+                            className="inline-flex items-center gap-1 text-sm text-brand hover:text-brand-600 transition-colors"
+                          >
+                            Ver agendamentos
+                            <ExternalLink className="w-3.5 h-3.5" />
+                          </a>
+                        </div>
                       </td>
                     </tr>
                   ))}
