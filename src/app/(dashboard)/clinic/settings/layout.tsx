@@ -8,8 +8,8 @@ export default function ClinicSettingsLayout({
 }) {
   return (
     <SettingsLayout
-      title="Settings"
-      description="Manage your clinic and professional preferences"
+      title="Configurações"
+      description="Gerencie suas preferências profissionais e do consultório"
       basePath="/clinic/settings"
       navItems={CLINIC_SETTINGS_NAV}
     >

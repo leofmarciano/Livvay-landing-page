@@ -19,12 +19,12 @@ export default function ClinicSettingsPracticePage() {
             setProfile(null);
             return;
           }
-          throw new Error('Failed to load profile');
+          throw new Error('Erro ao carregar perfil');
         }
         const data = await response.json();
         setProfile(data.profile);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load profile');
+        setError(err instanceof Error ? err.message : 'Erro ao carregar perfil');
       } finally {
         setIsLoading(false);
       }
@@ -43,9 +43,9 @@ export default function ClinicSettingsPracticePage() {
               <Building2 className="w-5 h-5 text-brand" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-foreground">Practice Information</h2>
+              <h2 className="text-lg font-semibold text-foreground">Informações do Consultório</h2>
               <p className="text-sm text-foreground-light">
-                Your clinic or practice details
+                Dados do seu consultório ou clínica
               </p>
             </div>
           </div>
@@ -67,14 +67,14 @@ export default function ClinicSettingsPracticePage() {
             <div className="space-y-4">
               <div>
                 <label className="text-sm font-medium text-foreground-light">
-                  Clinic/Practice Name
+                  Nome do Consultório/Clínica
                 </label>
                 <p className="mt-1 text-foreground">{profile.clinic_name}</p>
               </div>
             </div>
           ) : (
             <p className="text-foreground-muted text-center py-8">
-              Practice settings form coming soon
+              Configurações do consultório em breve
             </p>
           )}
         </div>

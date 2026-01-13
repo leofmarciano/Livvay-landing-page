@@ -1,7 +1,7 @@
 import { NotificationsSettings } from '@/components/settings';
 
 export const metadata = {
-  title: 'Notifications | Settings | Clinic | Livvay',
+  title: 'Notificações | Configurações | Clínica | Livvay',
 };
 
 export default function ClinicSettingsNotificationsPage() {

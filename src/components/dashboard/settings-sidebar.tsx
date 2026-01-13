@@ -40,11 +40,11 @@ export const AFFILIATE_SETTINGS_NAV: SettingsNavItem[] = [
  * Differs from affiliate: no codes/payments, has professional profile and practice settings.
  */
 export const CLINIC_SETTINGS_NAV: SettingsNavItem[] = [
-  { href: '', label: 'Profile', icon: User },
-  { href: '/professional', label: 'Professional', icon: Stethoscope },
-  { href: '/practice', label: 'Practice', icon: Building2 },
-  { href: '/notifications', label: 'Notifications', icon: Bell },
-  { href: '/security', label: 'Security', icon: Shield },
+  { href: '', label: 'Perfil', icon: User },
+  { href: '/professional', label: 'Profissional', icon: Stethoscope },
+  { href: '/practice', label: 'Consultório', icon: Building2 },
+  { href: '/notifications', label: 'Notificações', icon: Bell },
+  { href: '/security', label: 'Segurança', icon: Shield },
 ];
 
 export function SettingsSidebar({ basePath, items = AFFILIATE_SETTINGS_NAV }: SettingsSidebarProps) {

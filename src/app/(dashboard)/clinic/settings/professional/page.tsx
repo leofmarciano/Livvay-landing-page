@@ -24,12 +24,12 @@ export default function ClinicSettingsProfessionalPage() {
             setProfile(null);
             return;
           }
-          throw new Error('Failed to load profile');
+          throw new Error('Erro ao carregar perfil');
         }
         const data = await response.json();
         setProfile(data.profile);
       } catch (err) {
-        setError(err instanceof Error ? err.message : 'Failed to load profile');
+        setError(err instanceof Error ? err.message : 'Erro ao carregar perfil');
       } finally {
         setIsLoading(false);
       }
@@ -50,9 +50,9 @@ export default function ClinicSettingsProfessionalPage() {
               <CheckCircle2 className="w-5 h-5 text-brand" />
             </div>
             <div>
-              <p className="font-medium text-foreground">Professional profile complete</p>
+              <p className="font-medium text-foreground">Perfil profissional completo</p>
               <p className="text-sm text-foreground-light">
-                Your credentials are verified
+                Suas credenciais estão verificadas
               </p>
             </div>
           </>
@@ -62,9 +62,9 @@ export default function ClinicSettingsProfessionalPage() {
               <AlertCircle className="w-5 h-5 text-warning" />
             </div>
             <div>
-              <p className="font-medium text-foreground">Complete your professional profile</p>
+              <p className="font-medium text-foreground">Complete seu perfil profissional</p>
               <p className="text-sm text-foreground-light">
-                Add your credentials to unlock all features
+                Adicione suas credenciais para desbloquear todos os recursos
               </p>
             </div>
           </>
@@ -79,9 +79,9 @@ export default function ClinicSettingsProfessionalPage() {
               <Stethoscope className="w-5 h-5 text-brand" />
             </div>
             <div>
-              <h2 className="text-lg font-semibold text-foreground">Professional Information</h2>
+              <h2 className="text-lg font-semibold text-foreground">Informações Profissionais</h2>
               <p className="text-sm text-foreground-light">
-                Your professional credentials and specialty
+                Suas credenciais e especialidade
               </p>
             </div>
           </div>
@@ -104,7 +104,7 @@ export default function ClinicSettingsProfessionalPage() {
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
                   <label className="text-sm font-medium text-foreground-light">
-                    Professional Type
+                    Tipo Profissional
                   </label>
                   <p className="mt-1 text-foreground">
                     {CLINIC_PROFESSIONAL_LABELS[profile.professional_type as ClinicProfessionalType]}
@@ -112,25 +112,25 @@ export default function ClinicSettingsProfessionalPage() {
                 </div>
                 <div>
                   <label className="text-sm font-medium text-foreground-light">
-                    License Number
+                    Número do Registro
                   </label>
                   <p className="mt-1 text-foreground">
-                    {profile.license_number || 'Not provided'}
+                    {profile.license_number || 'Não informado'}
                   </p>
                 </div>
                 <div>
                   <label className="text-sm font-medium text-foreground-light">
-                    Specialty
+                    Especialidade
                   </label>
                   <p className="mt-1 text-foreground">
-                    {profile.specialty || 'Not provided'}
+                    {profile.specialty || 'Não informada'}
                   </p>
                 </div>
               </div>
             </div>
           ) : (
             <p className="text-foreground-muted text-center py-8">
-              Professional profile form coming soon
+              Formulário de perfil profissional em breve
             </p>
           )}
         </div>

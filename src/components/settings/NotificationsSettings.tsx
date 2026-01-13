@@ -10,14 +10,14 @@ export function NotificationsSettings() {
   return (
     <Card hover={false}>
       <div className="p-6">
-        <h2 className="text-lg font-semibold text-foreground">Notifications</h2>
+        <h2 className="text-lg font-semibold text-foreground">Notificações</h2>
         <p className="text-sm text-foreground-light mt-1">
-          Configure your notification preferences
+          Configure suas preferências de notificação
         </p>
       </div>
       <div className="border-t border-border p-6">
         <p className="text-foreground-muted text-center py-8">
-          Notification settings coming soon
+          Configurações de notificação em breve
         </p>
       </div>
     </Card>

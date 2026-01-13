@@ -1,7 +1,7 @@
 import { SecuritySettings } from '@/components/settings';
 
 export const metadata = {
-  title: 'Security | Settings | Clinic | Livvay',
+  title: 'Segurança | Configurações | Clínica | Livvay',
 };
 
 export default function ClinicSettingsSecurityPage() {
