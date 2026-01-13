@@ -198,6 +198,9 @@ export interface ClinicProfile {
   state: string | null;
   country: string | null;
 
+  // Status
+  is_active: boolean;
+
   // Timestamps
   created_at: string;
   updated_at: string;
