@@ -43,12 +43,12 @@ export const DASHBOARD_ROUTES: Record<string, DashboardConfig> = {
   clinic: {
     base: '/clinic',
     requiredRole: 'clinic',
-    label: 'Clinic',
+    label: 'Clínica',
     routes: [
-      { href: '/clinic', label: 'Dashboard', icon: 'LayoutDashboard' },
-      { href: '/clinic/patients', label: 'Patients', icon: 'Users' },
-      { href: '/clinic/appointments', label: 'Appointments', icon: 'Calendar' },
-      { href: '/clinic/settings', label: 'Settings', icon: 'Settings' },
+      { href: '/clinic', label: 'Painel', icon: 'LayoutDashboard' },
+      { href: '/clinic/appointments', label: 'Agendamentos', icon: 'Calendar' },
+      { href: '/clinic/patients', label: 'Pacientes', icon: 'Users' },
+      { href: '/clinic/settings', label: 'Configurações', icon: 'Settings' },
     ],
   },
   finance: {
