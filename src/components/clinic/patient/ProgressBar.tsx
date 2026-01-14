@@ -2,6 +2,19 @@
 
 import { cn } from '@/lib/utils';
 
+// Static constants moved outside component
+const COLOR_CLASSES = {
+  brand: 'bg-brand',
+  success: 'bg-success',
+  warning: 'bg-warning',
+} as const;
+
+const SIZE_CLASSES = {
+  sm: 'h-1.5',
+  md: 'h-2.5',
+  lg: 'h-4',
+} as const;
+
 interface ProgressBarProps {
   /** Current value */
   current: number;
@@ -37,31 +50,19 @@ export function ProgressBar({
   const currentProgress = Math.abs(start - current);
   const percentage = Math.min(100, Math.max(0, (currentProgress / totalRange) * 100));
 
-  const colorClasses = {
-    brand: 'bg-brand',
-    success: 'bg-green-500',
-    warning: 'bg-warning',
-  };
-
-  const sizeClasses = {
-    sm: 'h-1.5',
-    md: 'h-2.5',
-    lg: 'h-4',
-  };
-
   return (
-    <div className="w-full">
+    <div className="w-full" role="progressbar" aria-valuenow={percentage} aria-valuemin={0} aria-valuemax={100}>
       {/* Progress bar */}
       <div
         className={cn(
           'w-full rounded-full bg-surface-200 overflow-hidden',
-          sizeClasses[size]
+          SIZE_CLASSES[size]
         )}
       >
         <div
           className={cn(
-            'h-full rounded-full transition-all duration-500',
-            colorClasses[color]
+            'h-full rounded-full transition-all duration-500 motion-reduce:transition-none',
+            COLOR_CLASSES[color]
           )}
           style={{ width: `${percentage}%` }}
         />
@@ -69,7 +70,7 @@ export function ProgressBar({
 
       {/* Labels */}
       {showLabels && labels && (
-        <div className="flex justify-between mt-2 text-xs text-foreground-muted">
+        <div className="flex justify-between mt-2 text-xs text-foreground-muted tabular-nums">
           <span>{labels.start}</span>
           <span>{labels.middle}</span>
           <span>{labels.end}</span>
